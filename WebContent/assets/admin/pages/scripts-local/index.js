@@ -181,7 +181,9 @@ var Index = function () {
             });
         },
 
-        initCharts: function () {
+        initCharts: function (visitors) {
+//        	visitors = JSON.parse(arg);
+//        	alert(visitors);
             if (!jQuery.plot) {
                 return;
             }
@@ -223,7 +225,7 @@ var Index = function () {
                 return (Math.floor(Math.random() * (1 + 50 - 20))) + 10;
             }
 
-            var visitors = [
+/*            var visitors = [
                 ['2', 1500],
                 ['3', 2500],
                 ['4', 1700],
@@ -233,7 +235,7 @@ var Index = function () {
                 ['8', 1500],
                 ['9', 1300],
                 ['10', 4600]
-            ];
+            ]; */
 
 
             if ($('#site_statistics').size() != 0) {

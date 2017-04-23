@@ -2400,8 +2400,8 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="${webapp_name}/assets/global/scripts/metronic.js" type="text/javascript"></script>
 <script src="${webapp_name}/assets/admin/layout2/scripts/layout.js" type="text/javascript"></script>
 <script src="${webapp_name}/assets/admin/layout2/scripts/demo.js" type="text/javascript"></script>
-<script src="${webapp_name}/assets/admin/pages/scripts/
-" type="text/javascript"></script>
+
+<script src="${webapp_name}/assets/admin/pages/scripts-local/index.js" type="text/javascript"></script>
 <script src="${webapp_name}/assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>

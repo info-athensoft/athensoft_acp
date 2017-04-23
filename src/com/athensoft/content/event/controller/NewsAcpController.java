@@ -3,6 +3,7 @@ package com.athensoft.content.event.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,10 +69,43 @@ public class NewsAcpController {
 	 * go to the view of event dashboard
 	 * @return the target view name
 	 */
-	@RequestMapping(value="/events/eventsDashboard")
+/*	@RequestMapping(value="/events/eventsDashboard")
 	public String gotoDashboard(){
 		String viewName = "events/event_dashboard";
 		return viewName;
+	} */
+	
+	@RequestMapping(value="/events/eventsDashboard")
+	public ModelAndView gotoDashboard(){
+		logger.info("entering /events/eventsDashboard");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//view
+		String viewName = "events/event_dashboard";
+		mav.setViewName(viewName);
+		
+		//data
+		Map<String, Object> model = mav.getModel();				
+		
+		//data - media
+		List<Map<String, Integer>> viewNumStats = new ArrayList<Map<String, Integer>>();
+		viewNumStats = newsService.getViewNumStats();
+		//build visitors
+		StringBuilder sb = new StringBuilder();
+		for (Map<String, Integer> stat : viewNumStats) {
+			if (sb.length()>0) {
+				sb.append(",");
+			}
+			sb.append(stat.entrySet().toString().replace('=', ','));
+		}		
+		String visitors = "[" + sb + "]";
+		logger.info("visitors: "+ visitors);
+//		logger.info("Length of viewNumStats entries: "+ viewNumStats.size());
+//		model.put("viewNumStats", viewNumStats);
+		model.put("visitors", visitors);
+		logger.info("leaving /events/eventsDashboard");
+		return mav;
 	}
 	
 	

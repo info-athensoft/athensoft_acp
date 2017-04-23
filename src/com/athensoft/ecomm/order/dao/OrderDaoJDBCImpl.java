@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.athensoft.ecomm.order.entity.Contact;
 import com.athensoft.ecomm.order.entity.Order;
 
 @Component
@@ -29,7 +30,9 @@ public class OrderDaoJDBCImpl implements OrderDao{
 	
 	@Override
 	public List<Order> findAll() {
-		String sql = "select * from orders";
+//		String sql = "select * from orders";
+
+		String sql = "select * from view_orders";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 		List<Order> x = new ArrayList<Order>();
 		try{
@@ -55,7 +58,7 @@ public class OrderDaoJDBCImpl implements OrderDao{
 	}
 	
 	@Override
-	public Order findByNo(long orderNo) {
+	public Order findByNo(String orderNo) {
 		String sql = "select * from orders where order_no =:order_no";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 		paramSource.addValue("order_no", orderNo);
@@ -73,11 +76,13 @@ public class OrderDaoJDBCImpl implements OrderDao{
 			Order x = new Order();
 			x.setOrderId(rs.getLong("order_id"));
 			x.setOrderNo(rs.getString("order_no"));
-			x.setCustNo(rs.getString("cust_no"));
 			x.setOrderDateTime(rs.getString("order_datetime"));
 			x.setOrderStatus(rs.getInt("order_status"));
 			x.setGrandTotalAmount(rs.getDouble("grand_total_amount"));
 			x.setPaymentMethod(rs.getInt("payment_method"));
+			
+			Contact customerContact = new Contact();
+			customerContact.setEntityName(rs.getString("entity_name"));
             return x;
 		}		
 	}

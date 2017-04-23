@@ -23,7 +23,7 @@ public class OrderItemService {
 		this.orderItemDao = orderItemDao;
 	}
 	
-	public List<OrderItem> getOrderItemsByOrderNo(long orderNo){
+	public List<OrderItem> getOrderItemsByOrderNo(String orderNo){
 		return orderItemDao.findByOrderNo(orderNo);
 	}
 }

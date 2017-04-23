@@ -1,6 +1,8 @@
 package com.athensoft.content.event.service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -107,5 +109,9 @@ public class NewsService {
 	 */
 	public void deleteNewsGroup(List<News> newsList) {
 		this.newsDao.deleteBatch(newsList);
+	}
+
+	public List<Map<String, Integer>> getViewNumStats() {
+		return this.newsDao.getViewNumStats();
 	}
 }

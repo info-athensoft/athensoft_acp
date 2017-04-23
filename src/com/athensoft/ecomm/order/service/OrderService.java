@@ -51,7 +51,7 @@ public class OrderService {
 	 * @param orderId
 	 * @return
 	 */
-	public Order getOrderByOrderNo(long orderNo){
+	public Order getOrderByOrderNo(String orderNo){
 		System.out.println("getOrderByOrderNo()");
 		Order order = new Order();
 		order = orderDao.findByNo(orderNo);

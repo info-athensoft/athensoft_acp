@@ -7,5 +7,5 @@ import com.athensoft.ecomm.order.entity.Order;
 public interface OrderDao {
 	public List<Order> findAll();
 	public Order findById(long orderId);
-	public Order findByNo(long orderNo);
+	public Order findByNo(String orderNo);
 }

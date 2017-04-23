@@ -5,7 +5,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -252,6 +255,29 @@ public class NewsDaoJDBCImpl implements NewsDao {
 			
 	        return x;
 		}		
+	}
+	
+	private static class NewsStatsRowMapper implements RowMapper<Map<String, Integer>>{
+		public Map<String, Integer> mapRow(ResultSet rs, int rowNumber) throws SQLException {
+			Map<String, Integer> x= new HashMap<String, Integer>();
+			x.put(new Integer(rs.getInt("mo")).toString(), new Integer(rs.getInt("sum")));
+	        return x;
+		}		
+	}
+
+	@Override
+	public List<Map<String, Integer>> getViewNumStats() {
+		String sql = "SELECT t.yr, t.mo, t.sum FROM (SELECT year(post_datetime) as yr, month(post_datetime) as mo, sum(view_num) as sum, post_datetime FROM event_news group by year(post_datetime), month(post_datetime) order by post_datetime desc limit 9) as t ORDER BY t.post_datetime";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		List<Map<String, Integer>> x = new ArrayList<Map<String, Integer>>();
+		try{
+			x = jdbc.query(sql, paramSource, new NewsStatsRowMapper());
+		}catch(EmptyResultDataAccessException ex){
+			x = null;
+		}
+//		System.out.println("Length of getViewNumStats: "+ x.size());
+//		System.out.println(x);
+		return x;
 	}
 
 }

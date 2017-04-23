@@ -29,6 +29,13 @@ public class OrderController {
 		this.orderService = orderService;
 	}
 
+	private OrderItemService orderItemService;
+
+	@Autowired
+	public void setOrderItemService(OrderItemService orderItemService) {
+		this.orderItemService = orderItemService;
+	}
+
 	@RequestMapping(value="/ecomm/orders")
 	public String gotoOrders(){
 		String viewName = "order/ecommerce_orders";
@@ -121,7 +128,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/ecomm/orders/{orderNo}")
-	public ModelAndView getOrderDetail(@PathVariable long orderNo){
+	public ModelAndView getOrderDetail(@PathVariable String orderNo){
 		logger.info("entering /ecomm/orders/{orderNo}");
 		ModelAndView mav = new ModelAndView();
 		
@@ -136,15 +143,8 @@ public class OrderController {
 		return mav;
 	}
 	
-	private OrderItemService orderItemService;
-	
-	@Autowired
-	public void setOrderItemService(OrderItemService orderItemService) {
-		this.orderItemService = orderItemService;
-	}
-	
 	@RequestMapping(value="/ecomm/orderitems")
-	public String testOrderItem(@RequestParam long orderNo){
+	public String testOrderItem(@RequestParam String orderNo){
 		
 		System.out.println("testOrderItem");
 		

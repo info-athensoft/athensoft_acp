@@ -1,6 +1,8 @@
 package com.athensoft.content.event.dao;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.athensoft.content.event.entity.Event;
 import com.athensoft.content.event.entity.News;
@@ -71,5 +73,7 @@ public interface NewsDao {
 	 * @param news list of news objects to persist
 	 */
 	public void deleteBatch(List<News> news);
+
+	public List<Map<String, Integer>> getViewNumStats();
 	
 }

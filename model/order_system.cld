@@ -598,10 +598,6 @@
                         </children>
                         <filterProperty>
                           <entry>
-                            <string>operationprotected</string>
-                            <boolean>true</boolean>
-                          </entry>
-                          <entry>
                             <string>operationpublic</string>
                             <boolean>true</boolean>
                           </entry>
@@ -611,6 +607,10 @@
                           </entry>
                           <entry>
                             <string>operationprivate</string>
+                            <boolean>true</boolean>
+                          </entry>
+                          <entry>
+                            <string>operationprotected</string>
                             <boolean>true</boolean>
                           </entry>
                         </filterProperty>
@@ -1174,10 +1174,6 @@
                         </children>
                         <filterProperty>
                           <entry>
-                            <string>operationprotected</string>
-                            <boolean>true</boolean>
-                          </entry>
-                          <entry>
                             <string>operationpublic</string>
                             <boolean>true</boolean>
                           </entry>
@@ -1187,6 +1183,10 @@
                           </entry>
                           <entry>
                             <string>operationprivate</string>
+                            <boolean>true</boolean>
+                          </entry>
+                          <entry>
+                            <string>operationprotected</string>
                             <boolean>true</boolean>
                           </entry>
                         </filterProperty>
@@ -2019,10 +2019,6 @@
                         </children>
                         <filterProperty>
                           <entry>
-                            <string>operationprotected</string>
-                            <boolean>true</boolean>
-                          </entry>
-                          <entry>
                             <string>operationpublic</string>
                             <boolean>true</boolean>
                           </entry>
@@ -2032,6 +2028,10 @@
                           </entry>
                           <entry>
                             <string>operationprivate</string>
+                            <boolean>true</boolean>
+                          </entry>
+                          <entry>
+                            <string>operationprotected</string>
                             <boolean>true</boolean>
                           </entry>
                         </filterProperty>
@@ -2503,8 +2503,8 @@
             <constraint>
               <height>-1</height>
               <width>-1</width>
-              <x>698</x>
-              <y>25</y>
+              <x>824</x>
+              <y>86</y>
             </constraint>
             <sourceConnections>
               <net.java.amateras.uml.classdiagram.model.AggregationModel reference="../../.."/>
@@ -3553,10 +3553,6 @@
       </children>
       <filterProperty>
         <entry>
-          <string>operationprotected</string>
-          <boolean>true</boolean>
-        </entry>
-        <entry>
           <string>operationpublic</string>
           <boolean>true</boolean>
         </entry>
@@ -3566,6 +3562,10 @@
         </entry>
         <entry>
           <string>operationprivate</string>
+          <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>operationprotected</string>
           <boolean>true</boolean>
         </entry>
       </filterProperty>
@@ -3616,10 +3616,6 @@
   </children>
   <filterProperty>
     <entry>
-      <string>operationprotected</string>
-      <boolean>true</boolean>
-    </entry>
-    <entry>
       <string>operationpublic</string>
       <boolean>true</boolean>
     </entry>
@@ -3629,6 +3625,10 @@
     </entry>
     <entry>
       <string>operationprivate</string>
+      <boolean>true</boolean>
+    </entry>
+    <entry>
+      <string>operationprotected</string>
       <boolean>true</boolean>
     </entry>
   </filterProperty>

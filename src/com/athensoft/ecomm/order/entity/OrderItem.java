@@ -13,7 +13,7 @@ public class OrderItem {
 	private double unitPrice;
 	private double amount;
 	
-	private long orderId;			//FK
+	private String orderNo;			//FK
 	
 	
 	public long getItemId() {
@@ -58,12 +58,7 @@ public class OrderItem {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public long getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(long orderId) {
-		this.orderId = orderId;
-	}
+	
 	public long getOrderItemId() {
 		return orderItemId;
 	}
@@ -76,6 +71,21 @@ public class OrderItem {
 	public void setSeqNo(int seqNo) {
 		this.seqNo = seqNo;
 	}
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+	
+	@Override
+	public String toString() {
+		return "OrderItem [orderItemId=" + orderItemId + ", seqNo=" + seqNo + ", itemId=" + itemId + ", itemName="
+				+ itemName + ", itemDesc=" + itemDesc + ", quantity=" + quantity + ", unit=" + unit + ", unitPrice="
+				+ unitPrice + ", amount=" + amount + ", orderNo=" + orderNo + "]";
+	}
+	
+	
 	
 	
 }

@@ -2400,11 +2400,13 @@ License: You must have a valid license purchased only from themeforest(the above
 <script type="text/javascript" src="${webapp_name}/assets/global/scripts/metronic.js"></script>
 <script type="text/javascript" src="${webapp_name}/assets/admin/layout2/scripts/layout.js"></script>
 <script type="text/javascript" src="${webapp_name}/assets/admin/layout2/scripts/demo.js"></script>
-<script type="text/javascript" src="${webapp_name}/assets/admin/pages/scripts/index.js"></script>
+
+<script type="text/javascript" src="${webapp_name}/assets/admin/pages/scripts-local/index.js"></script>
 <script type="text/javascript" src="${webapp_name}/assets/admin/pages/scripts/tasks.js"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
-jQuery(document).ready(function() {    
+jQuery(document).ready(function() {
+   var visitors = ${visitors}; 
    Metronic.init(); // init metronic core componets
    Layout.init(); // init layout
    Demo.init(); // init demo features 
@@ -2412,7 +2414,7 @@ jQuery(document).ready(function() {
    Index.initDashboardDaterange();
    Index.initJQVMAP(); // init index page's custom scripts
    Index.initCalendar(); // init index page's custom scripts
-   Index.initCharts(); // init index page's custom scripts
+   Index.initCharts(visitors); // init index page's custom scripts
    Index.initChat();
    Index.initMiniCharts();
    Tasks.initDashboardWidget();
