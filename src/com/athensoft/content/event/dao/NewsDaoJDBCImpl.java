@@ -260,7 +260,7 @@ public class NewsDaoJDBCImpl implements NewsDao {
 	private static class NewsStatsRowMapper implements RowMapper<Map<String, Integer>>{
 		public Map<String, Integer> mapRow(ResultSet rs, int rowNumber) throws SQLException {
 			Map<String, Integer> x= new HashMap<String, Integer>();
-			x.put(new Integer(rs.getInt("mo")).toString(), new Integer(rs.getInt("sum")));
+			x.put(rs.getInt("yr")+"."+rs.getInt("mo"), new Integer(rs.getInt("sum")));
 	        return x;
 		}		
 	}
