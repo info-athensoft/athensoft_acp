@@ -3697,15 +3697,17 @@
 			 * @param {String} parent the parent's ID
 			 * @param {Number} position the position of the new node among the parent's children
 			 */
-			this.trigger('create_node', { "node" : this.get_node(node), "parent" : par.id, "position" : pos }, function(action, data) {
+			this.trigger('create_node', { "node" : this.get_node(node), "parent" : par.id, "position" : pos }, function(action, fdata) {
 				$.ajax({
 					type:"post",
 					url:"createResultSaved",
 					dataType:"json",
-					data: {	"parent" : this.get_node(data.parent).text, "text" : data.node.text},
+					data: {	"parent" : this.get_node(fdata.parent).state.key, "text" : fdata.node.text},
 					timeout : 5000,
-					success:function(data){	
-						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Text : ' + data.text);
+					success:function(data){
+						fdata.node.state['key'] = data.newKey;
+						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Node : ' + data.newKey);
+//						$('#event_result').html('Test  by nodeId : ' + fdata.node.text );
 					}		
 				});
 			});
@@ -3750,10 +3752,10 @@
 						type:"post",
 						url:"renameResultSaved",
 						dataType:"json",
-						data: {	"old" : data.old, "new_text" : data.text},
+						data: {	"old" : data.old, "newText" : data.text, "key" : data.node.state.key},
 						timeout : 5000,
 						success:function(data){	
-							$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Old : ' + data.old + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Text : ' + data.new_text);
+							$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Old : ' + data.old + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Text : ' + data.newText + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Key : ' + data.key);
 						}		
 					});
 				}
@@ -4060,7 +4062,18 @@
 			 * @param {jsTree} old_instance the instance the node came from
 			 * @param {jsTree} new_instance the instance of the new parent
 			 */
-			this.trigger('move_node', { "node" : obj, "parent" : new_par.id, "position" : pos, "old_parent" : old_par, "old_position" : old_pos, 'is_multi' : (old_ins && old_ins._id && old_ins._id !== this._id), 'is_foreign' : (!old_ins || !old_ins._id), 'old_instance' : old_ins, 'new_instance' : this });
+			this.trigger('move_node', { "node" : obj, "parent" : new_par.id, "position" : pos, "old_parent" : old_par, "old_position" : old_pos, 'is_multi' : (old_ins && old_ins._id && old_ins._id !== this._id), 'is_foreign' : (!old_ins || !old_ins._id), 'old_instance' : old_ins, 'new_instance' : this }/*, function(action, data) {
+				$.ajax({
+					type:"post",
+					url:"cutAndPatseResultSaved",
+					dataType:"json",
+					data: {	"parent" : this.get_node(data.parent).state.key, "node" : data.node.state.key},
+					timeout : 5000,
+					success:function(data){	
+						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Moved Node : ' + data.node);
+					}		
+				});
+			}*/);
 			return obj.id;
 		},
 		/**
@@ -4189,7 +4202,19 @@
 			 * @param {jsTree} old_instance the instance the node came from
 			 * @param {jsTree} new_instance the instance of the new parent
 			 */
-			this.trigger('copy_node', { "node" : tmp, "original" : obj, "parent" : new_par.id, "position" : pos, "old_parent" : old_par, "old_position" : old_ins && old_ins._id && old_par && old_ins._model.data[old_par] && old_ins._model.data[old_par].children ? $.inArray(obj.id, old_ins._model.data[old_par].children) : -1,'is_multi' : (old_ins && old_ins._id && old_ins._id !== this._id), 'is_foreign' : (!old_ins || !old_ins._id), 'old_instance' : old_ins, 'new_instance' : this });
+			this.trigger('copy_node', { "node" : tmp, "original" : obj, "parent" : new_par.id, "position" : pos, "old_parent" : old_par, "old_position" : old_ins && old_ins._id && old_par && old_ins._model.data[old_par] && old_ins._model.data[old_par].children ? $.inArray(obj.id, old_ins._model.data[old_par].children) : -1,'is_multi' : (old_ins && old_ins._id && old_ins._id !== this._id), 'is_foreign' : (!old_ins || !old_ins._id), 'old_instance' : old_ins, 'new_instance' : this }, function(action, fdata) {
+				$.ajax({
+					type:"post",
+					url:"copyAndPatseResultSaved",
+					dataType:"json",
+					data: {	"parent" : this.get_node(fdata.parent).state.key, "oldNode" : fdata.original.state.key, "text" : fdata.original.text},
+					timeout : 5000,
+					success:function(data){
+						fdata.node.state['key'] = data.newKey;
+						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Old Node : ' + data.oldNode + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Node : ' + data.newKey);
+					}		
+				});
+			});
 			return tmp.id;
 		},
 		/**

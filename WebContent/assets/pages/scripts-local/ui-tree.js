@@ -114,8 +114,8 @@ var UITree = function () {
 		  }) */
 		  .on("move_node.jstree", function (e, data) {
 			   //data.node, data.parent, data.old_parent
-			   var orig = data.node.text ; //.id
-			   var dest = data.instance.get_node(data.node.parent).text;
+			   var orig = data.node.state.key; //.text ; //.id
+			   var dest = data.instance.get_node(data.node.parent).state.key; //.text;
 			   $.ajax({
 					type:"post",
 					url:"dragAndDropResultSaved",

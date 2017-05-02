@@ -3,6 +3,7 @@ package com.athensoft.ecomm.item.controller;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import com.athensoft.util.Node;
 public class ItemCategoryAcpController {
 	
 	private static final Logger logger = Logger.getLogger(ItemCategoryAcpController.class);
+	private static Random rand = new Random();
 	
 	/**
 	 * go to the view of item category
@@ -130,10 +132,11 @@ public class ItemCategoryAcpController {
 		
 		//data
 		Map<String, Object> model = mav.getModel();
+		String newKey = parent + "-" + rand.nextInt((100) + 1);
 		model.put("parent", parent);
-		model.put("text", text);
+		model.put("newKey", newKey);
 		
-		logger.info("Parent : " + parent + "      Text : " + text);
+		logger.info("Parent : " + parent + "      Text : " + text + "      New Key : " + newKey);
 		
 		logger.info("leaving /item/createResultSaved");
 		return model;
@@ -141,7 +144,7 @@ public class ItemCategoryAcpController {
 	
 	@RequestMapping(value="/item/renameResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
-	public Map<String, Object> RenameResultSaved(@RequestParam String old, @RequestParam String new_text){
+	public Map<String, Object> RenameResultSaved(@RequestParam String old, @RequestParam String newText, @RequestParam String key){
 		logger.info("entering /item/renameResultSaved");
 		
 		ModelAndView mav = new ModelAndView();
@@ -153,9 +156,10 @@ public class ItemCategoryAcpController {
 		//data
 		Map<String, Object> model = mav.getModel();
 		model.put("old",old);
-		model.put("new_text", new_text);
+		model.put("newText", newText);
+		model.put("key", key);
 		
-		logger.info("Old : " + old + "      New Text : " + new_text);
+		logger.info("Old : " + old + "      New Text : " + newText + "      Key : " + key);
 		
 		logger.info("leaving /item/renameResultSaved");
 //		return mav;
@@ -181,6 +185,52 @@ public class ItemCategoryAcpController {
 		logger.info("Parent : " + parent + "      Deleted Node : " + node);
 		
 		logger.info("leaving /item/deleteResultSaved");
+		return model;
+	}
+/*	
+	@RequestMapping(value="/item/cutAndPatseResultSaved",method=RequestMethod.POST,produces="application/json")
+	@ResponseBody
+	public Map<String, Object> CutAndPatseResultSaved(@RequestParam String parent, @RequestParam String node){
+		logger.info("entering /item/cutAndPatseResultSaved");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//view
+		String viewName = "item/testcategory";
+		mav.setViewName(viewName);
+		
+		//data
+		Map<String, Object> model = mav.getModel();
+		model.put("parent", parent);
+		model.put("node", node);
+		
+		logger.info("Parent : " + parent + "      Moved Node : " + node);
+		
+		logger.info("leaving /item/cutAndPatseResultSaved");
+		return model;
+	} */
+	
+	@RequestMapping(value="/item/copyAndPatseResultSaved",method=RequestMethod.POST,produces="application/json")
+	@ResponseBody
+	public Map<String, Object> CopyAndPatseResultSaved(@RequestParam String parent, @RequestParam String oldNode, @RequestParam String text){
+		logger.info("entering /item/copyAndPatseResultSaved");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//view
+		String viewName = "item/testcategory";
+		mav.setViewName(viewName);
+		
+		//data
+		Map<String, Object> model = mav.getModel();
+		String newKey = parent + "-" + rand.nextInt((100) + 1);
+		model.put("parent", parent);
+		model.put("oldNode", oldNode);
+		model.put("newKey", newKey);
+		
+		logger.info("Parent : " + parent + "      Old Node : " + oldNode + "      Text : " + text + "      New Key : " + newKey);
+		
+		logger.info("leaving /item/copyAndPatseResultSaved");
 		return model;
 	}
 	
