@@ -10,9 +10,14 @@ public class Node {
 	private String text;
 	private String icon;
 	private List<Entry<String, String>> state;
-	private final List<Node> children = new ArrayList<>();
-	private final Node parent;
+	private List<Node> children = new ArrayList<>();
+	private Node parent;
  
+	public Node(){
+		
+	}
+	
+	
  public Node(Node parent) {
 	 this.parent = parent;
  }

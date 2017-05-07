@@ -146,7 +146,7 @@ public class ItemCategoryAcpController {
 		
 		//data
 		Map<String, Object> model = mav.getModel();
-		String newKey = parent + "-" + rand.nextInt((100) + 1);
+		String newKey = parent + "-" + rand.nextInt((100) + 1);	//TODO:get key from database
 		model.put("parent", parent);
 		model.put("newKey", newKey);
 		
