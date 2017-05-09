@@ -40,11 +40,11 @@
 		location="classpath:com/athensoft/ecomm/config/jdbc-mysql.properties"/>	
 	
 	<!-- Database connection -->	 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver}"></property>
-		<property name="url" value="${jdbc.url}"></property>
-		<property name="password" value="${jdbc.password}"></property>
-		<property name="username" value="${jdbc.username}"></property>
+	<bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${datasource1.jdbc.driver}"></property>
+		<property name="url" value="${datasource1.jdbc.url}"></property>
+		<property name="password" value="${datasource1.jdbc.password}"></property>
+		<property name="username" value="${datasource1.jdbc.username}"></property>
 		<property name="maxActive" value="20" />  
         <property name="initialSize" value="1" />  
         <property name="maxWait" value="60000" />  
@@ -54,6 +54,33 @@
         <property name="removeAbandonedTimeout" value="180" />
         <property name="testOnBorrow" value="true"/>
     	<property name="validationQuery" value="SELECT 1"/>
+	</bean>
+	
+	<bean id="dataSource2" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${datasource2.jdbc.driver}"></property>
+		<property name="url" value="${datasource2.jdbc.url}"></property>
+		<property name="password" value="${datasource2.jdbc.password}"></property>
+		<property name="username" value="${datasource2.jdbc.username}"></property>
+		<property name="maxActive" value="20" />  
+        <property name="initialSize" value="1" />  
+        <property name="maxWait" value="60000" />  
+        <property name="maxIdle" value="15" />  
+        <property name="minIdle" value="5" />  
+        <property name="removeAbandoned" value="true" />  
+        <property name="removeAbandonedTimeout" value="180" />
+        <property name="testOnBorrow" value="true"/>
+    	<property name="validationQuery" value="SELECT 1"/>
+	</bean>
+	
+	<!-- dynamicDataSource -->
+	<bean id="dataSource" class="com.athensoft.ecomm.config.DynamicDataSource" >  
+	    <property name="targetDataSources">  
+	        <map key-type="java.lang.String">  
+	            <entry value-ref="dataSource1" key="dataSource1"></entry>  
+	            <entry value-ref="dataSource2" key="dataSource2"></entry>  
+	        </map>  
+	    </property>  
+	    <property name="defaultTargetDataSource" ref="dataSource2"></property>  
 	</bean>
 	
 	<!-- Transaction configuration -->

@@ -34,9 +34,20 @@ public class NewsDaoJDBCImpl implements NewsDao {
 	private NamedParameterJdbcTemplate jdbc;
 	
 	@Autowired
-	public void setDataSource(DataSource dataSource){
+	
+	public void setDataSource( @Qualifier("dataSource2") DataSource dataSource){
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
+		logger.info("jdbc="+jdbc);
 	}
+	
+	/*
+	private NamedParameterJdbcTemplate jdbc2;
+	
+	@Autowired
+	@Qualifier("dataSource2")
+	public void setDataSource2(DataSource dataSource){
+		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
+	}*/
 	
 	@Override
 	public List<Event> findAll() {
