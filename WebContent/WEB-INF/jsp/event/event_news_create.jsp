@@ -91,8 +91,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
-            <div class="page-sidebar-wrapper">
-                <!-- END SIDEBAR -->
+            
                 <jsp:include page="${inc_dir}/page-sidebar.jsp"></jsp:include>
             	<!-- END SIDEBAR -->
             <!-- BEGIN CONTENT -->
@@ -162,7 +161,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <button class="btn btn-success" onclick="createNews(); return false;">
                                                 <i class="fa fa-check"></i> Save</button>
                                             <button class="btn btn-success" onclick="return false;">
-                                                <i class="fa fa-check-circle"></i> Save & Continue Edit</button>
+                                                <i class="fa fa-check-circle"></i> Save &amp; Continue Edit</button>
                                             <div class="btn-group">
                                                 <a class="btn btn-success dropdown-toggle" href="javascript:;" data-toggle="dropdown">
                                                     <i class="fa fa-share"></i> More
@@ -307,7 +306,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- Removed to quick_sidebar.html -->
             <!-- END QUICK SIDEBAR -->
         </div>
-        </div>
+      
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
         <jsp:include page="${inc_dir}/page-footer.jsp"></jsp:include>

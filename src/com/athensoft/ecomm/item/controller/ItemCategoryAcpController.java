@@ -1,11 +1,11 @@
 package com.athensoft.ecomm.item.controller;
 
 import java.util.AbstractMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.athensoft.content.event.controller.NewsAcpController;
-import com.athensoft.content.event.entity.EventMedia;
-import com.athensoft.content.event.entity.News;
+import com.athensoft.content.event.service.NewsService;
+import com.athensoft.ecomm.item.service.ItemCategoryService;
 import com.athensoft.util.Node;
 
 /**
@@ -27,6 +26,16 @@ public class ItemCategoryAcpController {
 	
 	private static final Logger logger = Logger.getLogger(ItemCategoryAcpController.class);
 	private static Random rand = new Random();
+
+	/**
+	 * ItemCategory Service instance
+	 */
+	private ItemCategoryService itemCategoryService;
+	
+	@Autowired
+	public void setItemCategoryService(ItemCategoryService itemCategoryService) {
+		this.itemCategoryService = itemCategoryService;
+	}
 	
 	/**
 	 * go to the view of item category
@@ -57,8 +66,9 @@ public class ItemCategoryAcpController {
 		Node treeRootNode = new Node(null);
 	    treeRootNode.setText("root");
 	  // add child to root node 
-	    Node parentNode = Node.addChild(treeRootNode, "My Parent Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-1")));
-	  // add child to the child node created above
+	    Node parentNode = Node.addChild(treeRootNode, "My Parent Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "1")));
+/*
+	    // add child to the child node created above
 	    Node.addChild(parentNode, "Initially selected", Node.buildList(new AbstractMap.SimpleEntry<String, String>("selected", "true"), new AbstractMap.SimpleEntry<String, String>("key", "key-11")));
 	    Node.addChild(parentNode, "Custom Icon", "fa fa-warning icon-state-danger", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-12")));
 	    Node initiallyOpen = Node.addChild(parentNode, "Initially open", "fa fa-folder icon-state-success", Node.buildList(new AbstractMap.SimpleEntry<String, String>("opened", "true"), new AbstractMap.SimpleEntry<String, String>("key", "key-13"))); 
@@ -77,10 +87,11 @@ public class ItemCategoryAcpController {
 	    Node.addChild(subNodes, "Item 5", "fa fa-file icon-state-info", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-165")));
 	  
 	    Node.addChild(treeRootNode, "Another Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-2")));
+*/
 	    StringBuffer jsTreeData = Node.buildJSTree(treeRootNode, "  ");
 //	    System.out.println(jsTreeData);
 			
-		model.put("jsTreeData", jsTreeData);
+		model.put("jsTreeData", jsTreeData.toString());
 				
 		logger.info("leaving /item/testcategory");
 		return mav;
@@ -107,6 +118,9 @@ public class ItemCategoryAcpController {
 		String viewName = "item/testcategory";
 		mav.setViewName(viewName);
 		
+		//service
+		this.itemCategoryService.dragAndDropResultSaved(orig, dest);
+		
 		//data
 		Map<String, Object> model = mav.getModel();
 		model.put("orig",orig);
@@ -132,7 +146,8 @@ public class ItemCategoryAcpController {
 		
 		//data
 		Map<String, Object> model = mav.getModel();
-		String newKey = parent + "-" + rand.nextInt((100) + 1);
+
+		String newKey = parent + "-" + rand.nextInt((100) + 1);	//TODO:get key from database
 		model.put("parent", parent);
 		model.put("newKey", newKey);
 		
@@ -152,6 +167,9 @@ public class ItemCategoryAcpController {
 		//view
 		String viewName = "item/testcategory";
 		mav.setViewName(viewName);
+		
+		//service
+		this.itemCategoryService.renameResultSaved(key, newText);
 		
 		//data
 		Map<String, Object> model = mav.getModel();

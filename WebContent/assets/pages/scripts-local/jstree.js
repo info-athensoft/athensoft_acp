@@ -852,6 +852,9 @@
 		},
 		/**
 		 * trigger an event. Used internally.
+		 * 
+		 * Modified by SunFangze on 2017-04-28  Athens
+		 * 
 		 * @private
 		 * @name trigger(ev [, data])
 		 * @param  {String} ev the name of the event to trigger
@@ -3691,6 +3694,9 @@
 			if(callback) { callback.call(this, this.get_node(node)); }
 			/**
 			 * triggered when a node is created
+			 * 
+			 * Modified by SunFangze on 2017-04-28  Athens
+			 * 
 			 * @event
 			 * @name create_node.jstree
 			 * @param {Object} node
@@ -3740,6 +3746,9 @@
 			this.set_text(obj, val); // .apply(this, Array.prototype.slice.call(arguments))
 			/**
 			 * triggered when a node is renamed
+			 * 
+			 * Modified by SunFangze on 2017-04-28  Athens
+			 * 
 			 * @event
 			 * @name rename_node.jstree
 			 * @param {Object} node

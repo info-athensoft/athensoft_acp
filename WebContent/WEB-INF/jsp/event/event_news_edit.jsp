@@ -91,8 +91,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
-            <div class="page-sidebar-wrapper">
-                <!-- END SIDEBAR -->
+            
                 <jsp:include page="${inc_dir}/page-sidebar.jsp"></jsp:include>
             	<!-- END SIDEBAR -->
             <!-- BEGIN CONTENT -->
@@ -162,23 +161,26 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <button class="btn btn-success" onclick="updateNews(); return false;">
                                                 <i class="fa fa-check"></i> Save</button>
                                             <button class="btn btn-success" onclick="updateNewsAndContinue(); return false;">
-                                                <i class="fa fa-check-circle"></i> Save & Continue Edit</button>
+                                                <i class="fa fa-check-circle"></i> Save &amp; Continue Edit</button>
                                             <div class="btn-group">
                                                 <a class="btn btn-success dropdown-toggle" href="javascript:;" data-toggle="dropdown">
                                                     <i class="fa fa-share"></i> More
                                                     <i class="fa fa-angle-down"></i>
                                                 </a>
                                                 <div class="dropdown-menu pull-right">
+                                                	<ul>
                                                     <li>
                                                         <a href="javascript:;"> Duplicate </a>
                                                     </li>
-                                                    <li>
-                                                        <a href="javascript:;"> Delete </a>
-                                                    </li>
+                                                   	<li>
+														<a href="javascript:;"  onclick="markNewsStatusDeleted('${newsObject.eventUUID}'); return false;">
+														Mark Deleted </a>
+													</li>
                                                     <li class="dropdown-divider"> </li>
                                                     <li>
                                                         <a href="javascript:;"> Print </a>
                                                     </li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -339,9 +341,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     </div>
                                                 </div>
                                                 <div class="tab-pane" id="tab_images">
+                                                	<!--
                                                     <div class="alert alert-success margin-bottom-10">
                                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                                                        <i class="fa fa-warning fa-lg"></i> Image type and information need to be specified. </div>
+                                                        <i class="fa fa-warning fa-lg"></i> Image type and information need to be specified. 
+                                                   
+                                                    </div> 
+                                                     -->
                                                     <div id="tab_images_uploader_container" class="text-align-reverse margin-bottom-10">
                                                         <a id="tab_images_uploader_pickfiles" href="javascript:;" class="btn btn-success">
                                                             <i class="fa fa-plus"></i> Select Files </a>
@@ -354,94 +360,56 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     <table class="table table-bordered table-hover">
                                                         <thead>
                                                             <tr role="row" class="heading">
-                                                                <th width="8%"> Image </th>
-                                                                <th width="25%"> Label </th>
-                                                                <th width="8%"> Sort Order </th>
-                                                                <th width="10%"> Base Image </th>
-                                                                <th width="10%"> Small Image </th>
-                                                                <th width="10%"> Thumbnail </th>
-                                                                <th width="10%"> </th>
+                                                                <th width="8%">
+																	 Image
+																</th>
+																<th width="20%">
+																	 Label
+																</th>
+																<th width="8%">
+																	 Sort Number
+																</th>
+																<th width="15%">
+																	 Post Time
+																</th>
+																<th width="10%">
+																	 Primary Media
+																</th>
+																<th width="10%">
+																	Action
+																</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <a href="${webapp_name}/assets/pages/media/works/img1.jpg" class="fancybox-button" data-rel="fancybox-button">
-                                                                        <img class="img-responsive" src="${webapp_name}/assets/pages/media/works/img1.jpg" alt=""> </a>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="product[images][1][label]" value="Thumbnail image"> </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="product[images][1][sort_order]" value="1"> </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][1][image_type]" value="1"> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][1][image_type]" value="2"> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][1][image_type]" value="3" checked> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="javascript:;" class="btn btn-default btn-sm">
-                                                                        <i class="fa fa-times"></i> Remove </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <a href="${webapp_name}/assets/pages/media/works/img2.jpg" class="fancybox-button" data-rel="fancybox-button">
-                                                                        <img class="img-responsive" src="${webapp_name}/assets/pages/media/works/img2.jpg" alt=""> </a>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="product[images][2][label]" value="Product image #1"> </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="product[images][2][sort_order]" value="1"> </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][2][image_type]" value="1"> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][2][image_type]" value="2" checked> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][2][image_type]" value="3"> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="javascript:;" class="btn btn-default btn-sm">
-                                                                        <i class="fa fa-times"></i> Remove </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <a href="${webapp_name}/assets/pages/media/works/img3.jpg" class="fancybox-button" data-rel="fancybox-button">
-                                                                        <img class="img-responsive" src="${webapp_name}/assets/pages/media/works/img3.jpg" alt=""> </a>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="product[images][3][label]" value="Product image #2"> </td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" name="product[images][3][sort_order]" value="1"> </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][3][image_type]" value="1" checked> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][3][image_type]" value="2"> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <label>
-                                                                        <input type="radio" name="product[images][3][image_type]" value="3"> </label>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="javascript:;" class="btn btn-default btn-sm">
-                                                                        <i class="fa fa-times"></i> Remove </a>
-                                                                </td>
-                                                            </tr>
+                                                            <c:forEach items="${eventMediaList}" var="eventMedia">
+															<tr>
+															<td>
+																<a href="/eventmedia/${eventMedia.mediaURL}${eventMedia.mediaName}" class="fancybox-button" data-rel="fancybox-button">
+																<img class="img-responsive" src="/eventmedia/${eventMedia.mediaURL}${eventMedia.mediaName}" alt="">
+																</a>
+															</td>
+															<td>
+																<input type="text" class="form-control" name="mediaLabel" value="${eventMedia.mediaLabel}" onblur="changeMediaLabel(this,${eventMedia.mediaId},'${eventMedia.eventUUID}');">
+															</td>
+															<td>
+																<input type="text" class="form-control" name="sortNumber" value="${eventMedia.sortNumber}" onblur="changeSortNumber(this,${eventMedia.mediaId},'${eventMedia.eventUUID}');">
+															</td>
+															
+															<td>
+																<input type="text" class="form-control" name="postTimestamp" value="${eventMedia.postTimestamp}" disabled="disabled">
+															</td>
+															<td>
+																<input type="text" class="form-control" name="primaryMedia" value="${eventMedia.primaryMedia}" disabled="disabled">
+																<!-- <div></div>  -->
+															</td>
+															<td>
+																<a href="javascript:;" onclick="setCoverMedia(${eventMedia.mediaId},'${eventMedia.eventUUID}');return false;" class="btn default btn-sm">
+																<i class="fa fa-edit"></i> Set Cover </a>
+																<a href="javascript:test();" class="btn default btn-sm">
+																<i class="fa fa-times"></i> Remove </a>
+															</td>
+														</tr>
+														</c:forEach>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -459,18 +427,18 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                 </tr>
                                                                 <tr role="row" class="filter">
                                                                     <td>
-                                                                        <input type="text" class="form-control form-filter input-sm" name="product_review_no"> </td>
+                                                                        <input type="text" class="form-control form-filter input-sm" name="event_review_no" id="event_review_no"> </td>
                                                                     <td>
-                                                                        <div class="input-group date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                                                            <input type="text" class="form-control form-filter input-sm" readonly name="product_review_date_from" placeholder="From">
+                                                                        <div class="input-group date date-picker margin-bottom-5" data-date-format="yyyy-mm-dd">
+                                                                            <input type="text" class="form-control form-filter input-sm" readonly name="event_review_date_from" placeholder="From" id="event_review_date_from">
                                                                             <span class="input-group-btn">
                                                                                 <button class="btn btn-sm default" type="button">
                                                                                     <i class="fa fa-calendar"></i>
                                                                                 </button>
                                                                             </span>
                                                                         </div>
-                                                                        <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
-                                                                            <input type="text" class="form-control form-filter input-sm" readonly name="product_review_date_to" placeholder="To">
+                                                                        <div class="input-group date date-picker" data-date-format="yyyy-mm-dd">
+                                                                            <input type="text" class="form-control form-filter input-sm" readonly name="event_review_date_to" placeholder="To" id="event_review_date_to">
                                                                             <span class="input-group-btn">
                                                                                 <button class="btn btn-sm default" type="button">
                                                                                     <i class="fa fa-calendar"></i>
@@ -479,20 +447,20 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control form-filter input-sm" name="product_review_customer"> </td>
+                                                                        <input type="text" class="form-control form-filter input-sm" name="event_review_customer" id="event_review_customer"> </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control form-filter input-sm" name="product_review_content"> </td>
+                                                                        <input type="text" class="form-control form-filter input-sm" name="event_review_content" id="event_review_content"> </td>
                                                                     <td>
-                                                                        <select name="product_review_status" class="form-control form-filter input-sm">
-                                                                            <option value="">Select...</option>
-                                                                            <option value="pending">Pending</option>
-                                                                            <option value="approved">Approved</option>
-                                                                            <option value="rejected">Rejected</option>
+                                                                        <select name="product_review_status" class="form-control form-filter input-sm" id="event_review_status">
+                                                                            <option value="0">Select...</option>
+																			<option value="1">Approved</option>
+																			<option value="2">Pending</option>
+																			<option value="3">Rejected</option>
                                                                         </select>
                                                                     </td>
                                                                     <td>
                                                                         <div class="margin-bottom-5">
-                                                                            <button class="btn btn-sm btn-success filter-submit margin-bottom">
+                                                                            <button class="btn btn-sm btn-success filter-submit margin-bottom" onclick="filterSearchReview();">
                                                                                 <i class="fa fa-search"></i> Search</button>
                                                                         </div>
                                                                         <button class="btn btn-sm btn-danger filter-cancel">

@@ -22,7 +22,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import com.athensoft.content.event.controller.NewsAcpController;
 import com.athensoft.content.event.entity.Event;
 import com.athensoft.content.event.entity.News;
 
@@ -102,12 +101,7 @@ public class NewsDaoJDBCImpl implements NewsDao {
 		return x;
 	}
 
-/*	@Override
-	public void create() {
-		// TODO Auto-generated method stub
 
-	}
-*/
 	@Override
 	public void create(News news) {
 		final String TABLE1 = "event_news";
