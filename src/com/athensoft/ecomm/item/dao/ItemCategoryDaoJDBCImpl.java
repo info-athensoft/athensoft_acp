@@ -1,17 +1,24 @@
 package com.athensoft.ecomm.item.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import com.athensoft.content.event.dao.NewsDaoJDBCImpl;
+import com.athensoft.ecomm.item.entity.ItemCategory;
 
 @Component
 @Qualifier("itemCategoryDaoJDBCImpl")
@@ -43,6 +50,96 @@ private NamedParameterJdbcTemplate jdbc;
 		jdbc.update(sql, paramSource, keyholder);
 		return;
 		
+	}
+
+	@Override
+	public List<ItemCategory> findAll() {
+		String sql = "select * from item_category where level>0";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+//		paramSource.addValue("global_id", globalId);
+		List<ItemCategory> x = new ArrayList<ItemCategory>();
+		try{
+			x = jdbc.query(sql, paramSource, new ItemCategoryRowMapper());
+		}catch(EmptyResultDataAccessException ex){
+			x = null;
+		}
+		return x;
+	}
+	
+	private static class ItemCategoryRowMapper implements RowMapper<ItemCategory>{
+		public ItemCategory mapRow(ResultSet rs, int rowNumber) throws SQLException {
+			ItemCategory x = new ItemCategory();
+			x.setCategoryId(rs.getLong("category_id"));
+			x.setCategoryNo(rs.getLong("category_no"));
+			x.setName(rs.getString("name"));
+			x.setParentId(rs.getLong("parent_id"));
+			x.setLevel(rs.getInt("level"));
+	        return x;
+		}		
+	}
+
+	@Override
+	public ItemCategory findByCategoryId(long categoryId) {
+		String sql = "select * from item_category where category_id =:categoryId";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("categoryId", categoryId);
+		ItemCategory x = null;
+		try{
+			x = jdbc.queryForObject(sql, paramSource, new ItemCategoryRowMapper());
+		}catch(EmptyResultDataAccessException ex){
+			x = null;
+		}
+		return x;
+	}
+
+	@Override
+	public ItemCategory findByCategoryNo(long categoryNo) {
+		String sql = "select * from item_category where category_no =:categoryNo";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("categoryNo", categoryNo);
+		ItemCategory x = null;
+		try{
+			x = jdbc.queryForObject(sql, paramSource, new ItemCategoryRowMapper());
+		}catch(EmptyResultDataAccessException ex){
+			x = null;
+		}
+		return x;
+	}
+	
+	@SuppressWarnings("deprecation")
+	private long getBiggestCategoryNo() {
+		String sql = "select category_no from item_category order by category_no desc limit 1";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		long x;
+		try{
+			x = jdbc.queryForLong(sql, paramSource);
+		}catch(EmptyResultDataAccessException ex){
+			x = 0;
+		}
+		return x;
+	}
+
+	@Override
+	public long createResultSaved(long parentId, String text, int parentLevel) {
+		
+		final String TABLE1 = "item_category";
+		long newCategoryNo = this.getBiggestCategoryNo()+1;
+		
+		StringBuffer sbf = new StringBuffer();
+		sbf.append("insert into "+TABLE1);
+		sbf.append("(category_no,name,parent_id,level) ");
+		sbf.append("values(:category_no,:name,:parent_id,:level)");
+		String sql = sbf.toString();
+		
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("category_no", newCategoryNo);
+		paramSource.addValue("name", text);
+		paramSource.addValue("parent_id", parentId);
+		paramSource.addValue("level", parentLevel+1);
+		
+		KeyHolder keyholder = new GeneratedKeyHolder();
+		jdbc.update(sql, paramSource, keyholder);
+		return newCategoryNo;
 	}
 
 }

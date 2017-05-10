@@ -127,6 +127,29 @@ public void setState(List<Entry<String, String>> state) {
 	 return sb;
  }
  
+ public static Node getNodeByKey(Node node, String key) {
+	 for (Entry<String, String> e : node.getState()) {
+//		 System.out.println("searching node name: "+ node.getText());
+		 if (e.getKey()=="key" && e.getValue().equals(key)) {
+//			 System.out.println("found key with node name: "+ node.getText());
+			 return node;
+		 }
+	 }
+	 for (Node n : node.getChildren()) {
+/*		 for (Entry<String, String> e : n.getState()) {
+			 if (e.getKey()=="key" && e.getValue()==key) {
+//				 System.out.println("found key with node name: "+ n.getText());
+				 return n;
+			 }
+		 } */
+		 Node tmp = getNodeByKey(n, key);
+		 if (tmp != null) {
+			 return tmp;
+		 }
+	 }
+	 return null;
+ }
+ 
  public static List<Entry<String, String>> buildList(Entry<String, String> entry) {
 	 List<Entry<String, String>> list = new ArrayList<Entry<String, String>>();
 	 list.add(new AbstractMap.SimpleEntry<String, String>(entry.getKey(), entry.getValue()));
@@ -142,8 +165,8 @@ public void setState(List<Entry<String, String>> state) {
   
   public static void main(String[] args) {
 	  Node treeRootNode = new Node(null);
-	  treeRootNode.setText("root");
-//	  treeRootNode.setState(Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-root")));
+	  treeRootNode.setText("Category Classification");
+	  treeRootNode.setState(Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "1")));
 	  // add child to root node 
 	  Node parentNode = Node.addChild(treeRootNode, "My Parent Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-1")));
 	  // add child to the child node created above
@@ -166,8 +189,11 @@ public void setState(List<Entry<String, String>> state) {
 	  
 	  Node.addChild(treeRootNode, "Another Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-2")));
 		  
-	  System.out.println(Node.buildJSTree(treeRootNode, "  "));
- 
+//	  System.out.println(Node.buildJSTree(treeRootNode, "  ").append("}"));
+//	  Node.getNodeByKey(treeRootNode, "key-165");
+	  long parentNo = 1;
+//  	logger.info("parent_no="+parentNo);
+  	Node myNode = Node.getNodeByKey(treeRootNode, Long.toString(parentNo));
  }
  
 }

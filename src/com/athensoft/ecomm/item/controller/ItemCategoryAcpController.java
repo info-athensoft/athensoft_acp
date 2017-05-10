@@ -1,6 +1,8 @@
 package com.athensoft.ecomm.item.controller;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.athensoft.content.event.service.NewsService;
+import com.athensoft.ecomm.item.entity.ItemCategory;
 import com.athensoft.ecomm.item.service.ItemCategoryService;
 import com.athensoft.util.Node;
 
@@ -64,10 +66,11 @@ public class ItemCategoryAcpController {
 		
 		//build jstree data
 		Node treeRootNode = new Node(null);
-	    treeRootNode.setText("root");
-	  // add child to root node 
+	    treeRootNode.setText("Category Classification");
+	    treeRootNode.setState(Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "1")));
+/*	  // add child to root node 
 	    Node parentNode = Node.addChild(treeRootNode, "My Parent Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "1")));
-/*
+
 	    // add child to the child node created above
 	    Node.addChild(parentNode, "Initially selected", Node.buildList(new AbstractMap.SimpleEntry<String, String>("selected", "true"), new AbstractMap.SimpleEntry<String, String>("key", "key-11")));
 	    Node.addChild(parentNode, "Custom Icon", "fa fa-warning icon-state-danger", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-12")));
@@ -88,10 +91,22 @@ public class ItemCategoryAcpController {
 	  
 	    Node.addChild(treeRootNode, "Another Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-2")));
 */
-	    StringBuffer jsTreeData = Node.buildJSTree(treeRootNode, "  ");
+	    List<ItemCategory> list = new ArrayList<ItemCategory>();
+	    list = this.itemCategoryService.findAll();
+	    for (ItemCategory ic : list) {
+	    	long parent = ic.getParentId();
+//	    	logger.info("parent_id="+parent);
+	    	ItemCategory p = this.itemCategoryService.findByCategoryId(parent);
+	    	long parentNo = p.getCategoryNo();
+//	    	logger.info("parent_no="+parentNo);
+	    	Node parentNode = Node.getNodeByKey(treeRootNode, Long.toString(parentNo));
+//	    	logger.info("parentNode.text="+parentNode.getText());
+	    	Node.addChild(parentNode, ic.getName(), Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", Long.toString(ic.getCategoryNo()))));
+	    }
+	    StringBuffer jsTreeData = Node.buildJSTree(treeRootNode, "  ").append("}");
 //	    System.out.println(jsTreeData);
 			
-		model.put("jsTreeData", jsTreeData.toString());
+		model.put("jsTreeData", "["+jsTreeData.toString()+"]");
 				
 		logger.info("leaving /item/testcategory");
 		return mav;
@@ -109,7 +124,7 @@ public class ItemCategoryAcpController {
 	
 	@RequestMapping(value="/item/dragAndDropResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
-	public Map<String, Object> DragAndDropResultSaved(@RequestParam String orig, @RequestParam String dest){
+	public Map<String, Object> dragAndDropResultSaved(@RequestParam String orig, @RequestParam String dest){
 		logger.info("entering /item/dragAndDropResultSaved");
 		
 		ModelAndView mav = new ModelAndView();
@@ -135,7 +150,7 @@ public class ItemCategoryAcpController {
 	
 	@RequestMapping(value="/item/createResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
-	public Map<String, Object> CreateResultSaved(@RequestParam String parent, @RequestParam String text){
+	public Map<String, Object> createResultSaved(@RequestParam String parent, @RequestParam String text){
 		logger.info("entering /item/createResultSaved");
 		
 		ModelAndView mav = new ModelAndView();
@@ -144,10 +159,16 @@ public class ItemCategoryAcpController {
 		String viewName = "item/testcategory";
 		mav.setViewName(viewName);
 		
+		//service
+		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(parent));
+    	long parentId = p.getCategoryId();
+    	int parentLevel = p.getLevel();
+		long newCategoryNo = this.itemCategoryService.createResultSaved(parentId, text, parentLevel);
+		
 		//data
 		Map<String, Object> model = mav.getModel();
 
-		String newKey = parent + "-" + rand.nextInt((100) + 1);	//TODO:get key from database
+		String newKey = Long.toString(newCategoryNo);
 		model.put("parent", parent);
 		model.put("newKey", newKey);
 		
@@ -159,7 +180,7 @@ public class ItemCategoryAcpController {
 	
 	@RequestMapping(value="/item/renameResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
-	public Map<String, Object> RenameResultSaved(@RequestParam String old, @RequestParam String newText, @RequestParam String key){
+	public Map<String, Object> renameResultSaved(@RequestParam String old, @RequestParam String newText, @RequestParam String key){
 		logger.info("entering /item/renameResultSaved");
 		
 		ModelAndView mav = new ModelAndView();
@@ -186,7 +207,7 @@ public class ItemCategoryAcpController {
 	
 	@RequestMapping(value="/item/deleteResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
-	public Map<String, Object> DeleteResultSaved(@RequestParam String parent, @RequestParam String node){
+	public Map<String, Object> deleteResultSaved(@RequestParam String parent, @RequestParam String node){
 		logger.info("entering /item/deleteResultSaved");
 		
 		ModelAndView mav = new ModelAndView();
@@ -230,7 +251,7 @@ public class ItemCategoryAcpController {
 	
 	@RequestMapping(value="/item/copyAndPatseResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
-	public Map<String, Object> CopyAndPatseResultSaved(@RequestParam String parent, @RequestParam String oldNode, @RequestParam String text){
+	public Map<String, Object> copyAndPatseResultSaved(@RequestParam String parent, @RequestParam String oldNode, @RequestParam String text){
 		logger.info("entering /item/copyAndPatseResultSaved");
 		
 		ModelAndView mav = new ModelAndView();
