@@ -3829,10 +3829,10 @@
 					type:"post",
 					url:"deleteResultSaved",
 					dataType:"json",
-					data: {	"parent" : this.get_node(data.parent).state.key, "node" : data.node.state.key},
+					data: {	"node" : data.node.state.key},
 					timeout : 5000,
 					success:function(data){	
-						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Deleted Node : ' + data.node);
+						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Deleted Node : ' + data.node);
 					}		
 				});
 			});
@@ -4219,7 +4219,7 @@
 					data: {	"parent" : this.get_node(fdata.parent).state.key, "oldNode" : fdata.original.state.key, "text" : fdata.original.text},
 					timeout : 5000,
 					success:function(data){
-						fdata.node.state['key'] = data.newKey;
+						fdata.node.state['key'] = data.newKey; //location.reload(); //work around
 						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Old Node : ' + data.oldNode + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Node : ' + data.newKey);
 					}		
 				});

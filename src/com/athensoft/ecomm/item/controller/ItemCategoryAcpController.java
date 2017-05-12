@@ -2,6 +2,7 @@ package com.athensoft.ecomm.item.controller;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -134,10 +135,32 @@ public class ItemCategoryAcpController {
 		mav.setViewName(viewName);
 		
 		//service
-		this.itemCategoryService.dragAndDropResultSaved(orig, dest);
+//		this.itemCategoryService.dragAndDropResultSaved(orig, dest);
 		
 		//data
 		Map<String, Object> model = mav.getModel();
+		
+
+		// Save data to DB
+		List<ItemCategory> list = new ArrayList<ItemCategory>();
+		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(dest));
+		ItemCategory old = this.itemCategoryService.findByCategoryNo(Long.parseLong(orig));
+		int levelDifference = p.getLevel() - old.getLevel() + 1;
+		list.add(old); //getDesendants does not include this node.
+		list = this.getDesendants(list, old.getCategoryId());
+		logger.info("p.level="+p.getLevel()+"  old.level="+old.getLevel()+"  levelDifference="+levelDifference);
+
+		for (ItemCategory ic : list) {
+			if (Long.toString(ic.getCategoryNo()).equals(orig)) {
+				this.itemCategoryService.updateItemCategoryParent(ic.getCategoryId(),p.getCategoryId(),  p.getLevel()+1);
+			}
+			else {
+				if (levelDifference != 0) {
+					this.itemCategoryService.updateItemCategoryParent(ic.getCategoryId(), ic.getParentId(),  ic.getLevel()+levelDifference);
+				}
+			}
+		}		
+		
 		model.put("orig",orig);
 		model.put("dest", dest);
 		
@@ -192,6 +215,14 @@ public class ItemCategoryAcpController {
 		//service
 		this.itemCategoryService.renameResultSaved(key, newText);
 		
+		//test getDesendants
+		List<ItemCategory> list = new ArrayList<ItemCategory>();
+		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(key));		
+		list = this.getDesendants(list, p.getCategoryId());
+		logger.info("list-size="+list.size());
+		for (ItemCategory ic : list) {
+			logger.info("category_id="+ic.getCategoryId()+" name="+ic.getName()+" category_no="+ic.getCategoryNo());
+		} 
 		//data
 		Map<String, Object> model = mav.getModel();
 		model.put("old",old);
@@ -207,7 +238,7 @@ public class ItemCategoryAcpController {
 	
 	@RequestMapping(value="/item/deleteResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
-	public Map<String, Object> deleteResultSaved(@RequestParam String parent, @RequestParam String node){
+	public Map<String, Object> deleteResultSaved(@RequestParam String node){
 		logger.info("entering /item/deleteResultSaved");
 		
 		ModelAndView mav = new ModelAndView();
@@ -218,10 +249,27 @@ public class ItemCategoryAcpController {
 		
 		//data
 		Map<String, Object> model = mav.getModel();
-		model.put("parent", parent);
+		
+		// Save data to DB
+		List<ItemCategory> list = new ArrayList<ItemCategory>();
+//		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(parent));
+		ItemCategory old = this.itemCategoryService.findByCategoryNo(Long.parseLong(node));
+//		int levelDifference = p.getLevel() - old.getLevel() + 1;
+		list.add(old); //getDesendants does not include this node.
+		list = this.getDesendants(list, old.getCategoryId());
+//		logger.info("p.level="+p.getLevel()+"  old.level="+old.getLevel()+"  levelDifference="+levelDifference);
+
+		for (ItemCategory ic : list) {
+			if (ic.getLevel() != 0) {
+				this.itemCategoryService.deleteItemCategoryByCategoryId(ic.getCategoryId());
+			}
+			
+		}
+		
+//		model.put("parent", parent);
 		model.put("node", node);
 		
-		logger.info("Parent : " + parent + "      Deleted Node : " + node);
+		logger.info("      Deleted Node : " + node);
 		
 		logger.info("leaving /item/deleteResultSaved");
 		return model;
@@ -262,12 +310,41 @@ public class ItemCategoryAcpController {
 		
 		//data
 		Map<String, Object> model = mav.getModel();
-		String newKey = parent + "-" + rand.nextInt((100) + 1);
+		
+		// Save data to DB
+		String newKeyString = ""; //parent + "-" + rand.nextInt((100) + 1);
+		Map<Long, Long> map = new HashMap<Long, Long>();
+		List<ItemCategory> list = new ArrayList<ItemCategory>();
+		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(parent));
+		ItemCategory old = this.itemCategoryService.findByCategoryNo(Long.parseLong(oldNode));
+		list.add(old); //getDesendants does not include this node.
+		list = this.getDesendants(list, old.getCategoryId());
+//		logger.info("list-size="+list.size());
+		for (ItemCategory ic : list) {
+//			logger.info("category_id="+ic.getCategoryId()+" name="+ic.getName()+" category_no="+ic.getCategoryNo());
+			if (Long.toString(ic.getCategoryNo()).equals(oldNode)) {
+				
+				Long newKey = this.itemCategoryService.createResultSaved(p.getCategoryId(), text, p.getLevel());
+				newKeyString = Long.toString(newKey);
+				Long newId = this.itemCategoryService.findByCategoryNo(newKey).getCategoryId();
+				map.put(ic.getCategoryId(), newId);
+			}
+			else {
+//				logger.info("ic.getParentId()="+ic.getParentId());
+				Long pId = map.get(ic.getParentId());
+				p = this.itemCategoryService.findByCategoryId(pId);
+//				logger.info("pId="+pId+"  p.getLevel()="+p.getLevel());
+				Long newParentNo = this.itemCategoryService.createResultSaved(pId, ic.getName(), p.getLevel());
+				Long newParentId = this.itemCategoryService.findByCategoryNo(newParentNo).getCategoryId();
+				map.put(ic.getCategoryId(), newParentId);
+			}
+		} 
+		
 		model.put("parent", parent);
 		model.put("oldNode", oldNode);
-		model.put("newKey", newKey);
+		model.put("newKey", newKeyString);
 		
-		logger.info("Parent : " + parent + "      Old Node : " + oldNode + "      Text : " + text + "      New Key : " + newKey);
+		logger.info("Parent : " + parent + "      Old Node : " + oldNode + "      Text : " + text + "      New Key : " + newKeyString);
 		
 		logger.info("leaving /item/copyAndPatseResultSaved");
 		return model;
@@ -284,5 +361,22 @@ public class ItemCategoryAcpController {
 		String viewName = "item/item_category_edit";
 		return viewName;
 	}
+	
+	private List<ItemCategory> getDesendants(List<ItemCategory> list, long categoryId) {
+//		logger.info("entered getDesendants, categoryId="+categoryId+"  list-size="+list.size());
+/*		for (ItemCategory ci : getChildren(categoryId)) {
+			list.addAll(getDesendants(list, ci.getCategoryId()));
+		} */
+		List<ItemCategory> tmp = this.itemCategoryService.getChildren(categoryId);
+		list.addAll(tmp);
+		for (ItemCategory ci : tmp) {
+			getDesendants(list, ci.getCategoryId());
+		}
+		return list;
+	}
+/*
+	private List<ItemCategory> getChildren(long categoryId) {
+		return this.itemCategoryService.getChildren(categoryId);
+	} */
 	
 }

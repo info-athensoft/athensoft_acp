@@ -17,6 +17,12 @@ public interface ItemCategoryDao {
 	void renameResultSaved(String key, String newText);
 
 	public long createResultSaved(long parentId, String text, int parentLevel);
+
+	public List<ItemCategory> getChildren(long categoryId);
+
+	public void updateItemCategoryParent(long categoryId, long parentId, int level);
+
+	public void deleteItemCategoryByCategoryId(long categoryId);
 	
 
 }

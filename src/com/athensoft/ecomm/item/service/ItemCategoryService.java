@@ -47,4 +47,16 @@ public class ItemCategoryService {
 		return this.itemCategoryDao.createResultSaved(parentId, text, parentLevel);
 	}
 
+	public List<ItemCategory> getChildren(long categoryId) {
+		return this.itemCategoryDao.getChildren(categoryId);
+	}
+
+	public void updateItemCategoryParent(long categoryId, long parentId, int level) {
+		this.itemCategoryDao.updateItemCategoryParent(categoryId, parentId, level);
+	}
+
+	public void deleteItemCategoryByCategoryId(long categoryId) {
+		this.itemCategoryDao.deleteItemCategoryByCategoryId(categoryId);
+	}
+
 }

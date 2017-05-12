@@ -26,7 +26,7 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 	
 	private static final Logger logger = Logger.getLogger(ItemCategoryDaoJDBCImpl.class);
 	
-private NamedParameterJdbcTemplate jdbc;
+	private NamedParameterJdbcTemplate jdbc;
 	
 	@Autowired
 	public void setDataSource(DataSource dataSource){
@@ -54,7 +54,7 @@ private NamedParameterJdbcTemplate jdbc;
 
 	@Override
 	public List<ItemCategory> findAll() {
-		String sql = "select * from item_category where level>0";
+		String sql = "select * from item_category where level>0 order by level";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 //		paramSource.addValue("global_id", globalId);
 		List<ItemCategory> x = new ArrayList<ItemCategory>();
@@ -140,6 +140,60 @@ private NamedParameterJdbcTemplate jdbc;
 		KeyHolder keyholder = new GeneratedKeyHolder();
 		jdbc.update(sql, paramSource, keyholder);
 		return newCategoryNo;
+	}
+
+	@Override
+	public List<ItemCategory> getChildren(long categoryId) {
+		String sql = "select * from item_category where parent_id=:categoryId";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("categoryId", categoryId);
+//		paramSource.addValue("global_id", globalId);
+		List<ItemCategory> x = new ArrayList<ItemCategory>();
+		try{
+			x = jdbc.query(sql, paramSource, new ItemCategoryRowMapper());
+		}catch(EmptyResultDataAccessException ex){
+			x = null;
+		}
+		return x;
+	}
+
+	@Override
+	public void updateItemCategoryParent(long categoryId, long parentId, int level) {
+		final String TABLE1 = "item_category";
+		
+		StringBuffer sbf = new StringBuffer();
+		sbf.append("update "+TABLE1+" ");
+		sbf.append("set ");
+		sbf.append("parent_id = :parentId, ");
+		sbf.append("level = :level ");
+		
+		sbf.append("where ");
+		sbf.append("category_id = :categoryId");
+				
+		String sql = sbf.toString();
+		
+//		final Date dateCreate 			= new Date();
+//		final Date dateLastModified 	= dateCreate;
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+//		paramSource.addValue("global_id", news.getGlobalId());
+		paramSource.addValue("categoryId", categoryId);
+		paramSource.addValue("parentId", parentId);
+		paramSource.addValue("level", level);
+		
+		KeyHolder keyholder = new GeneratedKeyHolder();
+		jdbc.update(sql, paramSource, keyholder);
+		return;
+	}
+
+	@Override
+	public void deleteItemCategoryByCategoryId(long categoryId) {
+		String sql = "delete from item_category where category_id =:categoryId";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("categoryId", categoryId);
+		
+		KeyHolder keyholder = new GeneratedKeyHolder();
+		jdbc.update(sql, paramSource, keyholder);
+		return;
 	}
 
 }
