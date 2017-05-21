@@ -55,7 +55,7 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 
 	@Override
 	public List<ItemCategory> findAll() {
-		String sql = "select * from item_category where category_level > 0 AND parent_id < 10 order by category_level, category_code";
+		String sql = "select * from item_category where category_level > 0 order by category_level, category_code";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 //		paramSource.addValue("global_id", globalId);
 		List<ItemCategory> x = new ArrayList<ItemCategory>();
