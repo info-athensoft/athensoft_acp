@@ -39,11 +39,11 @@ public class ItemCategoryService {
 		return this.itemCategoryDao.findByCategoryId(categoryId);
 	}
 
-	public ItemCategory findByCategoryNo(long categoryNo) {
-		return this.itemCategoryDao.findByCategoryNo(categoryNo);
+	public ItemCategory findByCategoryCode(String categoryCode) {
+		return this.itemCategoryDao.findByCategoryCode(categoryCode);
 	}
 
-	public long createResultSaved(long parentId, String text, int parentLevel) {
+	public String createResultSaved(long parentId, String text, int parentLevel) {
 		return this.itemCategoryDao.createResultSaved(parentId, text, parentLevel);
 	}
 

@@ -10,13 +10,13 @@ public interface ItemCategoryDao {
 	
 	public ItemCategory findByCategoryId(long categoryId);
 	
-	public ItemCategory findByCategoryNo(long categoryNo);
+	public ItemCategory findByCategoryCode(String categoryCode);
 
 	void dragAndDropResultSaved(String orig, String dest);
 
 	void renameResultSaved(String key, String newText);
 
-	public long createResultSaved(long parentId, String text, int parentLevel);
+	public String createResultSaved(long parentId, String text, int parentLevel);
 
 	public List<ItemCategory> getChildren(long categoryId);
 

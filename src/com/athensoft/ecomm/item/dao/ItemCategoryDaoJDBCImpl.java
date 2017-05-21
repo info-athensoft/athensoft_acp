@@ -19,6 +19,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import com.athensoft.ecomm.item.entity.ItemCategory;
+import com.athensoft.util.UUIDHelper;
 
 @Component
 @Qualifier("itemCategoryDaoJDBCImpl")
@@ -35,13 +36,13 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 
 	@Override
 	public void dragAndDropResultSaved(String orig, String dest) {
-		System.out.println("dragAndDropResultSaved called in ItemCategoryJDBCImpl");
-		System.out.println("orig=" + orig + " dest=" + dest);
+		logger.info("dragAndDropResultSaved called in ItemCategoryJDBCImpl");
+		logger.info("orig=" + orig + " dest=" + dest);
 	}
 
 	@Override
 	public void renameResultSaved(String key, String newText) {
-		String sql = "update item_category set name =:newText where category_no =:key";
+		String sql = "update item_category set category_name =:newText where category_code =:key";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 		paramSource.addValue("newText", newText);
 		paramSource.addValue("key", key);
@@ -54,7 +55,7 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 
 	@Override
 	public List<ItemCategory> findAll() {
-		String sql = "select * from item_category where level>0 order by level";
+		String sql = "select * from item_category where category_level > 0 AND parent_id < 10 order by category_level, category_code";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 //		paramSource.addValue("global_id", globalId);
 		List<ItemCategory> x = new ArrayList<ItemCategory>();
@@ -70,10 +71,12 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		public ItemCategory mapRow(ResultSet rs, int rowNumber) throws SQLException {
 			ItemCategory x = new ItemCategory();
 			x.setCategoryId(rs.getLong("category_id"));
-			x.setCategoryNo(rs.getLong("category_no"));
-			x.setName(rs.getString("name"));
 			x.setParentId(rs.getLong("parent_id"));
-			x.setLevel(rs.getInt("level"));
+			x.setCategoryCode(rs.getString("category_code"));
+			x.setCategoryName(rs.getString("category_name"));
+			x.setCategoryDesc(rs.getString("category_desc"));
+			x.setCategoryLevel(rs.getInt("category_level"));
+			x.setCategoryStatus(rs.getInt("category_status"));
 	        return x;
 		}		
 	}
@@ -93,10 +96,10 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 	}
 
 	@Override
-	public ItemCategory findByCategoryNo(long categoryNo) {
-		String sql = "select * from item_category where category_no =:categoryNo";
+	public ItemCategory findByCategoryCode(String categoryCode) {
+		String sql = "select * from item_category where category_code =:categoryCode";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("categoryNo", categoryNo);
+		paramSource.addValue("categoryCode", categoryCode);
 		ItemCategory x = null;
 		try{
 			x = jdbc.queryForObject(sql, paramSource, new ItemCategoryRowMapper());
@@ -108,7 +111,7 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 	
 	@SuppressWarnings("deprecation")
 	private long getBiggestCategoryNo() {
-		String sql = "select category_no from item_category order by category_no desc limit 1";
+		String sql = "select category_code from item_category order by category_code desc limit 1";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 		long x;
 		try{
@@ -120,26 +123,27 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 	}
 
 	@Override
-	public long createResultSaved(long parentId, String text, int parentLevel) {
+	public String createResultSaved(long parentId, String text, int parentLevel) {
 		
 		final String TABLE1 = "item_category";
-		long newCategoryNo = this.getBiggestCategoryNo()+1;
+//		String newCategoryCode = this.getBiggestCategoryNo()+1;
+		String newCategoryCode = UUIDHelper.getUUID();
 		
 		StringBuffer sbf = new StringBuffer();
 		sbf.append("insert into "+TABLE1);
-		sbf.append("(category_no,name,parent_id,level) ");
-		sbf.append("values(:category_no,:name,:parent_id,:level)");
+		sbf.append("(category_code,category_name,parent_id,category_level) ");
+		sbf.append("values(:category_code,:category_name,:parent_id,:category_level)");
 		String sql = sbf.toString();
 		
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("category_no", newCategoryNo);
-		paramSource.addValue("name", text);
+		paramSource.addValue("category_code", newCategoryCode);
+		paramSource.addValue("category_name", text);
 		paramSource.addValue("parent_id", parentId);
-		paramSource.addValue("level", parentLevel+1);
+		paramSource.addValue("category_level", parentLevel+1);
 		
 		KeyHolder keyholder = new GeneratedKeyHolder();
 		jdbc.update(sql, paramSource, keyholder);
-		return newCategoryNo;
+		return newCategoryCode;
 	}
 
 	@Override
@@ -164,11 +168,11 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		StringBuffer sbf = new StringBuffer();
 		sbf.append("update "+TABLE1+" ");
 		sbf.append("set ");
-		sbf.append("parent_id = :parentId, ");
-		sbf.append("level = :level ");
+		sbf.append("parent_id = :parent_id, ");
+		sbf.append("category_level = :category_level ");
 		
 		sbf.append("where ");
-		sbf.append("category_id = :categoryId");
+		sbf.append("category_id = :category_id");
 				
 		String sql = sbf.toString();
 		
@@ -176,9 +180,9 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 //		final Date dateLastModified 	= dateCreate;
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
 //		paramSource.addValue("global_id", news.getGlobalId());
-		paramSource.addValue("categoryId", categoryId);
-		paramSource.addValue("parentId", parentId);
-		paramSource.addValue("level", level);
+		paramSource.addValue("category_id", categoryId);
+		paramSource.addValue("parent_id", parentId);
+		paramSource.addValue("category_level", level);
 		
 		KeyHolder keyholder = new GeneratedKeyHolder();
 		jdbc.update(sql, paramSource, keyholder);
@@ -187,9 +191,9 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 
 	@Override
 	public void deleteItemCategoryByCategoryId(long categoryId) {
-		String sql = "delete from item_category where category_id =:categoryId";
+		String sql = "delete from item_category where category_id =:category_id";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("categoryId", categoryId);
+		paramSource.addValue("category_id", categoryId);
 		
 		KeyHolder keyholder = new GeneratedKeyHolder();
 		jdbc.update(sql, paramSource, keyholder);

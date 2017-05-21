@@ -68,7 +68,7 @@ public class ItemCategoryAcpController {
 		//build jstree data
 		Node treeRootNode = new Node(null);
 	    treeRootNode.setText("Category Classification");
-	    treeRootNode.setState(Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "1")));
+	    treeRootNode.setState(Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "ROOT")));		//here ROOT is derived from table:item_category
 /*	  // add child to root node 
 	    Node parentNode = Node.addChild(treeRootNode, "My Parent Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "1")));
 
@@ -94,18 +94,21 @@ public class ItemCategoryAcpController {
 */
 	    List<ItemCategory> list = new ArrayList<ItemCategory>();
 	    list = this.itemCategoryService.findAll();
+	    
+	    logger.info("list size:= "+list.size());
+	    
 	    for (ItemCategory ic : list) {
 	    	long parent = ic.getParentId();
-//	    	logger.info("parent_id="+parent);
+	    	logger.info("parent_id="+parent);
 	    	ItemCategory p = this.itemCategoryService.findByCategoryId(parent);
-	    	long parentNo = p.getCategoryNo();
-//	    	logger.info("parent_no="+parentNo);
-	    	Node parentNode = Node.getNodeByKey(treeRootNode, Long.toString(parentNo));
-//	    	logger.info("parentNode.text="+parentNode.getText());
-	    	Node.addChild(parentNode, ic.getName(), Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", Long.toString(ic.getCategoryNo()))));
+	    	String parentCode = p.getCategoryCode();
+	    	logger.info("parent_code="+parentCode);
+	    	Node parentNode = Node.getNodeByKey(treeRootNode, parentCode);
+	    	logger.info("parentNode.text="+parentNode.getText());
+	    	Node.addChild(parentNode, ic.getCategoryName(), Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", ic.getCategoryCode())));
 	    }
 	    StringBuffer jsTreeData = Node.buildJSTree(treeRootNode, "  ").append("}");
-//	    System.out.println(jsTreeData);
+	    logger.info(jsTreeData);
 			
 		model.put("jsTreeData", "["+jsTreeData.toString()+"]");
 				
@@ -143,20 +146,20 @@ public class ItemCategoryAcpController {
 
 		// Save data to DB
 		List<ItemCategory> list = new ArrayList<ItemCategory>();
-		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(dest));
-		ItemCategory old = this.itemCategoryService.findByCategoryNo(Long.parseLong(orig));
-		int levelDifference = p.getLevel() - old.getLevel() + 1;
+		ItemCategory p = this.itemCategoryService.findByCategoryCode(dest);
+		ItemCategory old = this.itemCategoryService.findByCategoryCode(orig);
+		int levelDifference = p.getCategoryLevel() - old.getCategoryLevel() + 1;
 		list.add(old); //getDesendants does not include this node.
 		list = this.getDesendants(list, old.getCategoryId());
-		logger.info("p.level="+p.getLevel()+"  old.level="+old.getLevel()+"  levelDifference="+levelDifference);
+		logger.info("p.level="+p.getCategoryLevel()+"  old.level="+old.getCategoryLevel()+"  levelDifference="+levelDifference);
 
 		for (ItemCategory ic : list) {
-			if (Long.toString(ic.getCategoryNo()).equals(orig)) {
-				this.itemCategoryService.updateItemCategoryParent(ic.getCategoryId(),p.getCategoryId(),  p.getLevel()+1);
+			if (ic.getCategoryCode().equals(orig)) {
+				this.itemCategoryService.updateItemCategoryParent(ic.getCategoryId(),p.getCategoryId(),  p.getCategoryLevel()+1);
 			}
 			else {
 				if (levelDifference != 0) {
-					this.itemCategoryService.updateItemCategoryParent(ic.getCategoryId(), ic.getParentId(),  ic.getLevel()+levelDifference);
+					this.itemCategoryService.updateItemCategoryParent(ic.getCategoryId(), ic.getParentId(),  ic.getCategoryLevel()+levelDifference);
 				}
 			}
 		}		
@@ -183,15 +186,15 @@ public class ItemCategoryAcpController {
 		mav.setViewName(viewName);
 		
 		//service
-		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(parent));
+		ItemCategory p = this.itemCategoryService.findByCategoryCode(parent);
     	long parentId = p.getCategoryId();
-    	int parentLevel = p.getLevel();
-		long newCategoryNo = this.itemCategoryService.createResultSaved(parentId, text, parentLevel);
+    	int parentLevel = p.getCategoryLevel();
+		String newCategoryCode = this.itemCategoryService.createResultSaved(parentId, text, parentLevel);
 		
 		//data
 		Map<String, Object> model = mav.getModel();
 
-		String newKey = Long.toString(newCategoryNo);
+		String newKey = newCategoryCode;
 		model.put("parent", parent);
 		model.put("newKey", newKey);
 		
@@ -217,11 +220,11 @@ public class ItemCategoryAcpController {
 		
 		//test getDesendants
 		List<ItemCategory> list = new ArrayList<ItemCategory>();
-		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(key));		
+		ItemCategory p = this.itemCategoryService.findByCategoryCode(key);		
 		list = this.getDesendants(list, p.getCategoryId());
 		logger.info("list-size="+list.size());
 		for (ItemCategory ic : list) {
-			logger.info("category_id="+ic.getCategoryId()+" name="+ic.getName()+" category_no="+ic.getCategoryNo());
+			logger.info("category_id="+ic.getCategoryId()+" name="+ic.getCategoryName()+" category_no="+ic.getCategoryCode());
 		} 
 		//data
 		Map<String, Object> model = mav.getModel();
@@ -253,14 +256,14 @@ public class ItemCategoryAcpController {
 		// Save data to DB
 		List<ItemCategory> list = new ArrayList<ItemCategory>();
 //		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(parent));
-		ItemCategory old = this.itemCategoryService.findByCategoryNo(Long.parseLong(node));
+		ItemCategory old = this.itemCategoryService.findByCategoryCode(node);
 //		int levelDifference = p.getLevel() - old.getLevel() + 1;
 		list.add(old); //getDesendants does not include this node.
 		list = this.getDesendants(list, old.getCategoryId());
 //		logger.info("p.level="+p.getLevel()+"  old.level="+old.getLevel()+"  levelDifference="+levelDifference);
 
 		for (ItemCategory ic : list) {
-			if (ic.getLevel() != 0) {
+			if (ic.getCategoryLevel() != 0) {
 				this.itemCategoryService.deleteItemCategoryByCategoryId(ic.getCategoryId());
 			}
 			
@@ -315,18 +318,18 @@ public class ItemCategoryAcpController {
 		String newKeyString = ""; //parent + "-" + rand.nextInt((100) + 1);
 		Map<Long, Long> map = new HashMap<Long, Long>();
 		List<ItemCategory> list = new ArrayList<ItemCategory>();
-		ItemCategory p = this.itemCategoryService.findByCategoryNo(Long.parseLong(parent));
-		ItemCategory old = this.itemCategoryService.findByCategoryNo(Long.parseLong(oldNode));
+		ItemCategory p = this.itemCategoryService.findByCategoryCode(parent);
+		ItemCategory old = this.itemCategoryService.findByCategoryCode(oldNode);
 		list.add(old); //getDesendants does not include this node.
 		list = this.getDesendants(list, old.getCategoryId());
 //		logger.info("list-size="+list.size());
 		for (ItemCategory ic : list) {
 //			logger.info("category_id="+ic.getCategoryId()+" name="+ic.getName()+" category_no="+ic.getCategoryNo());
-			if (Long.toString(ic.getCategoryNo()).equals(oldNode)) {
+			if (ic.getCategoryCode().equals(oldNode)) {
 				
-				Long newKey = this.itemCategoryService.createResultSaved(p.getCategoryId(), text, p.getLevel());
-				newKeyString = Long.toString(newKey);
-				Long newId = this.itemCategoryService.findByCategoryNo(newKey).getCategoryId();
+				String newKey = this.itemCategoryService.createResultSaved(p.getCategoryId(), text, p.getCategoryLevel());
+				newKeyString = newKey;
+				Long newId = this.itemCategoryService.findByCategoryCode(newKey).getCategoryId();
 				map.put(ic.getCategoryId(), newId);
 			}
 			else {
@@ -334,8 +337,8 @@ public class ItemCategoryAcpController {
 				Long pId = map.get(ic.getParentId());
 				p = this.itemCategoryService.findByCategoryId(pId);
 //				logger.info("pId="+pId+"  p.getLevel()="+p.getLevel());
-				Long newParentNo = this.itemCategoryService.createResultSaved(pId, ic.getName(), p.getLevel());
-				Long newParentId = this.itemCategoryService.findByCategoryNo(newParentNo).getCategoryId();
+				String newParentCode = this.itemCategoryService.createResultSaved(pId, ic.getCategoryName(), p.getCategoryLevel());
+				Long newParentId = this.itemCategoryService.findByCategoryCode(newParentCode).getCategoryId();
 				map.put(ic.getCategoryId(), newParentId);
 			}
 		} 

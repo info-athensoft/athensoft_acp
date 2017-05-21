@@ -3,10 +3,13 @@ package com.athensoft.ecomm.item.entity;
 public class ItemCategory {
 
 	private long 		categoryId;
-	private String 		name;
-	private long 		categoryNo;
 	private long 		parentId;
-	private int			level;
+	private String 		categoryName;
+	private String 		categoryDesc;
+	private String 		categoryCode;
+	private int			categoryLevel;
+	private int			categoryStatus;
+	
 	
 	public long getCategoryId() {
 		return categoryId;
@@ -14,30 +17,51 @@ public class ItemCategory {
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public long getCategoryNo() {
-		return categoryNo;
-	}
-	public void setCategoryNo(long categoryNo) {
-		this.categoryNo = categoryNo;
-	}
 	public long getParentId() {
 		return parentId;
 	}
 	public void setParentId(long parentId) {
 		this.parentId = parentId;
 	}
-	public int getLevel() {
-		return level;
+	public String getCategoryName() {
+		return categoryName;
 	}
-	public void setLevel(int level) {
-		this.level = level;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
+	public String getCategoryDesc() {
+		return categoryDesc;
+	}
+	public void setCategoryDesc(String categoryDesc) {
+		this.categoryDesc = categoryDesc;
+	}
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+	public int getCategoryLevel() {
+		return categoryLevel;
+	}
+	public void setCategoryLevel(int categoryLevel) {
+		this.categoryLevel = categoryLevel;
+	}
+	public int getCategoryStatus() {
+		return categoryStatus;
+	}
+	public void setCategoryStatus(int categoryStatus) {
+		this.categoryStatus = categoryStatus;
+	}
+	
+	@Override
+	public String toString() {
+		return "ItemCategory [categoryId=" + categoryId + ", parentId=" + parentId + ", categoryName=" + categoryName
+				+ ", categoryDesc=" + categoryDesc + ", categoryCode=" + categoryCode + ", categoryLevel="
+				+ categoryLevel + ", categoryStatus=" + categoryStatus + "]";
+	}
+	
+	
 	
 	
 }
