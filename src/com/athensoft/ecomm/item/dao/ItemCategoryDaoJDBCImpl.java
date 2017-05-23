@@ -35,25 +35,6 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 	}
 
 	@Override
-	public void dragAndDropResultSaved(String orig, String dest) {
-		logger.info("dragAndDropResultSaved called in ItemCategoryJDBCImpl");
-		logger.info("orig=" + orig + " dest=" + dest);
-	}
-
-	@Override
-	public void renameResultSaved(String key, String newText) {
-		String sql = "update item_category set category_name =:newText where category_code =:key";
-		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("newText", newText);
-		paramSource.addValue("key", key);
-		
-		KeyHolder keyholder = new GeneratedKeyHolder();
-		jdbc.update(sql, paramSource, keyholder);
-		return;
-		
-	}
-
-	@Override
 	public List<ItemCategory> findAll() {
 		String sql = "select * from item_category where category_level > 0 order by category_level, category_code";
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
@@ -67,19 +48,33 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		return x;
 	}
 	
-	private static class ItemCategoryRowMapper implements RowMapper<ItemCategory>{
-		public ItemCategory mapRow(ResultSet rs, int rowNumber) throws SQLException {
-			ItemCategory x = new ItemCategory();
-			x.setCategoryId(rs.getLong("category_id"));
-			x.setParentId(rs.getLong("parent_id"));
-			x.setCategoryCode(rs.getString("category_code"));
-			x.setCategoryName(rs.getString("category_name"));
-			x.setCategoryDesc(rs.getString("category_desc"));
-			x.setCategoryLevel(rs.getInt("category_level"));
-			x.setCategoryStatus(rs.getInt("category_status"));
-	        return x;
-		}		
+	public List<ItemCategory> findTreeByCategoryId(int categoryId){
+		final String TABLE1 = "item_category";
+		
+		StringBuffer sbf = new StringBuffer();
+		sbf.append("SELECT ");
+		sbf.append("category_id,");
+		sbf.append("parent_id,");
+		sbf.append("category_code,");
+		sbf.append("category_name,");
+		sbf.append("category_desc,");
+		sbf.append("category_level,");
+		sbf.append("category_status,");
+		sbf.append("tree_ui_id ");
+		sbf.append("FROM "+TABLE1+ " ");
+		sbf.append("WHERE 1=1 ");
+		sbf.append("AND FIND_IN_SET(category_id, getChildList(:category_id)) ");
+		sbf.append("AND category_status == "+ItemCategory.STATUS_AVAILABLE+ " ");
+		sbf.append("ORDER BY category_code ");
+		
+		String sql = sbf.toString();
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("category_id", categoryId);
+		logger.info(sql);
+		return jdbc.query(sql, paramSource, new ItemCategoryRowMapper());
 	}
+	
+	
 
 	@Override
 	public ItemCategory findByCategoryId(long categoryId) {
@@ -108,18 +103,39 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		}
 		return x;
 	}
-	
-	@SuppressWarnings("deprecation")
-	private long getBiggestCategoryNo() {
-		String sql = "select category_code from item_category order by category_code desc limit 1";
-		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		long x;
-		try{
-			x = jdbc.queryForLong(sql, paramSource);
-		}catch(EmptyResultDataAccessException ex){
-			x = 0;
+
+	@Override
+		public List<ItemCategory> getChildren(long categoryId) {
+			String sql = "select * from item_category where parent_id=:categoryId";
+			MapSqlParameterSource paramSource = new MapSqlParameterSource();
+			paramSource.addValue("categoryId", categoryId);
+	//		paramSource.addValue("global_id", globalId);
+			List<ItemCategory> x = new ArrayList<ItemCategory>();
+			try{
+				x = jdbc.query(sql, paramSource, new ItemCategoryRowMapper());
+			}catch(EmptyResultDataAccessException ex){
+				x = null;
+			}
+			return x;
 		}
-		return x;
+
+	@Override
+	public void dragAndDropResultSaved(String orig, String dest) {
+		logger.info("dragAndDropResultSaved called in ItemCategoryJDBCImpl");
+		logger.info("orig=" + orig + " dest=" + dest);
+	}
+
+	@Override
+	public void renameResultSaved(String key, String newText) {
+		String sql = "update item_category set category_name =:newText where category_code =:key";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("newText", newText);
+		paramSource.addValue("key", key);
+		
+		KeyHolder keyholder = new GeneratedKeyHolder();
+		jdbc.update(sql, paramSource, keyholder);
+		return;
+		
 	}
 
 	@Override
@@ -144,21 +160,6 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		KeyHolder keyholder = new GeneratedKeyHolder();
 		jdbc.update(sql, paramSource, keyholder);
 		return newCategoryCode;
-	}
-
-	@Override
-	public List<ItemCategory> getChildren(long categoryId) {
-		String sql = "select * from item_category where parent_id=:categoryId";
-		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("categoryId", categoryId);
-//		paramSource.addValue("global_id", globalId);
-		List<ItemCategory> x = new ArrayList<ItemCategory>();
-		try{
-			x = jdbc.query(sql, paramSource, new ItemCategoryRowMapper());
-		}catch(EmptyResultDataAccessException ex){
-			x = null;
-		}
-		return x;
 	}
 
 	@Override
@@ -198,6 +199,33 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		KeyHolder keyholder = new GeneratedKeyHolder();
 		jdbc.update(sql, paramSource, keyholder);
 		return;
+	}
+
+	private static class ItemCategoryRowMapper implements RowMapper<ItemCategory>{
+		public ItemCategory mapRow(ResultSet rs, int rowNumber) throws SQLException {
+			ItemCategory x = new ItemCategory();
+			x.setCategoryId(rs.getLong("category_id"));
+			x.setParentId(rs.getLong("parent_id"));
+			x.setCategoryCode(rs.getString("category_code"));
+			x.setCategoryName(rs.getString("category_name"));
+			x.setCategoryDesc(rs.getString("category_desc"));
+			x.setCategoryLevel(rs.getInt("category_level"));
+			x.setCategoryStatus(rs.getInt("category_status"));
+	        return x;
+		}		
+	}
+
+	@SuppressWarnings("deprecation")
+	private long getBiggestCategoryNo() {
+		String sql = "select category_code from item_category order by category_code desc limit 1";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		long x;
+		try{
+			x = jdbc.queryForLong(sql, paramSource);
+		}catch(EmptyResultDataAccessException ex){
+			x = 0;
+		}
+		return x;
 	}
 
 }

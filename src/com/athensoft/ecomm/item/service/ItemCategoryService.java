@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 import com.athensoft.ecomm.item.dao.ItemCategoryDao;
 import com.athensoft.ecomm.item.entity.ItemCategory;
 
+/**
+ * @author Athens
+ *
+ */
 @Service
 public class ItemCategoryService {
 	
-	/**
-	 * DAO of ItemCategory
-	 */
 	@Autowired
 	@Qualifier("itemCategoryDaoJDBCImpl")
 	private ItemCategoryDao itemCategoryDao;
