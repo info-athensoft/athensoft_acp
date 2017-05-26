@@ -4212,15 +4212,55 @@
 			 * @param {jsTree} new_instance the instance of the new parent
 			 */
 			this.trigger('copy_node', { "node" : tmp, "original" : obj, "parent" : new_par.id, "position" : pos, "old_parent" : old_par, "old_position" : old_ins && old_ins._id && old_par && old_ins._model.data[old_par] && old_ins._model.data[old_par].children ? $.inArray(obj.id, old_ins._model.data[old_par].children) : -1,'is_multi' : (old_ins && old_ins._id && old_ins._id !== this._id), 'is_foreign' : (!old_ins || !old_ins._id), 'old_instance' : old_ins, 'new_instance' : this }, function(action, fdata) {
+				var json = [];//[{"roleId": "roleId", "permId": "permId"},{"roleId": "roleId2", "permId": "permId2"}];
+//				alert("children[0]="+this.get_node(fdata.node.children[0]).text);
+/*				var index;
+				var nodes = fdata.node.children;
+				for (index = 0; index < nodes.length; ++index) {
+				    alert("children["+index+"].id="+this.get_node(nodes[index]).id+" children["+index+"].text="+this.get_node(nodes[index]).text);
+				} */
+				
+				var stack = [{
+				    depth: 0,
+				    element: fdata.node.id
+				}];
+				var stackItem = 0;
+				var current;
+				var children, i, len;
+				var depth;
+				
+				json.push({"id":this.get_node(fdata.node.id).id, "text":this.get_node(fdata.node.id).text, "pid":fdata.parent, "pkey":this.get_node(fdata.parent).state.key});
+
+				while (current = stack[stackItem++]) {
+				    //get the arguments
+				    depth = current.depth;
+				    current = current.element;
+				    children = this.get_node(current).children;
+				    for (i = 0, len = children.length; i < len; i++) {
+				    	json.push({"id":this.get_node(children[i]).id, "text":this.get_node(children[i]).text, "pid":this.get_node(current).id, "pkey":""});
+//				    	alert("children["+i+"].id="+this.get_node(children[i]).id+" children["+i+"].text="+this.get_node(children[i]).text+" children["+i+"].parent="+this.get_node(children[i]).parent);
+				        stack.push({ //pass args via object or array
+				            element: children[i],
+				            depth: depth + 1
+				        });
+				    }
+				}
 				$.ajax({
 					type:"post",
 					url:"copyAndPatseResultSaved",
+					contentType: "application/json; charset=utf-8",
 					dataType:"json",
-					data: {	"parent" : this.get_node(fdata.parent).state.key, "oldNode" : fdata.original.state.key, "text" : fdata.original.text},
+//					data: {	"parent" : this.get_node(fdata.parent).state.key, "oldNode" : fdata.original.state.key, "text" : fdata.original.text},
+					data: JSON.stringify(json),
 					timeout : 5000,
 					success:function(data){
-						fdata.node.state['key'] = data.newKey; //location.reload(); //work around
-						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Old Node : ' + data.oldNode + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Node : ' + data.newKey);
+//						fdata.node.state['key'] = data.newKey; //location.reload(); //work around
+						//alert(data.newKeys);
+						var keys = data.newKeys;
+						for (var key,value in keys) {
+							alert(value);
+						}
+//						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Old Node : ' + data.oldNode + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Node : ' + data.newKey);
 					}		
 				});
 			});
