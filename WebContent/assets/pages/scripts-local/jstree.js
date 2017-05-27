@@ -4257,9 +4257,13 @@
 //						fdata.node.state['key'] = data.newKey; //location.reload(); //work around
 						//alert(data.newKeys);
 						var keys = data.newKeys;
-						for (var key,value in keys) {
-							alert(value);
-						}
+						//for (var key in keys) {
+						//	alert(value);
+						//}
+						$.each( keys, function(id,key){
+							//alert("id = " + id + " key = " + key);
+							fdata.new_instance.get_node(id).state.key = key;
+						})
 //						$('#event_result').html('Action : ' + action + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Parent : ' + data.parent + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Old Node : ' + data.oldNode + '&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; New Node : ' + data.newKey);
 					}		
 				});

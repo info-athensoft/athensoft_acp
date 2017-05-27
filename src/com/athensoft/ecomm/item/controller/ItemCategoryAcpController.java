@@ -394,8 +394,11 @@ public class ItemCategoryAcpController {
 			logger.info("id="+id+" text="+text+" pid="+pid+" pkey="+pkey);
 			
 			//DB op
-			
-			String newKey = "KEY" + keyNo++;
+			ItemCategory p = this.itemCategoryService.findByCategoryCode(pkey);
+	    	long parentId = p.getCategoryId();
+	    	int parentLevel = p.getCategoryLevel();
+			String newKey = this.itemCategoryService.createResultSaved(parentId, text, parentLevel);
+			//String newKey = "KEY" + keyNo++;
 //			if (!parentKeys.containsKey(id)) {
 				newKeys.put(id, newKey);
 //			}
