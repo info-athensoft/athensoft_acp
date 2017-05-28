@@ -118,6 +118,11 @@
 								Category List</a>
 							</li>
 							<li>
+								<a href="/acp/item/categoryListTree">
+								<i class="icon-paper-plane"></i>
+								Category List Tree</a>
+							</li>
+							<li>
 								<a href="/acp/item/categoryEdit">
 								<i class="icon-pencil"></i>
 								Category Edit</a>

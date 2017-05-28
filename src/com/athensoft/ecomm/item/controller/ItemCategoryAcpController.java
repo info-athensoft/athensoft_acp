@@ -96,6 +96,53 @@ public class ItemCategoryAcpController {
 	 * go to the view of item category
 	 * @return the target view name 
 	 */
+	@RequestMapping(value="/item/categoryListTree",produces="application/json")
+	@ResponseBody
+	public ModelAndView gotoCategoryListTree(){
+		logger.info("entering /item/categoryListTree");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//view
+		String viewName = "item/item_category_list_tree";
+		mav.setViewName(viewName);
+		
+		//data
+		Map<String, Object> model = mav.getModel();
+		
+		//build jstree data
+		Node treeRootNode = new Node(null);
+	    treeRootNode.setText("Category Classification");
+	    treeRootNode.setState(Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "ROOT")));		//here ROOT is derived from table:item_category
+
+	    List<ItemCategory> list = new ArrayList<ItemCategory>();
+	    list = this.itemCategoryService.findAll();
+	    
+	    logger.info("list size:= "+list.size());
+	    
+	    for (ItemCategory ic : list) {
+	    	long parent = ic.getParentId();
+	    	logger.info("parent_id="+parent);
+	    	ItemCategory p = this.itemCategoryService.findByCategoryId(parent);
+	    	String parentCode = p.getCategoryCode();
+	    	logger.info("parent_code="+parentCode);
+	    	Node parentNode = Node.getNodeByKey(treeRootNode, parentCode);
+	    	logger.info("parentNode.text="+parentNode.getText());
+	    	Node.addChild(parentNode, ic.getCategoryName(), Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", ic.getCategoryCode())));
+	    }
+	    StringBuffer jsTreeData = Node.buildJSTree(treeRootNode, "  ").append("}");
+	    logger.info(jsTreeData);
+			
+		model.put("jsTreeData", "["+jsTreeData.toString()+"]");
+				
+		logger.info("leaving /item/categoryListTree");
+		return mav;
+	}
+	
+	/**
+	 * go to the view of item category
+	 * @return the target view name 
+	 */
 	@RequestMapping(value="/item/samplecategory")
 	public String gotoSampleCategory(){
 		String viewName = "item/sample_item_category";
