@@ -19,6 +19,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import com.athensoft.ecomm.item.entity.ItemCategory;
+import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
 import com.athensoft.util.UUIDHelper;
 
 @Component
@@ -64,7 +65,7 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		sbf.append("FROM "+TABLE1+ " ");
 		sbf.append("WHERE 1=1 ");
 		sbf.append("AND FIND_IN_SET(category_id, getChildList(:category_id)) ");
-		sbf.append("AND category_status == "+ItemCategory.STATUS_AVAILABLE+ " ");
+		sbf.append("AND category_status == "+ItemCategoryStatus.AVAILABLE+ " ");
 		sbf.append("ORDER BY category_code ");
 		
 		String sql = sbf.toString();

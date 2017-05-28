@@ -2,9 +2,6 @@ package com.athensoft.ecomm.item.entity;
 
 public class ItemCategory {
 	
-	public static final int STATUS_AVAILABLE = 1;
-	public static final int STATUS_UNAVAILABLE = 0;
-
 	private long 		categoryId;
 	private long 		parentId;
 	private String 		categoryName;

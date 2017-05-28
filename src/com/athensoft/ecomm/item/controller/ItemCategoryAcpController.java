@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.athensoft.content.event.entity.Event;
+import com.athensoft.content.event.entity.News;
 import com.athensoft.ecomm.item.entity.ItemCategory;
+import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
 import com.athensoft.ecomm.item.service.ItemCategoryService;
 import com.athensoft.util.Node;
 
@@ -125,6 +128,34 @@ public class ItemCategoryAcpController {
 		String viewName = "item/sample_item_category";
 		return viewName;
 	}
+	
+	
+	@RequestMapping(value="/item/categoryListData",produces="application/json")
+	@ResponseBody
+	public Map<String,Object> getDataNewsList(){
+		logger.info("entering /event/eventsNewsListData");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//data
+		List<ItemCategory> listCategory = itemCategoryService.findAll();
+		logger.info("Length of news entries: "+ listCategory.size());
+		
+		String[][] data = getData(listCategory);
+		
+		Map<String, Object> model = mav.getModel();
+		
+		model.put("draw", new Integer(1));
+		model.put("recordsTotal", new Integer(5));
+		model.put("recordsFiltered", new Integer(5));
+		model.put("data", data);
+		model.put("customActionStatus","OK");
+		model.put("customActionMessage","Data loaded");
+		
+		logger.info("leaving /events/eventsNewsListData");
+		return model;
+	}
+	
 	
 	@RequestMapping(value="/item/dragAndDropResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
@@ -382,4 +413,89 @@ public class ItemCategoryAcpController {
 		return this.itemCategoryService.getChildren(categoryId);
 	} */
 	
+	
+	private String[][] getData(List<ItemCategory> listCategory){
+		int entryLength = listCategory.size();
+		final int COLUMN_NUM = 9;
+		String[][] data = new String[entryLength][COLUMN_NUM];
+		
+		String field0 = "";	//check box
+		String field1 = "";	//category id
+		String field2 = "";	//parent id
+		String field3 = "";	//category code
+		String field4 = "";	//category name
+		String field5 = "";	//category desc
+		String field6 = "";	//category level
+		String field7 = "";	//event status
+		String field8 = "";	//action
+		
+		for(int i=0; i<entryLength ; i++){			
+			field0 = "<input type='checkbox' name='id[]' value="+listCategory.get(i).getCategoryId()+">";
+			field1 = listCategory.get(i).getCategoryId()+"";
+			field2 = listCategory.get(i).getParentId()+"";
+			field3 = listCategory.get(i).getCategoryCode();
+			field4 = listCategory.get(i).getCategoryName();
+			field5 = listCategory.get(i).getCategoryDesc();
+			field6 = listCategory.get(i).getCategoryLevel()+"";
+			
+			int intCategoryStatus = listCategory.get(i).getCategoryStatus();
+			String[] categoryStatusPair = getCategoryStatusPair(intCategoryStatus);
+			String categoryStatusKey = categoryStatusPair[0];
+			String categoryStatus = categoryStatusPair[1];
+			field7 = "<span class='label label-sm label-"+categoryStatusKey+"'>"+categoryStatus+"</span>";
+//			field8 = "<a href='/acp/item/"+getAction(actionName)+"?eventUUID="+field1+"' class='btn btn-xs default btn-editable'><i class='fa fa-pencil'></i> "+actionName+"</a>";
+			field8 = "TODO";
+			
+			//logger.info("field8="+field8);
+			
+			data[i][0] = field0;
+			data[i][1] = field1;
+			data[i][2] = field2;
+			data[i][3] = field3;
+			data[i][4] = field4;
+			data[i][5] = field5;
+			data[i][6] = field6;
+			data[i][7] = field7;
+			data[i][8] = field8;
+		}
+		
+		return data;
+	}
+	
+	private String[] getCategoryStatusPair(int intCategoryStatus){
+		String[] statusPair = new String[2];
+		
+		String status = "";
+		String statusKey = "";
+		switch(intCategoryStatus){
+			case ItemCategoryStatus.AVAILABLE: 
+				status = "Available";
+				statusKey = "success";
+				break;
+			case ItemCategoryStatus.UNAVAILABLE: 
+				status = "Unavailable";
+				statusKey = "warning";
+				break;
+			case ItemCategoryStatus.DELETED: 
+				status = "Deleted";
+				statusKey = "default";
+				break;
+			case ItemCategoryStatus.DISCONTINUED: 
+				status = "Discontinued";
+				statusKey = "info";
+				break;
+			case ItemCategoryStatus.UPCOMIGN: 
+				status = "Upcoming";
+				statusKey = "danger";
+				break;
+			default: 
+				break;
+		}
+		
+		statusPair[0]=statusKey;
+		statusPair[1]=status;
+		
+		
+		return statusPair;
+	}
 }
