@@ -106,19 +106,19 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 	}
 
 	@Override
-		public List<ItemCategory> getChildren(long categoryId) {
-			String sql = "select * from item_category where parent_id=:categoryId";
-			MapSqlParameterSource paramSource = new MapSqlParameterSource();
-			paramSource.addValue("categoryId", categoryId);
-	//		paramSource.addValue("global_id", globalId);
-			List<ItemCategory> x = new ArrayList<ItemCategory>();
-			try{
-				x = jdbc.query(sql, paramSource, new ItemCategoryRowMapper());
-			}catch(EmptyResultDataAccessException ex){
-				x = null;
-			}
-			return x;
+	public List<ItemCategory> getChildren(long categoryId) {
+		String sql = "select * from item_category where parent_id=:categoryId";
+		MapSqlParameterSource paramSource = new MapSqlParameterSource();
+		paramSource.addValue("categoryId", categoryId);
+//		paramSource.addValue("global_id", globalId);
+		List<ItemCategory> x = new ArrayList<ItemCategory>();
+		try{
+			x = jdbc.query(sql, paramSource, new ItemCategoryRowMapper());
+		}catch(EmptyResultDataAccessException ex){
+			x = null;
 		}
+		return x;
+	}
 
 	@Override
 	public void dragAndDropResultSaved(String orig, String dest) {

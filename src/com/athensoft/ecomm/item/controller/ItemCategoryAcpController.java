@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.athensoft.content.event.entity.Event;
-import com.athensoft.content.event.entity.News;
 import com.athensoft.ecomm.item.entity.ItemCategory;
 import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
 import com.athensoft.ecomm.item.service.ItemCategoryService;
@@ -36,7 +34,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ItemCategoryAcpController {
 	
 	private static final Logger logger = Logger.getLogger(ItemCategoryAcpController.class);
-	private static Random rand = new Random();
 
 	/**
 	 * ItemCategory Service instance
@@ -52,13 +49,6 @@ public class ItemCategoryAcpController {
 	 * go to the view of item category
 	 * @return the target view name 
 	 */
-	/*
-	@RequestMapping(value="/item/testcategory")
-	public String gotoTestCategory(){
-		String viewName = "item/test_item_category";
-		return viewName;
-	} */
-	
 	@RequestMapping(value="/item/testcategory",produces="application/json")
 	@ResponseBody
 	public ModelAndView gotoTestCategory(){
@@ -77,29 +67,7 @@ public class ItemCategoryAcpController {
 		Node treeRootNode = new Node(null);
 	    treeRootNode.setText("Category Classification");
 	    treeRootNode.setState(Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "ROOT")));		//here ROOT is derived from table:item_category
-/*	  // add child to root node 
-	    Node parentNode = Node.addChild(treeRootNode, "My Parent Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "1")));
 
-	    // add child to the child node created above
-	    Node.addChild(parentNode, "Initially selected", Node.buildList(new AbstractMap.SimpleEntry<String, String>("selected", "true"), new AbstractMap.SimpleEntry<String, String>("key", "key-11")));
-	    Node.addChild(parentNode, "Custom Icon", "fa fa-warning icon-state-danger", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-12")));
-	    Node initiallyOpen = Node.addChild(parentNode, "Initially open", "fa fa-folder icon-state-success", Node.buildList(new AbstractMap.SimpleEntry<String, String>("opened", "true"), new AbstractMap.SimpleEntry<String, String>("key", "key-13"))); 
-	  // add child to the child node created above
-	    Node.addChild(initiallyOpen, "Another node", "fa fa-file icon-state-warning", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-131")));
-	  
-	    Node.addChild(parentNode, "Another Custom Icon", "fa fa-warning icon-state-warning", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-14")));
-	    Node.addChild(parentNode, "Disabled Node", "fa fa-check icon-state-success", Node.buildList(new AbstractMap.SimpleEntry<String, String>("disabled", "true"), new AbstractMap.SimpleEntry<String, String>("key", "key-15"))); 	  
-	  
-	    Node subNodes = Node.addChild(parentNode, "Sub Nodes", "fa fa-folder icon-state-danger", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-16"))); 
-	  // add child to the child node created above
-	    Node.addChild(subNodes, "Item 1", "fa fa-file icon-state-warning", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-161")));
-	    Node.addChild(subNodes, "Item 2", "fa fa-file icon-state-success", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-162")));
-	    Node.addChild(subNodes, "Item 3", "fa fa-file icon-state-default", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-163")));
-	    Node.addChild(subNodes, "Item 4", "fa fa-file icon-state-danger", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-164")));
-	    Node.addChild(subNodes, "Item 5", "fa fa-file icon-state-info", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-165")));
-	  
-	    Node.addChild(treeRootNode, "Another Node", Node.buildList(new AbstractMap.SimpleEntry<String, String>("key", "key-2")));
-*/
 	    List<ItemCategory> list = new ArrayList<ItemCategory>();
 	    list = this.itemCategoryService.findAll();
 	    
@@ -135,10 +103,14 @@ public class ItemCategoryAcpController {
 	}
 	
 	
+	/**
+	 * @return
+	 * @author Athens Zhang
+	 */
 	@RequestMapping(value="/item/categoryListData",produces="application/json")
 	@ResponseBody
-	public Map<String,Object> getDataNewsList(){
-		logger.info("entering /event/eventsNewsListData");
+	public Map<String,Object> getDataItemCategoryList(){
+		logger.info("entering /item/categoryListData");
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -157,7 +129,7 @@ public class ItemCategoryAcpController {
 		model.put("customActionStatus","OK");
 		model.put("customActionMessage","Data loaded");
 		
-		logger.info("leaving /events/eventsNewsListData");
+		logger.info("leaving /item/categoryListData");
 		return model;
 	}
 	
@@ -313,82 +285,19 @@ public class ItemCategoryAcpController {
 		logger.info("leaving /item/deleteResultSaved");
 		return model;
 	}
-/*	
-	@RequestMapping(value="/item/cutAndPatseResultSaved",method=RequestMethod.POST,produces="application/json")
-	@ResponseBody
-	public Map<String, Object> CutAndPatseResultSaved(@RequestParam String parent, @RequestParam String node){
-		logger.info("entering /item/cutAndPatseResultSaved");
-		
-		ModelAndView mav = new ModelAndView();
-		
-		//view
-		String viewName = "item/testcategory";
-		mav.setViewName(viewName);
-		
-		//data
-		Map<String, Object> model = mav.getModel();
-		model.put("parent", parent);
-		model.put("node", node);
-		
-		logger.info("Parent : " + parent + "      Moved Node : " + node);
-		
-		logger.info("leaving /item/cutAndPatseResultSaved");
-		return model;
-	} */
+
 	
-/*	@RequestMapping(value="/item/copyAndPatseResultSaved",method=RequestMethod.POST,produces="application/json")
-	@ResponseBody
-	public Map<String, Object> copyAndPatseResultSaved(@RequestParam String parent, @RequestParam String oldNode, @RequestParam String text){
-		logger.info("entering /item/copyAndPatseResultSaved");
-		
-		ModelAndView mav = new ModelAndView();
-		
-		//view
-		String viewName = "item/testcategory";
-		mav.setViewName(viewName);
-		
-		//data
-		Map<String, Object> model = mav.getModel();
-		
-		// Save data to DB
-		String newKeyString = ""; //parent + "-" + rand.nextInt((100) + 1);
-		Map<Long, Long> map = new HashMap<Long, Long>();
-		List<ItemCategory> list = new ArrayList<ItemCategory>();
-		ItemCategory p = this.itemCategoryService.findByCategoryCode(parent);
-		ItemCategory old = this.itemCategoryService.findByCategoryCode(oldNode);
-		list.add(old); //getDesendants does not include this node.
-		list = this.getDesendants(list, old.getCategoryId());
-//		logger.info("list-size="+list.size());
-		for (ItemCategory ic : list) {
-//			logger.info("category_id="+ic.getCategoryId()+" name="+ic.getName()+" category_no="+ic.getCategoryNo());
-			if (ic.getCategoryCode().equals(oldNode)) {
-				
-				String newKey = this.itemCategoryService.createResultSaved(p.getCategoryId(), text, p.getCategoryLevel());
-				newKeyString = newKey;
-				Long newId = this.itemCategoryService.findByCategoryCode(newKey).getCategoryId();
-				map.put(ic.getCategoryId(), newId);
-			}
-			else {
-//				logger.info("ic.getParentId()="+ic.getParentId());
-				Long pId = map.get(ic.getParentId());
-				p = this.itemCategoryService.findByCategoryId(pId);
-//				logger.info("pId="+pId+"  p.getLevel()="+p.getLevel());
-				String newParentCode = this.itemCategoryService.createResultSaved(pId, ic.getCategoryName(), p.getCategoryLevel());
-				Long newParentId = this.itemCategoryService.findByCategoryCode(newParentCode).getCategoryId();
-				map.put(ic.getCategoryId(), newParentId);
-			}
-		} 
-		
-		model.put("parent", parent);
-		model.put("oldNode", oldNode);
-		model.put("newKey", newKeyString);
-		
-		logger.info("Parent : " + parent + "      Old Node : " + oldNode + "      Text : " + text + "      New Key : " + newKeyString);
-		
-		logger.info("leaving /item/copyAndPatseResultSaved");
-		return model;
-	} */
-	
+	/**
+	 * Copy and paste a subtree from one place to another, the keys of the new subtree will be generated accordingly.
+	 * the result is persisted into database
+	 * @param json subtree to be copied, list of tree_id, text, parent tree_id, parent key
+	 * @return all the new generated tree ids as well as the associated value (category code) in a map
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 * @author Fangze Sun
+	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/item/copyAndPatseResultSaved", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public Map<String, Object> copyAndPatseResultSaved(@RequestBody final String json) throws JsonParseException, JsonMappingException, IOException{
@@ -404,21 +313,19 @@ public class ItemCategoryAcpController {
 		Map<String, Object> model = mav.getModel();
 		
 		HashMap<String, String> newKeys = new HashMap<String, String>();
-//		HashMap<String, String> selfKeys = new HashMap<String, String>();
-		int keyNo = 0;
 		
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();	//JSON to java object mapper
         
-        //my json variable have the ids that i need, but i dont know how to get them .
+        //my JSON variable have the IDs that i need, but i don't know how to get them .
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		list = mapper.readValue(json, List.class);
+		list = mapper.readValue(json, List.class);	//type not safe, to check it later
 		String id, text, pid, pkey;
 		for (Map<String, String> ids : list) {
 //			ids = mapper.readValue(json, HashMap.class);
-			id = ids.get("id");
-	        text = ids.get("text");
-	        pid = ids.get("pid");
-	        pkey = ids.get("pkey");
+			id 		= ids.get("id");		//tree id of category
+	        text 	= ids.get("text");		//category name
+	        pid 	= ids.get("pid");		//tree id of parent node
+	        pkey 	= ids.get("pkey");		//parent category code
 	        if ((pkey == "")) {
 	        	pkey = newKeys.get(pid);
 	        }
@@ -428,33 +335,12 @@ public class ItemCategoryAcpController {
 			ItemCategory p = this.itemCategoryService.findByCategoryCode(pkey);
 	    	long parentId = p.getCategoryId();
 	    	int parentLevel = p.getCategoryLevel();
-			String newKey = this.itemCategoryService.createResultSaved(parentId, text, parentLevel);
-			//String newKey = "KEY" + keyNo++;
-//			if (!parentKeys.containsKey(id)) {
-				newKeys.put(id, newKey);
-//			}
-			
-			
+			String newKey = this.itemCategoryService.createResultSaved(parentId, text, parentLevel);	//category code
+			newKeys.put(id, newKey);
 		}
+       
 		
-		/*
-         Map<String, String> ids;
-        
-			ids = mapper.readValue(json, HashMap.class);
-			String idRoleString = ids.get("roleId");
-	        String idPermString = ids.get("permId");
-			
-			logger.info("idRoleString="+idRoleString);
-			logger.info("idPermString="+idPermString);
-		*/
- 
-        
-		
-//		model.put("parent", parent);
-//		model.put("oldNode", oldNode);
 		model.put("newKeys", newKeys);
-		
-//		logger.info("Parent : " + parent + "      Old Node : " + oldNode + "      Text : " + text + "      New Key : " + newKeyString);
 		
 		logger.info("leaving /item/copyAndPatseResultSaved");
 		return model;
@@ -472,11 +358,14 @@ public class ItemCategoryAcpController {
 		return viewName;
 	}
 	
+	/**
+	 * @param list
+	 * @param categoryId
+	 * @return
+	 * @author Fangze Sun
+	 */
 	private List<ItemCategory> getDesendants(List<ItemCategory> list, long categoryId) {
 //		logger.info("entered getDesendants, categoryId="+categoryId+"  list-size="+list.size());
-/*		for (ItemCategory ci : getChildren(categoryId)) {
-			list.addAll(getDesendants(list, ci.getCategoryId()));
-		} */
 		List<ItemCategory> tmp = this.itemCategoryService.getChildren(categoryId);
 		list.addAll(tmp);
 		for (ItemCategory ci : tmp) {
@@ -484,12 +373,13 @@ public class ItemCategoryAcpController {
 		}
 		return list;
 	}
-/*
-	private List<ItemCategory> getChildren(long categoryId) {
-		return this.itemCategoryService.getChildren(categoryId);
-	} */
 	
 	
+	/**
+	 * @param listCategory
+	 * @return
+	 * @author Athens Zhang
+	 */
 	private String[][] getData(List<ItemCategory> listCategory){
 		int entryLength = listCategory.size();
 		final int COLUMN_NUM = 9;

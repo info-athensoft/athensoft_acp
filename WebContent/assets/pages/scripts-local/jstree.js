@@ -4211,6 +4211,11 @@
 			 * @param {jsTree} old_instance the instance the node came from
 			 * @param {jsTree} new_instance the instance of the new parent
 			 */
+			
+			/** 
+			 * modifed by Fangze Sun on 2017-05-27
+			 * added a call back function as an argument: function(action, fdata)
+			 */
 			this.trigger('copy_node', { "node" : tmp, "original" : obj, "parent" : new_par.id, "position" : pos, "old_parent" : old_par, "old_position" : old_ins && old_ins._id && old_par && old_ins._model.data[old_par] && old_ins._model.data[old_par].children ? $.inArray(obj.id, old_ins._model.data[old_par].children) : -1,'is_multi' : (old_ins && old_ins._id && old_ins._id !== this._id), 'is_foreign' : (!old_ins || !old_ins._id), 'old_instance' : old_ins, 'new_instance' : this }, function(action, fdata) {
 				var json = [];//[{"roleId": "roleId", "permId": "permId"},{"roleId": "roleId2", "permId": "permId2"}];
 //				alert("children[0]="+this.get_node(fdata.node.children[0]).text);
@@ -4254,11 +4259,14 @@
 					data: JSON.stringify(json),
 					timeout : 5000,
 					success:function(data){
+						
+						//edited by Fangze Sun on 2017-05-27
+						
 //						fdata.node.state['key'] = data.newKey; //location.reload(); //work around
 						//alert(data.newKeys);
 						var keys = data.newKeys;
 						//for (var key in keys) {
-						//	alert(value);
+						//	alert(keys[key]);
 						//}
 						$.each( keys, function(id,key){
 							//alert("id = " + id + " key = " + key);
