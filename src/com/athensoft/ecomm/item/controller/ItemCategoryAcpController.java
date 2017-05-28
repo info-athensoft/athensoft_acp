@@ -1,5 +1,6 @@
 package com.athensoft.ecomm.item.controller;
 
+import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,9 @@ import com.athensoft.ecomm.item.entity.ItemCategory;
 import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
 import com.athensoft.ecomm.item.service.ItemCategoryService;
 import com.athensoft.util.Node;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Athens
@@ -331,7 +336,7 @@ public class ItemCategoryAcpController {
 		return model;
 	} */
 	
-	@RequestMapping(value="/item/copyAndPatseResultSaved",method=RequestMethod.POST,produces="application/json")
+/*	@RequestMapping(value="/item/copyAndPatseResultSaved",method=RequestMethod.POST,produces="application/json")
 	@ResponseBody
 	public Map<String, Object> copyAndPatseResultSaved(@RequestParam String parent, @RequestParam String oldNode, @RequestParam String text){
 		logger.info("entering /item/copyAndPatseResultSaved");
@@ -379,6 +384,77 @@ public class ItemCategoryAcpController {
 		model.put("newKey", newKeyString);
 		
 		logger.info("Parent : " + parent + "      Old Node : " + oldNode + "      Text : " + text + "      New Key : " + newKeyString);
+		
+		logger.info("leaving /item/copyAndPatseResultSaved");
+		return model;
+	} */
+	
+	@RequestMapping(value="/item/copyAndPatseResultSaved", method=RequestMethod.POST, produces="application/json")
+	@ResponseBody
+	public Map<String, Object> copyAndPatseResultSaved(@RequestBody final String json) throws JsonParseException, JsonMappingException, IOException{
+		logger.info("entering /item/copyAndPatseResultSaved");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//view
+		String viewName = "item/testcategory";
+		mav.setViewName(viewName);
+		
+		//data
+		Map<String, Object> model = mav.getModel();
+		
+		HashMap<String, String> newKeys = new HashMap<String, String>();
+//		HashMap<String, String> selfKeys = new HashMap<String, String>();
+		int keyNo = 0;
+		
+		ObjectMapper mapper = new ObjectMapper();
+        
+        //my json variable have the ids that i need, but i dont know how to get them .
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		list = mapper.readValue(json, List.class);
+		String id, text, pid, pkey;
+		for (Map<String, String> ids : list) {
+//			ids = mapper.readValue(json, HashMap.class);
+			id = ids.get("id");
+	        text = ids.get("text");
+	        pid = ids.get("pid");
+	        pkey = ids.get("pkey");
+	        if ((pkey == "")) {
+	        	pkey = newKeys.get(pid);
+	        }
+			logger.info("id="+id+" text="+text+" pid="+pid+" pkey="+pkey);
+			
+			//DB op
+			ItemCategory p = this.itemCategoryService.findByCategoryCode(pkey);
+	    	long parentId = p.getCategoryId();
+	    	int parentLevel = p.getCategoryLevel();
+			String newKey = this.itemCategoryService.createResultSaved(parentId, text, parentLevel);
+			//String newKey = "KEY" + keyNo++;
+//			if (!parentKeys.containsKey(id)) {
+				newKeys.put(id, newKey);
+//			}
+			
+			
+		}
+		
+		/*
+         Map<String, String> ids;
+        
+			ids = mapper.readValue(json, HashMap.class);
+			String idRoleString = ids.get("roleId");
+	        String idPermString = ids.get("permId");
+			
+			logger.info("idRoleString="+idRoleString);
+			logger.info("idPermString="+idPermString);
+		*/
+ 
+        
+		
+//		model.put("parent", parent);
+//		model.put("oldNode", oldNode);
+		model.put("newKeys", newKeys);
+		
+//		logger.info("Parent : " + parent + "      Old Node : " + oldNode + "      Text : " + text + "      New Key : " + newKeyString);
 		
 		logger.info("leaving /item/copyAndPatseResultSaved");
 		return model;
