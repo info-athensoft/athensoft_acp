@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,7 +161,8 @@ public class ItemCategoryAcpController {
 		ModelAndView mav = new ModelAndView();
 		
 		//data
-		List<ItemCategory> listCategory = itemCategoryService.findAll();
+//		List<ItemCategory> listCategory = itemCategoryService.findAll();
+		List<ItemCategory> listCategory = itemCategoryService.findTreeByCategoryId(1);
 		logger.info("Length of news entries: "+ listCategory.size());
 		
 		String[][] data = getData(listCategory);
@@ -471,6 +471,9 @@ public class ItemCategoryAcpController {
 			data[i][7] = field7;
 			data[i][8] = field8;
 		}
+		
+		
+		
 		
 		return data;
 	}

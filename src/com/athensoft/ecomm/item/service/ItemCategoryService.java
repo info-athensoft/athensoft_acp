@@ -39,6 +39,11 @@ public class ItemCategoryService {
 	public ItemCategory findByCategoryId(long categoryId) {
 		return this.itemCategoryDao.findByCategoryId(categoryId);
 	}
+	
+	//findTreeByCategoryId
+	public List<ItemCategory> findTreeByCategoryId(int categoryId) {
+		return this.itemCategoryDao.findTreeByCategoryId(categoryId);
+	}
 
 	public ItemCategory findByCategoryCode(String categoryCode) {
 		return this.itemCategoryDao.findByCategoryCode(categoryCode);

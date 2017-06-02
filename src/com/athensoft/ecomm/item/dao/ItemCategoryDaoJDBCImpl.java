@@ -50,7 +50,7 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 	}
 	
 	public List<ItemCategory> findTreeByCategoryId(int categoryId){
-		final String TABLE1 = "item_category";
+		final String TABLE1 = "view_item_category_i18n";
 		
 		StringBuffer sbf = new StringBuffer();
 		sbf.append("SELECT ");
@@ -64,8 +64,9 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 		sbf.append("tree_ui_id ");
 		sbf.append("FROM "+TABLE1+ " ");
 		sbf.append("WHERE 1=1 ");
+		sbf.append("AND lang_no = 1033 ");
 		sbf.append("AND FIND_IN_SET(category_id, getChildList(:category_id)) ");
-		sbf.append("AND category_status == "+ItemCategoryStatus.AVAILABLE+ " ");
+		sbf.append("AND category_status = "+ItemCategoryStatus.AVAILABLE+ " ");
 		sbf.append("ORDER BY category_code ");
 		
 		String sql = sbf.toString();
