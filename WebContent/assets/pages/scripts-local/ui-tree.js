@@ -81,7 +81,13 @@ var UITree = function () {
         });
     }
 
-    var contextualMenuSample = function() { 
+    var contextualMenuSample = function() {
+    	
+    	$("#tree_search_input").keyup(function() {
+
+            var searchString = $(this).val();
+            $('#tree_3').jstree('search', searchString);
+        });
 
         $("#tree_3").jstree({
             "core" : {
@@ -101,7 +107,11 @@ var UITree = function () {
                 }
             },
             "state" : { "key" : "demo2" },
-            "plugins" : [ "contextmenu", "dnd", "state", "types" ]
+            "search": {
+                "case_insensitive": true,
+                "show_only_matches" : true
+            },
+            "plugins" : [ "contextmenu", "dnd", "state", "types", "search" ]
         })
 /*        .on('changed.jstree', function (e, data) {
 //        	alert($("#tree_3").jstree().get_selected(true)[0].text); //ok
