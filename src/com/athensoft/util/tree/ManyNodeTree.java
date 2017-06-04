@@ -133,7 +133,7 @@ public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
 
 				if (index.getChildList() != null && index.getChildList().size() > 0) {
 					LEVEL++;
-					buffer.append(iteratorTree(index));
+					buffer.append(iteratorTreeAsArray(index));
 					LEVEL--;
 				}
 			}

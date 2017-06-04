@@ -8,10 +8,13 @@
 
 	<context:annotation-config></context:annotation-config>
 	<context:component-scan 
+		base-package="com.athensoft.ecomm.item.dao">
+	</context:component-scan>
+	<context:component-scan 
 		base-package="com.athensoft.ecomm.order.dao">
 	</context:component-scan>
 	<context:component-scan 
-		base-package="com.athensoft.ecomm.item.dao">
+		base-package="com.athensoft.ecomm.invoice.dao">
 	</context:component-scan>
 	<context:component-scan 
 		base-package="com.athensoft.content.event.dao">
