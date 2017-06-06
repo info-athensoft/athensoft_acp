@@ -119,8 +119,6 @@ public class ManyNodeTree {
 
 	
 public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
-
-		
 		
 		StringBuilder buffer = new StringBuilder();
 		//buffer.append("\n");
