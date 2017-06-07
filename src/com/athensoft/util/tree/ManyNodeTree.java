@@ -159,56 +159,60 @@ public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
 		}
 		return sbf.toString();
 	}
-
-	public static void main(String[] args) {
-		
-		String[][] data = new String[11][4];
-		data[0] = new String[]{"系统权限管理", "1","a","b"};
-		data[1] = new String[]{"用户管理", "系统权限管理","a","b"};
-		data[2] = new String[]{"用户管理", "系统权限管理","a","b"};
-		data[3] = new String[]{"用户管理", "系统权限管理","a","b"};
-		data[4] = new String[]{"用户菜单管理", "系统权限管理","a","b"};
-		data[5] = new String[]{"角色菜单管理", "系统权限管理","a","b"};
-		data[6] = new String[]{"用户权限管理", "系统权限管理","a","b"};
-		data[7] = new String[]{"站内信", "1","a","b"};
-		data[8] = new String[]{"写信", "站内信","a","b"};
-		data[9] = new String[]{"收信", "站内信","a","b"};
-		data[10] = new String[]{"草稿", "站内信","a","b"};
-		
-		
+	
+	public static void printArray(String[][] array){
+		for(int i=0; i<array.length; i++){
+			for(int j=0; j<array[0].length; j++){
+				System.out.print(array[i][j]+"\t");
+			}
+			System.out.println("\n");
+		}
+	}
+	
+	
+	
+	public static String[][] getPreOrderTreeAsArray(String[][] orignalData){
 		List<TreeNode> treeNodes = new ArrayList<TreeNode>();
-		treeNodes.add(new TreeNode("系统权限管理", "1",data[0]));
-		treeNodes.add(new TreeNode("用户管理", "系统权限管理",data[1]));
-		treeNodes.add(new TreeNode("用户管理", "系统权限管理",data[2]));
-		treeNodes.add(new TreeNode("用户管理", "系统权限管理",data[3]));
-		treeNodes.add(new TreeNode("用户菜单管理", "系统权限管理",data[4]));
-		treeNodes.add(new TreeNode("角色菜单管理", "系统权限管理",data[5]));
-		treeNodes.add(new TreeNode("用户权限管理", "系统权限管理",data[6]));
-		treeNodes.add(new TreeNode("站内信", "1",data[7]));
-		treeNodes.add(new TreeNode("写信", "站内信",data[8]));
-		treeNodes.add(new TreeNode("收信", "站内信",data[9]));
-		treeNodes.add(new TreeNode("草稿", "站内信",data[10]));
 		
-//		treeNodes.add(new TreeNode(2, 1));
-//		treeNodes.add(new TreeNode(3, 1));
-//		treeNodes.add(new TreeNode(4, 1));
-//		
-//		treeNodes.add(new TreeNode(5, 2));
-//		treeNodes.add(new TreeNode(6, 2));
-//		treeNodes.add(new TreeNode(7, 2));
-//		
-//		treeNodes.add(new TreeNode(8, 5));
-//		treeNodes.add(new TreeNode(9, 5));
-//		treeNodes.add(new TreeNode(10, 5));
-
+		for(int i=0; i<orignalData.length; i++){
+			treeNodes.add(new TreeNode(orignalData[i][1], orignalData[i][2],orignalData[i]));
+		}
+		
+		
 		ManyNodeTree tree = new ManyNodeTree();
 		
 		tree = tree.createTree(treeNodes);
 
-		System.out.println(tree.iteratorTree(tree.getRoot()));
+		//System.out.println(tree.iteratorTree(tree.getRoot()));
 		
 		
 		List<Object> list = tree.iteratorTreeAsArray(tree.getRoot());
-		System.out.println(list.size());
+		//System.out.println(list.size());
+		String[][] resData = new String[list.size()][orignalData[0].length];
+		for(int i=0; i<list.size();i++){
+			resData[i]=(String[])list.get(i);
+		}
+		
+		return resData;
+	}
+	
+
+	public static void main(String[] args) {
+		
+		String[][] data = new String[11][4];
+		data[0] = new String[]{"","系统权限管理", "1","a","b"};
+		data[1] = new String[]{"","用户管理", "系统权限管理","a","b"};
+		data[2] = new String[]{"","用户管理", "系统权限管理","a","b"};
+		data[3] = new String[]{"","用户管理", "系统权限管理","a","b"};
+		data[4] = new String[]{"","用户菜单管理", "系统权限管理","a","b"};
+		data[5] = new String[]{"","角色菜单管理", "系统权限管理","a","b"};
+		data[6] = new String[]{"","用户权限管理", "系统权限管理","a","b"};
+		data[7] = new String[]{"","站内信", "1","a","b"};
+		data[8] = new String[]{"","写信", "站内信","a","b"};
+		data[9] = new String[]{"","收信", "站内信","a","b"};
+		data[10] = new String[]{"","草稿", "站内信","a","b"};
+		
+		printArray(getPreOrderTreeAsArray(data));
+		
 	}
 }

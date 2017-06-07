@@ -39,10 +39,13 @@ var ItemCategoryList = function () {
                 "pageLength": 200, // default record count per page
                 "ajax": {
                     "url": "/acp/item/categoryListData", // ajax source
-                },
-                "order": [
-                    [1, "asc"]
-                ] // set first column as a default sort by asc
+                }
+            	//,
+                //"order": [
+                 //   [1, "asc"]
+                //] // set first column as a default sort by asc
+            	//modified by Athens on 2017-06-06
+            
             }
         });
 

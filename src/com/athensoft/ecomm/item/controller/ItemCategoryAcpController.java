@@ -21,6 +21,7 @@ import com.athensoft.ecomm.item.entity.ItemCategory;
 import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
 import com.athensoft.ecomm.item.service.ItemCategoryService;
 import com.athensoft.util.Node;
+import com.athensoft.util.tree.ManyNodeTree;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -166,6 +167,8 @@ public class ItemCategoryAcpController {
 		logger.info("Length of news entries: "+ listCategory.size());
 		
 		String[][] data = getData(listCategory);
+		
+		ManyNodeTree.printArray(data);
 		
 		Map<String, Object> model = mav.getModel();
 		
@@ -472,8 +475,12 @@ public class ItemCategoryAcpController {
 			data[i][8] = field8;
 		}
 		
+		System.out.println(">>>>>>>>>>");
+		ManyNodeTree.printArray(data);		
 		
-		
+		System.out.println(">>>>>>>>>>");
+		data = ManyNodeTree.getPreOrderTreeAsArray(data);
+		ManyNodeTree.printArray(data);
 		
 		return data;
 	}
