@@ -10,6 +10,7 @@
 				<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
 				<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 				<ul class="page-sidebar-menu page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+					<!-- Overview Dashboard -->
 					<li class="start active ">
 						<a href="/acp/index">
 						<i class="icon-home"></i>
@@ -18,47 +19,70 @@
 						</a>
 					</li>
 					
+					
+					<!-- E-Commerce System -->
 					<li>
 						<a href="javascript:;">
-						<i class="icon-globe"></i>
-						<span class="title">My eCommerce</span>
+						<i class="icon-basket"></i>
+						<span class="title">E-Commerce</span>
 						<span class="arrow "></span>
 						</a>
 						<ul class="sub-menu">
-							<li>
-								<a href="ecommerce_index.html">
-								<i class="icon-home"></i>
-								Dashboard</a>
-							</li>
+							<!-- E-Commerce Dashboard -->
 							<li>
 								<a href="#">
-								<i class="icon-home"></i>
-								My News<span class="arrow"></a>
+								<i class="icon-bar-chart"></i>
+								Dashboard</a>
+							</li>
+							
+							
+							<li>
+								<a href="#">
+								<i class="icon-basket-loaded"></i>
+								Order<span class="arrow"></span></a>
 								<ul class="sub-menu">
-								<li>
-									<a href="/acp/events/eventsNewsList">
-									<i class="icon-pencil"></i>
-									News List</a>
-								</li>
-								<li>
-									<a href="/acp/events/eventsNewsList">
-									<i class="icon-paper-plane"></i>
-									News Edit</a>
-								</li>
-								<li>
-									<a href="/acp/events/eventsNewsCreate">
-									<i class="icon-paper-plane"></i>
-									News Create</a>
-								</li>
-								<li>
-									<a href="/acp/events/eventsNewsDelete">
-									<i class="icon-paper-plane"></i>
-									News Remove - Admin</a>
-								</li>
+									<li>
+										<a href="/acp/orders">
+										<i class="icon-eye"></i>
+										Order List</a>
+									</li>
+									<li>
+										<a href="/acp/ecomm/ordersview">
+										<i class="icon-eye"></i>
+										Orders View</a>
+									</li>
 								</ul>
 							</li>
 							
 							
+							<li>
+								<a href="#">
+								<i class="icon-tag"></i>
+								Sale<span class="arrow"></span></a>
+								<ul class="sub-menu">
+									<li>
+										<a href="#">
+										<i class="icon-tag"></i>
+										Pricing</a>
+									</li>
+								</ul>
+							</li>
+							
+							
+							<li>
+								<a href="#">
+								<i class="icon-home"></i>
+								Inventory<span class="arrow"></span></a>
+								<ul class="sub-menu">
+									<li>
+										<a href="#">
+										<i class="icon-pencil"></i>
+										Inventory</a>
+									</li>
+								</ul>
+							</li>
+							
+							<!--
 							<li>
 								<a href="/acp/orders">
 								<i class="icon-doc"></i>
@@ -69,7 +93,7 @@
 								<i class="icon-doc"></i>
 								Orders View</a>
 							</li>
-							<!-- 
+							 
 							<li>
 								<a href="ecommerce_index.html">
 								<i class="icon-doc"></i>
@@ -89,103 +113,214 @@
 						</ul>
 					</li>
 					
-					<!-- product system -->
+					<!-- Item system -->
 					<li>
 						<a href="javascript:;">
-						<i class="icon-user"></i>
-						<span class="title">My Products</span>
+						<i class="icon-social-dropbox"></i>
+						<span class="title">Item</span>
 						<span class="arrow "></span>
 						</a>
 						<ul class="sub-menu">
 							<li>
-								<a href="#">
-								<i class="icon-home"></i>
+								<a href="/acp/item/dashboard">
+								<i class="icon-bar-chart"></i>
 								Dashboard</a>
 							</li>
 							<li>
-								<a href="/acp/item/testcategory">
-								<i class="icon-paper-plane"></i>
-								Category Test</a>
+								<a href="#">
+								<i class="icon-drawer"></i>
+								Product Category</a>
+								<ul class="sub-menu">
+									<li>
+										<a href="/acp/item/testcategory">
+										<i class="icon-paper-plane"></i>
+										Category Test</a>
+									</li>
+									<li>
+										<a href="/acp/item/samplecategory">
+										<i class="icon-paper-plane"></i>
+										Category Sample</a>
+									</li>
+									<li>
+										<a href="/acp/item/categoryList">
+										<i class="icon-paper-plane"></i>
+										Category List</a>
+									</li>
+									<li>
+										<a href="/acp/item/categoryListTree">
+										<i class="icon-paper-plane"></i>
+										Category List Tree</a>
+									</li>
+									<li>
+										<a href="/acp/item/categoryEdit">
+										<i class="icon-pencil"></i>
+										Category Edit</a>
+									</li>
+								</ul>
+								
 							</li>
+							
+							
 							<li>
-								<a href="/acp/item/samplecategory">
-								<i class="icon-paper-plane"></i>
-								Category Sample</a>
+								<a href="#">
+								<i class="icon-social-dropbox"></i>
+								Product</a>
+								<ul class="sub-menu">
+									<li>
+										<a href="/acp/item/productList">
+										<i class="icon-eye"></i>
+										Product List</a>
+									</li>
+									<li>
+										<a href="/acp/item/productEdit">
+										<i class="icon-pencil"></i>
+										Product Edit</a>
+									</li>
+									<li>
+										<a href="/acp/item/productEdit">
+										<i class="icon-grid"></i>
+										Product Mix</a>
+									</li>
+								</ul>
 							</li>
+							
+							
 							<li>
-								<a href="/acp/item/categoryList">
-								<i class="icon-paper-plane"></i>
-								Category List</a>
+								<a href="#">
+								<i class="icon-drawer"></i>
+								Service Category</a>
+								<ul class="sub-menu">
+									<li>
+										<a href="/acp/item/testcategory">
+										<i class="icon-paper-plane"></i>
+										Category Test</a>
+									</li>
+									<li>
+										<a href="/acp/item/samplecategory">
+										<i class="icon-paper-plane"></i>
+										Category Sample</a>
+									</li>
+									<li>
+										<a href="/acp/item/categoryList">
+										<i class="icon-eye"></i>
+										Category List</a>
+									</li>
+									<li>
+										<a href="/acp/item/categoryListTree">
+										<i class="icon-eye"></i>
+										Category List Tree</a>
+									</li>
+									<li>
+										<a href="/acp/item/categoryEdit">
+										<i class="icon-pencil"></i>
+										Category Edit</a>
+									</li>
+								</ul>
 							</li>
+							
+							
 							<li>
-								<a href="/acp/item/categoryListTree">
-								<i class="icon-paper-plane"></i>
-								Category List Tree</a>
+								<a href="#">
+								<i class="icon-briefcase"></i>
+								Service</a>
+								<ul class="sub-menu">
+									<li>
+										<a href="/acp/item/serviceList">
+										<i class="icon-paper-plane"></i>
+										Service List</a>
+									</li>
+									<li>
+										<a href="/acp/item/serviceEdit">
+										<i class="icon-pencil"></i>
+										Service Edit</a>
+									</li>
+								</ul>
 							</li>
-							<li>
-								<a href="/acp/item/categoryEdit">
-								<i class="icon-pencil"></i>
-								Category Edit</a>
-							</li>
-							<li>
-								<a href="/acp/item/productList">
-								<i class="icon-paper-plane"></i>
-								Product List</a>
-							</li>
-							<li>
-								<a href="/acp/item/productEdit">
-								<i class="icon-pencil"></i>
-								Product Edit</a>
-							</li>
+							
 						</ul>
 					</li>
 					<!-- end product system -->
 					
+					<!-- customer, CRM system -->
+					<li>
+						<a href="#">
+						<i class="icon-users"></i>
+						<span class="title">Customer</span>
+						<span id="menu-dashborad"></span>
+						</a>
+					</li>
+					
+					<!-- supplier system -->
+					<li>
+						<a href="#">
+						<i class="icon-users"></i>
+						<span class="title">Supplier</span>
+						<span id="menu-dashborad"></span>
+						</a>
+					</li>
+					
+					
 					<!-- event system -->
 					<li class="start active ">
 						<a href="javascript:;">
-						<i class="icon-user"></i>
-						<span class="title">My Events</span>
+						<i class="icon-note"></i>
+						<span class="title">Event</span>
 						<span class="arrow "></span>
 						<span id="menu-myevents"></span>
 						</a>
 						<ul class="sub-menu">
 							<li>
-								<a href="/acp/events/eventsDashboard">
-								<i class="icon-home"></i>
+								<a href="/acp/event/dashboard">
+								<i class="icon-bar-chart"></i>
 								Dashboard</a>
 								
 							</li>
 							<li>
 								<a href="#">
-								<i class="icon-home"></i>
-								My News<span class="arrow"></a>
+								<i class="icon-bell"></i>
+								News<span class="arrow"></span></a>
 								<ul class="sub-menu">
 								<li>
 									<a href="/acp/events/eventsNewsList">
-									<i class="icon-pencil"></i>
+									<i class="icon-eye"></i>
 									News List</a>
 								</li>
 								<li>
 									<a href="/acp/events/eventsNewsList">
-									<i class="icon-paper-plane"></i>
+									<i class="icon-pencil"></i>
 									News Edit</a>
 								</li>
 								<li>
 									<a href="/acp/events/eventsNewsCreate">
-									<i class="icon-paper-plane"></i>
+									<i class="icon-pencil"></i>
 									News Create</a>
 								</li>
 								<li>
 									<a href="/acp/events/eventsNewsDelete">
-									<i class="icon-paper-plane"></i>
+									<i class="icon-key"></i>
 									News Remove - Admin</a>
 								</li>
 								</ul>
 							</li>
+							<li>
+								<a href="#">
+								<i class="icon-bell"></i>
+								Activity<span class="arrow"></span></a>
+							</li>
 						</ul>
 					</li>
 					<!-- end event system -->
+					
+					
+					<!-- system settings -->
+					<li>
+						<a href="#">
+						<i class="icon-settings"></i>
+						<span class="title">System</span>
+						<span id="menu-dashborad"></span>
+						</a>
+					</li>
+					
 					
 					<!-- 
 					<li>

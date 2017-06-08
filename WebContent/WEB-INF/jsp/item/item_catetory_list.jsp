@@ -116,11 +116,11 @@ License: You must have a valid license purchased only from themeforest(the above
 								<i class="fa fa-angle-right"></i>
 							</li>
 							<li>
-								<a href="eventsDashboard">Events</a>
+								<a href="eventsDashboard">Item System</a>
 								<i class="fa fa-angle-right"></i>
 							</li>
 							<li>
-								<a href="#">News</a>
+								<a href="#">Category Management</a>
 							</li>
 						</ul>
                         <div class="page-toolbar">
@@ -196,8 +196,8 @@ License: You must have a valid license purchased only from themeforest(the above
 													<th width="8%">Parent ID</th>
 													<th width="20%">Category Code</th>
 													<th width="15%">Category Name</th>
-													<th width="5%">Date&nbsp;Post</th>
-													<th width="6%">Views</th>
+													<th width="5%">Description</th>
+													<th width="6%">Level</th>
 													<th width="8%">Status</th>
 													<th width="8%">Actions</th>
                                                 </tr>

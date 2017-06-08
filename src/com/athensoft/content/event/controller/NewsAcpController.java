@@ -70,7 +70,7 @@ public class NewsAcpController {
 	 * go to the view of event dashboard
 	 * @return the target view name
 	 */
-	@RequestMapping(value="/events/eventsDashboard")
+	@RequestMapping(value="/event/dashboard")
 	public String gotoDashboard(){
 		String viewName = "event/event_dashboard";
 		return viewName;

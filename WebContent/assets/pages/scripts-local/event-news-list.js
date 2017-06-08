@@ -42,7 +42,7 @@ var EventNewsList = function () {
                     //"url": "http://localhost:8080/acp/events/eventsNewsListData?length=3", // ajax source
                 },
                 "order": [
-                    [1, "asc"]
+                    [5, "desc"]	//set to date post as default sorting column, modified by Athens on 2017-06-07
                 ] // set first column as a default sort by asc
             }
         });
