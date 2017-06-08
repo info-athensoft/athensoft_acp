@@ -1,4 +1,4 @@
-package com.athensoft.util;
+package com.athensoft.util.id;
 
 import java.util.UUID;
 

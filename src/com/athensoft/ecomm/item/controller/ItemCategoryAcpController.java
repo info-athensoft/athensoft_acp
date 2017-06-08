@@ -21,6 +21,7 @@ import com.athensoft.ecomm.item.entity.ItemCategory;
 import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
 import com.athensoft.ecomm.item.service.ItemCategoryService;
 import com.athensoft.util.Node;
+import com.athensoft.util.matrix.ArrayHelper;
 import com.athensoft.util.tree.ManyNodeTree;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -168,7 +169,7 @@ public class ItemCategoryAcpController {
 		
 		String[][] data = getData(listCategory);
 		
-		ManyNodeTree.printArray(data);
+		ArrayHelper.printArray(data);
 		
 		Map<String, Object> model = mav.getModel();
 		
@@ -476,11 +477,11 @@ public class ItemCategoryAcpController {
 		}
 		
 		System.out.println(">>>>>>>>>>");
-		ManyNodeTree.printArray(data);		
+		ArrayHelper.printArray(data);		
 		
 		System.out.println(">>>>>>>>>>");
 		data = ManyNodeTree.getPreOrderTreeAsArray(data);
-		ManyNodeTree.printArray(data);
+		ArrayHelper.printArray(data);
 		
 		return data;
 	}

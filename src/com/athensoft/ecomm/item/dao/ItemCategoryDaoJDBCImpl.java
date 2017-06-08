@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.athensoft.ecomm.item.entity.ItemCategory;
 import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
-import com.athensoft.util.UUIDHelper;
+import com.athensoft.util.id.UUIDHelper;
 
 @Component
 @Qualifier("itemCategoryDaoJDBCImpl")

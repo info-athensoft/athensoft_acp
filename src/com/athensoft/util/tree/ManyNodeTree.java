@@ -3,8 +3,7 @@ package com.athensoft.util.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.athensoft.util.tree.ManyTreeNode;
-import com.athensoft.util.tree.TreeNode;
+import com.athensoft.util.matrix.ArrayHelper;
 
 /**
  * 多叉树生成、遍历工具
@@ -160,14 +159,7 @@ public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
 		return sbf.toString();
 	}
 	
-	public static void printArray(String[][] array){
-		for(int i=0; i<array.length; i++){
-			for(int j=0; j<array[0].length; j++){
-				System.out.print(array[i][j]+"\t");
-			}
-			System.out.println("\n");
-		}
-	}
+	
 	
 	
 	
@@ -212,7 +204,7 @@ public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
 		data[9] = new String[]{"","收信", "站内信","a","b"};
 		data[10] = new String[]{"","草稿", "站内信","a","b"};
 		
-		printArray(getPreOrderTreeAsArray(data));
+		ArrayHelper.printArray(getPreOrderTreeAsArray(data));
 		
 	}
 }

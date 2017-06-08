@@ -20,7 +20,7 @@ import com.athensoft.content.event.entity.EventMedia;
 import com.athensoft.content.event.entity.News;
 import com.athensoft.content.event.service.EventMediaService;
 import com.athensoft.content.event.service.NewsService;
-import com.athensoft.util.UUIDHelper;
+import com.athensoft.util.id.UUIDHelper;
 
 /**
  * News Controller for ACP
