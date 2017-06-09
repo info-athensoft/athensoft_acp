@@ -164,12 +164,13 @@ public class ItemCategoryAcpController {
 		
 		//data
 //		List<ItemCategory> listCategory = itemCategoryService.findAll();
-		List<ItemCategory> listCategory = itemCategoryService.findTreeByCategoryId(1);
+		List<ItemCategory> listCategory = new ArrayList<ItemCategory>();
+		listCategory = itemCategoryService.findTreeByCategoryId(1);
 		logger.info("Length of news entries: "+ listCategory.size());
 		
 		String[][] data = getData(listCategory);
 		
-		ArrayHelper.printArray(data);
+		//ArrayHelper.printArray(data);
 		
 		Map<String, Object> model = mav.getModel();
 		
@@ -433,6 +434,9 @@ public class ItemCategoryAcpController {
 	 */
 	private String[][] getData(List<ItemCategory> listCategory){
 		int entryLength = listCategory.size();
+		
+		logger.info("entryLength: = "+entryLength);
+		
 		final int COLUMN_NUM = 9;
 		String[][] data = new String[entryLength][COLUMN_NUM];
 		
@@ -477,11 +481,12 @@ public class ItemCategoryAcpController {
 		}
 		
 		System.out.println(">>>>>>>>>>");
-		ArrayHelper.printArray(data);		
+		System.out.println(">>>>>>>>>> data size = "+data.length);
+		//ArrayHelper.printArray(data);		
 		
 		System.out.println(">>>>>>>>>>");
 		data = ManyNodeTree.getPreOrderTreeAsArray(data);
-		ArrayHelper.printArray(data);
+		//ArrayHelper.printArray(data);
 		
 		return data;
 	}

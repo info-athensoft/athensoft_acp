@@ -57,6 +57,14 @@ public class TreeNode {
 	public void setContent(Object content) {
 		this.content = content;
 	}
+
+	@Override
+	public String toString() {
+		return "TreeNode [nodeId=" + nodeId + ", parentId=" + parentId + ", text=" + text + ", content=" + content
+				+ "]";
+	}
+	
+	
 	
 	
 }

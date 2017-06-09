@@ -47,6 +47,8 @@ public class ManyNodeTree {
 		}
 
 		ManyNodeTree manyNodeTree = new ManyNodeTree();
+		
+		int count = 0;
 
 		// add all nodes to the many-node tree
 		for (TreeNode treeNode : treeNodes) {
@@ -55,8 +57,13 @@ public class ManyNodeTree {
 
 				// add a node to the root node
 				manyNodeTree.getRoot().getChildList().add(new ManyTreeNode(treeNode));
+				
+				System.out.println("count ="+(++count)+" - treeNode a = "+treeNode.getNodeId()+"-"+treeNode.getParentId());
+				
+				
 			} else {
 				addChild(manyNodeTree.getRoot(), treeNode);
+				System.out.println("count ="+(++count)+" - treeNode b = "+treeNode.getNodeId()+"-"+treeNode.getParentId());
 			}
 		}
 
@@ -118,26 +125,25 @@ public class ManyNodeTree {
 
 	
 public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
-		
-		StringBuilder buffer = new StringBuilder();
-		//buffer.append("\n");
+	
 		
 		if (manyTreeNode != null) {
 			for (ManyTreeNode index : manyTreeNode.getChildList()) {
 				
-				buffer.append(getSpace(LEVEL)+index.getData().getNodeId() + "\n");
+				System.out.println(index.getData().toString());
 				listTreeNode.add(index.getData().getContent());
+				
+				//buffer.append(getSpace(LEVEL)+index.getData().getNodeId() + "\n");
 
 				if (index.getChildList() != null && index.getChildList().size() > 0) {
-					LEVEL++;
-					buffer.append(iteratorTreeAsArray(index));
-					LEVEL--;
+					//LEVEL++;
+//					listTreeNode.add(index.getData().getContent());
+					iteratorTreeAsArray(index);
+					//LEVEL--;
 				}
 			}
 		}
 
-		//buffer.append("\n");
-		//buffer.toString();
 		return listTreeNode;
 	}
 	
@@ -166,10 +172,13 @@ public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
 	public static String[][] getPreOrderTreeAsArray(String[][] orignalData){
 		List<TreeNode> treeNodes = new ArrayList<TreeNode>();
 		
+		System.out.println("getPreOrderTreeAsArray orignalData.length="+orignalData.length);
+		
 		for(int i=0; i<orignalData.length; i++){
 			treeNodes.add(new TreeNode(orignalData[i][1], orignalData[i][2],orignalData[i]));
 		}
 		
+		System.out.println("getPreOrderTreeAsArray treeNodes.size="+treeNodes.size());
 		
 		ManyNodeTree tree = new ManyNodeTree();
 		
@@ -178,8 +187,14 @@ public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
 		//System.out.println(tree.iteratorTree(tree.getRoot()));
 		
 		
+//		List<Object> list = tree.iteratorTreeAsArray(tree.getRoot());
+		System.out.println("ROOT node = "+tree.getRoot().getData().getNodeId()+" "+tree.getRoot().getData().getParentId());
 		List<Object> list = tree.iteratorTreeAsArray(tree.getRoot());
-		//System.out.println(list.size());
+		System.out.println("getPreOrderTreeAsArray list size()="+list.size());
+		
+		
+//		String[][] resData = ArrayHelper.convertListToArray(list);
+		
 		String[][] resData = new String[list.size()][orignalData[0].length];
 		for(int i=0; i<list.size();i++){
 			resData[i]=(String[])list.get(i);

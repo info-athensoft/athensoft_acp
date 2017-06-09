@@ -156,15 +156,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 <span class="hidden-xs"> Tools </span>
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
-                                            <div class="dropdown-menu pull-right">
-                                            	<ul>
+                                            <ul class="dropdown-menu pull-right">
                                                 <li><a href="javascript:;"> Export to Excel </a></li>
                                                 <li><a href="javascript:;"> Export to CSV </a></li>
                                                 <li><a href="javascript:;"> Export to XML </a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="javascript:;"> Print Invoices </a></li>
-                                                </ul>
-                                            </div>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

@@ -1,5 +1,7 @@
 package com.athensoft.util.matrix;
 
+import java.util.List;
+
 public class ArrayHelper {
 	
 	public static void printArray(int[][] array){
@@ -28,6 +30,28 @@ public class ArrayHelper {
 			}
 			System.out.println("\n");
 		}
+	}
+	
+	
+	public static String[][] convertListToArray(List<String[]> list){
+		final int LIST_SIZE = list.size();
+		final int COLUMN_NUM = list.get(0).length;
+		String[][] resData = null;
+		
+		if(LIST_SIZE>0){
+			if(COLUMN_NUM>0){
+				resData = new String[LIST_SIZE][COLUMN_NUM];
+				for(int i=0; i<list.size();i++){
+					resData[i]=(String[])list.get(i);
+				}
+			}else{
+				System.out.println("ERROR: ArrayHelper - column size is 0, cannot be converted.");
+			}
+		}else{
+			System.out.println("ERROR: ArrayHelper - list size is 0, cannot be converted.");
+		}
+		
+		return resData;
 	}
 
 	public static void main(String[] args) {

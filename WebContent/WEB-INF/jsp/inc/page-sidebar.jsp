@@ -263,7 +263,7 @@
 					<!-- event system -->
 					<li class="start active ">
 						<a href="javascript:;">
-						<i class="icon-note"></i>
+						<i class="icon-calendar"></i>
 						<span class="title">Event</span>
 						<span class="arrow "></span>
 						<span id="menu-myevents"></span>

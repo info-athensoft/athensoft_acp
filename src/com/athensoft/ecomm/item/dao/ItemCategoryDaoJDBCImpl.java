@@ -80,9 +80,28 @@ public class ItemCategoryDaoJDBCImpl implements ItemCategoryDao{
 
 	@Override
 	public ItemCategory findByCategoryId(long categoryId) {
-		String sql = "select * from item_category where category_id =:categoryId";
+		final String TABLE1 = "view_item_category_i18n";
+		
+		StringBuffer sbf = new StringBuffer();
+		/*
+		sbf.append("SELECT ");
+		sbf.append("category_id,");
+		sbf.append("parent_id,");
+		sbf.append("category_code,");
+		sbf.append("category_name,");
+		sbf.append("category_desc,");
+		sbf.append("category_level,");
+		sbf.append("category_status ");
+		sbf.append("FROM "+TABLE1+ " ");
+		sbf.append("WHERE 1=1 ");
+		sbf.append("AND lang_no = 1033 ");
+		sbf.append("AND category_id = :category_id ");
+		*/
+		sbf.append("select * from item_category where category_id =:category_id");
+		
+		String sql = sbf.toString();
 		MapSqlParameterSource paramSource = new MapSqlParameterSource();
-		paramSource.addValue("categoryId", categoryId);
+		paramSource.addValue("category_id", categoryId);
 		ItemCategory x = null;
 		try{
 			x = jdbc.queryForObject(sql, paramSource, new ItemCategoryRowMapper());
