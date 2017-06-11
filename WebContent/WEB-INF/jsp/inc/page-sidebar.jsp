@@ -143,12 +143,12 @@
 									</li>
 									<li>
 										<a href="/acp/item/categoryList">
-										<i class="icon-paper-plane"></i>
+										<i class="icon-eye"></i>
 										Category List</a>
 									</li>
 									<li>
 										<a href="/acp/item/categoryListTree">
-										<i class="icon-paper-plane"></i>
+										<i class="icon-eye"></i>
 										Category List Tree</a>
 									</li>
 									<li>
@@ -157,10 +157,7 @@
 										Category Edit</a>
 									</li>
 								</ul>
-								
 							</li>
-							
-							
 							<li>
 								<a href="#">
 								<i class="icon-social-dropbox"></i>
@@ -183,7 +180,6 @@
 									</li>
 								</ul>
 							</li>
-							
 							
 							<li>
 								<a href="#">

@@ -172,11 +172,9 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <span> </span>
                                             <select class="table-group-action-input form-control input-inline input-small input-sm" name="groupOption">
                                                 <option value="">Select...</option>
-												<option value="1">Publish</option>
-												<option value="2">Wait to post</option>
-												<option value="3">Delete</option>
-												<option value="4">Out of date</option>
-												<option value="5">Suspend</option>
+												<option value="1">Available</option>
+												<option value="2">Unavailable</option>
+												<option value="5">Deleted</option>
                                             </select>
                                             <button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Submit</button>
                                         </div>
@@ -190,67 +188,47 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <span></span>
                                                         </label>
                                                     </th>
-                                                    <th width="8%">Category ID</th>
-													<th width="8%">Parent ID</th>
-													<th width="20%">Category Code</th>
+                                                    <th width="6%">Category ID</th>
+													<th width="6%">Parent ID</th>
+													<th width="15%">Category Code</th>
 													<th width="15%">Category Name</th>
-													<th width="5%">Description</th>
+													<th width="15%">Description</th>
 													<th width="6%">Level</th>
 													<th width="8%">Status</th>
-													<th width="8%">Actions</th>
+													<th width="10%">Actions</th>
                                                 </tr>
-                                                <!-- 
+                                                 
                                                 <tr role="row" class="filter">
 													<td></td>
-													<td><input type="text" class="form-control form-filter input-sm" name="event_uuid" id="eventUUID"></td>
-													<td><input type="text" class="form-control form-filter input-sm" name="event_title" id="eventTitle"></td>
-													<td><input type="text" class="form-control form-filter input-sm" name="event_author" id="eventAuthor"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="category_id" id="categoryId"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="parent_id" id="parentId"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="category_code" id="categoryCode"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="category_name" id="categoryName"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="category_desc" id="categoryDesc"></td>
 													<td>
-														<select class="form-control form-filter input-sm" name="event_class" id="eventClass">
-															<option value="0">Select...</option>
-															<option value="1">Default</option>
-															<option value="2">New</option>
-															<option value="3">Hot</option>
-														</select>
-													</td>
-													<td>
-														<div class="input-group date date-picker margin-bottom-5" data-date-format="yyyy-mm-dd">
-															<input type="text" class="form-control form-filter input-sm" readonly name="product_created_from" placeholder="From" id="postDatetimeFrom">
-															<span class="input-group-btn">
-															<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-														</div>
-														<div class="input-group date date-picker" data-date-format="yyyy-mm-dd">
-															<input type="text" class="form-control form-filter input-sm" readonly name="product_created_to" placeholder="To" id="postDatetimeTo">
-															<span class="input-group-btn">
-															<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-														</div>
-													</td>
-													<td>
+													<!-- 
 														<div class="margin-bottom-5">
-															<input type="text" class="form-control form-filter input-sm" name="viewNum_from" placeholder="From" id="viewNumFrom">
+															<input type="text" class="form-control form-filter input-sm" name="level_from" placeholder="From" id="levelFrom">
 														</div>
-														<input type="text" class="form-control form-filter input-sm" name="viewNum_to" placeholder="To" id="viewNumTo"/>
+													 -->
+														<input type="text" class="form-control form-filter input-sm" name="level_to" placeholder="To" id="levelTo"/>
 													</td>
 													<td>
-														<select class="form-control form-filter input-sm" name="event_status" id="eventStatus">
+														<select class="form-control form-filter input-sm" name="category_status" id="categoryStatus">
 															<option value="0">Select...</option>
-															<option value="1">Published</option>
-															<option value="2">Wait to post</option>
-															<option value="3">Deleted</option>
-															<option value="4">Out of date</option>
-															<option value="5">Suspended</option>
+															<option value="1">Available</option>
+															<option value="2">Unavailable</option>
+															<option value="5">Deleted</option>
 														</select>
 													</td>
 													<td>
 														<div class="margin-bottom-5">
 														<button class="btn btn-sm yellow filter-submit1 margin-bottom" onclick="filterSearch();"><i class="fa fa-search"></i> Search</button>
-														</div>
 														<button class="btn btn-sm red filter-cancel1" onclick="filterReset();"><i class="fa fa-times"></i> Reset</button>
+														</div>
 													</td>
 												</tr>
-												 -->
+												 
                                             </thead>
                                             <tbody> </tbody>
                                         </table>

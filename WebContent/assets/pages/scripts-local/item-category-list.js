@@ -138,49 +138,43 @@ function filterSearch(){
 	
 //	alert("do filterSearch()");
 //	create a json object
-    var p2 = $("#eventUUID").val();
-    var p3 = $("#eventTitle").val();
-    var p4 = $("#eventAuthor").val();
-    var p5a = $("#postDatetimeFrom").val();
-    var p5b = $("#postDatetimeTo").val();
-    var p6a = $("#viewNumFrom").val();
-    var p6b = $("#viewNumTo").val();
-    var p9 = $("#eventClass").val();
-    var p10 = $("#eventStatus").val();
+    var p1 = $("#categoryId").val();
+    var p2 = $("#parentId").val();
+    var p3 = $("#categoryCode").val();
+    var p4 = $("#categoryName").val();
+    var p5 = $("#categoryDesc").val();
+//    var p6a = $("#levelFrom").val();
+    var p6b = $("#levelTo").val();
+    var p7 = $("#categoryStatus").val();
 
-//    alert(p5a+" -- "+p5b);
     
 //	validate
-	if(!isNonNegativeInteger(p6a)){
-		p6a = "";
-		$("#viewNumFrom").val("");
-	}
+//	if(!isNonNegativeInteger(p6a)){
+//		p6a = "";
+//		$("#levelFrom").val("");
+//	}
 	if(!isNonNegativeInteger(p6b)){
 		p6b = "";
-		$("#viewNumTo").val("");
+		$("#levelTo").val("");
 	}
 //	isNonNegativeInteger(p6b);
 //	alert(p5a+" "+p5b);
   
     var businessObject =
     {
-    //		globalId    :    p1,
-    		eventUUID   :    p2,
-    		title    	:    p3,
-    		author    	:    p4,
-     		postDatetimeFrom:  p5a,            
-     		postDatetimeTo:    p5b,            
-    		viewNumFrom :    p6a,            
-    		viewNumTo 	:    p6b,            
-    //		descShort   :    p7,
-    //		descLong	:    p8,
-      		eventClass  :    p9,
-    		eventStatus	:    p10
+    		categoryId  	:	p1,
+    		parentId    	:	p2,
+    		categoryCode    :	p3,
+    		categoryName	:	p4,            
+    		categoryDesc	:	p5,            
+//    		levelFrom 		:   p6a,            
+    		levelTo 		:   p6b,            
+    		categoryStatus  :   p7,
     };
 
-    var dt = $("#datatable_eventNewsList").DataTable();
+    var dt = $("#datatable_itemCategoryList").DataTable();
     
-    var x = dt.ajax.url("newsSearchFilterData?itemJSONString="+JSON.stringify(businessObject)).load();
+    var x = dt.ajax.url("categorySearchFilterData?itemJSONString="+JSON.stringify(businessObject)).load();
     
     
 }
@@ -189,13 +183,12 @@ function filterSearch(){
 /* list news - datatable:button:filter reset */
 function filterReset(){
 //	alert("do filterReset()");
-	var p2 = $("#eventUUID").val("");
-    var p3 = $("#eventTitle").val("");        
-    var p4 = $("#eventAuthor").val("");
-    var p5a = $("#postDatetimeFrom").val("");
-    var p5b = $("#postDatetimeTo").val("");
-    var p6a = $("#viewNumFrom").val("");
-    var p6b = $("#viewNumTo").val("");
-    var p9 = $("#eventClass").val(0);
-    var p10 = $("#eventStatus").val(0);
+	var p1 = $("#categoryId").val("");
+    var p2 = $("#parentId").val("");        
+    var p3 = $("#categoryCode").val("");
+    var p4 = $("#categoryName").val("");
+    var p5 = $("#categoryDesc").val("");
+//    var p6a = $("#levelFrom").val("");
+    var p6b = $("#levelTo").val("");
+    var p7 = $("#categoryStatus").val(0);
 }

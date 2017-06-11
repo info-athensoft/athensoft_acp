@@ -13,6 +13,13 @@ public interface ItemCategoryDao {
 	public List<ItemCategory> findAll();
 	
 	/**
+	 * @param queryString
+	 * @return
+	 * @author Athens
+	 */
+	public List<ItemCategory> findByFilter(String queryString);
+	
+	/**
 	 * @param categoryId
 	 * @return
 	 * @author Athens
@@ -32,7 +39,7 @@ public interface ItemCategoryDao {
 	 * @author Fangze Sun
 	 */
 	public ItemCategory findByCategoryCode(String categoryCode);
-
+	
 	/**
 	 * @param orig
 	 * @param dest

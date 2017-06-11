@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.athensoft.content.event.entity.Event;
 import com.athensoft.ecomm.item.entity.ItemCategory;
 import com.athensoft.ecomm.item.entity.ItemCategoryStatus;
 import com.athensoft.ecomm.item.service.ItemCategoryService;
@@ -184,6 +186,75 @@ public class ItemCategoryAcpController {
 		logger.info("leaving /item/categoryListData");
 		return model;
 	}
+	
+	
+	/**
+	 * @param itemJSONString
+	 * @return
+	 * @author Athens
+	 */
+	@RequestMapping(value="/item/categorySearchFilterData",produces="application/json")
+	@ResponseBody
+	public Map<String, Object> getDataSearchCategoryByFilter(@RequestParam String itemJSONString){
+		logger.info("entering /item/categorySearchFilterData");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//data
+		Map<String, Object> model = mav.getModel();
+		JSONObject jobj= new JSONObject(itemJSONString);
+		
+		String where1 = jobj.getString("categoryId").trim();
+		String where2 = jobj.getString("parentId").trim();
+		String where3 = jobj.getString("categoryCode").trim();
+		String where4 = jobj.getString("categoryName").trim();
+		String where5 = jobj.getString("categoryDesc").trim();
+		String where6 = jobj.getString("levelTo").trim();
+		
+				/* where6b */
+		String strLevelTo = jobj.getString("levelTo").trim();
+		int where6b = 0;
+		
+		if(strLevelTo==null){
+			strLevelTo = "";
+		}
+		
+		if(!strLevelTo.equals("")){
+			where6b = Integer.parseInt(strLevelTo);
+		}
+		
+		int where7 = jobj.getInt("categoryStatus");
+		
+		/* construct query string */
+		StringBuffer queryString = new StringBuffer();
+		queryString.append(where1.length()==0?" ":" and category_id like '%"+where1+"%' ");
+		queryString.append(where2.length()==0?" ":" and parent_id like '%"+where2+"%' ");
+		queryString.append(where3.length()==0?" ":" and category_code like '%"+where3+"%' ");
+		queryString.append(where4.length()==0?" ":" and category_name like '%"+where4+"%' ");
+		queryString.append(where5.length()==0?" ":" and category_desc like '%"+where5+"%' ");
+		queryString.append(where6.length()==0?" ":" and category_level <= "+where6b+" ");
+		queryString.append(where7==0?" ":" and category_status = "+where7+" ");
+		
+		logger.info("QueryString = "+ queryString.toString());
+		
+		List<ItemCategory> listCategory = itemCategoryService.getCategoryByFilter(queryString.toString());
+		logger.info("Length of ItemCategory entries = "+ listCategory.size());
+		
+		
+		String[][] data = getDataWithoutTree(listCategory);
+		
+		model.put("draw", new Integer(1));
+		model.put("recordsTotal", new Integer(5));
+		model.put("recordsFiltered", new Integer(5));
+		model.put("data", data);
+		model.put("customActionStatus","OK");
+		model.put("customActionMessage","OK");
+		
+		logger.info("leaving /item/categorySearchFilterData");
+		
+		return model;
+	}
+	
 	
 	
 	@RequestMapping(value="/item/dragAndDropResultSaved",method=RequestMethod.POST,produces="application/json")
@@ -487,6 +558,65 @@ public class ItemCategoryAcpController {
 		System.out.println(">>>>>>>>>>");
 		data = ManyNodeTree.getPreOrderTreeAsArray(data);
 		//ArrayHelper.printArray(data);
+		
+		return data;
+	}
+	
+	/**
+	 * @param listCategory
+	 * @return
+	 * @author Athens Zhang
+	 */
+	private String[][] getDataWithoutTree(List<ItemCategory> listCategory){
+		int entryLength = listCategory.size();
+		
+		logger.info("entryLength: = "+entryLength);
+		
+		final int COLUMN_NUM = 9;
+		String[][] data = new String[entryLength][COLUMN_NUM];
+		
+		String field0 = "";	//check box
+		String field1 = "";	//category id
+		String field2 = "";	//parent id
+		String field3 = "";	//category code
+		String field4 = "";	//category name
+		String field5 = "";	//category desc
+		String field6 = "";	//category level
+		String field7 = "";	//event status
+		String field8 = "";	//action
+		
+		for(int i=0; i<entryLength ; i++){			
+			field0 = "<input type='checkbox' name='id[]' value="+listCategory.get(i).getCategoryId()+">";
+			field1 = listCategory.get(i).getCategoryId()+"";
+			field2 = listCategory.get(i).getParentId()+"";
+			field3 = listCategory.get(i).getCategoryCode();
+			field4 = listCategory.get(i).getCategoryName();
+			field5 = listCategory.get(i).getCategoryDesc();
+			field6 = listCategory.get(i).getCategoryLevel()+"";
+			
+			int intCategoryStatus = listCategory.get(i).getCategoryStatus();
+			String[] categoryStatusPair = getCategoryStatusPair(intCategoryStatus);
+			String categoryStatusKey = categoryStatusPair[0];
+			String categoryStatus = categoryStatusPair[1];
+			field7 = "<span class='label label-sm label-"+categoryStatusKey+"'>"+categoryStatus+"</span>";
+//			field8 = "<a href='/acp/item/"+getAction(actionName)+"?eventUUID="+field1+"' class='btn btn-xs default btn-editable'><i class='fa fa-pencil'></i> "+actionName+"</a>";
+			field8 = "TODO";
+			
+			//logger.info("field8="+field8);
+			
+			data[i][0] = field0;
+			data[i][1] = field1;
+			data[i][2] = field2;
+			data[i][3] = field3;
+			data[i][4] = field4;
+			data[i][5] = field5;
+			data[i][6] = field6;
+			data[i][7] = field7;
+			data[i][8] = field8;
+		}
+		
+		System.out.println(">>>>>>>>>>");
+		System.out.println(">>>>>>>>>> data size = "+data.length);
 		
 		return data;
 	}

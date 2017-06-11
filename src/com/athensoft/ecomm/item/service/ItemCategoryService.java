@@ -48,6 +48,15 @@ public class ItemCategoryService {
 	public ItemCategory findByCategoryCode(String categoryCode) {
 		return this.itemCategoryDao.findByCategoryCode(categoryCode);
 	}
+	
+	
+	/**
+	 * @return
+	 * @author Athens
+	 */
+	public List<ItemCategory> getCategoryByFilter(String queryString){
+		return this.itemCategoryDao.findByFilter(queryString);
+	}
 
 	public String createResultSaved(long parentId, String text, int parentLevel) {
 		return this.itemCategoryDao.createResultSaved(parentId, text, parentLevel);
