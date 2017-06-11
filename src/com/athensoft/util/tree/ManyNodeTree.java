@@ -100,8 +100,6 @@ public class ManyNodeTree {
 	 */
 	public String iteratorTree(ManyTreeNode manyTreeNode) {
 
-		
-		
 		StringBuilder buffer = new StringBuilder();
 		//buffer.append("\n");
 		
@@ -124,9 +122,8 @@ public class ManyNodeTree {
 	}
 
 	
-public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
+	public List<Object> iteratorTreeAsArray(ManyTreeNode manyTreeNode) {
 	
-		
 		if (manyTreeNode != null) {
 			for (ManyTreeNode index : manyTreeNode.getChildList()) {
 				
