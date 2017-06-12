@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,6 +53,8 @@ public class FileUploadAcpController {
 
 	
 	private EventMediaService eventMediaService;
+	
+	private static Properties pro = new Properties();
 	
 	/**
 	 * set event media service
@@ -193,8 +196,6 @@ public class FileUploadAcpController {
 				while (iter.hasNext()) {
 				    FileItemStream item = iter.next();
 				    InputStream input = item.openStream();
-
-				    
 				    
 				    // Handle a form field.
 				    if(item.isFormField()){
@@ -325,5 +326,31 @@ public class FileUploadAcpController {
 				}
 			}
 		}
+	}
+	
+	private static String getFileBaseDir(Properties pro){
+		/* property: docBase of photo at server side */
+		String path = pro.getProperty("file.photo.docbase");		
+		System.out.println("path="+path);
+		return path;
+	}
+	
+	private static Properties getLoadedProperties(){
+		/* get the docbase of uploading photos*/
+		InputStream is = FileUploadAcpController.class.getResourceAsStream("file-upload.properties");		
+		Properties pro = new Properties();
+		try {
+			pro.load(is);
+			is.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return pro;
+	}
+	
+	public static void main(String[] args){
+		Properties pro = getLoadedProperties();
+		String path = getFileBaseDir(pro);
+		System.out.println(path);
 	}
 }
