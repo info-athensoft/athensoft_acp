@@ -348,9 +348,10 @@ public class FileUploadAcpController {
 		return pro;
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] arg){
 		Properties pro = getLoadedProperties();
 		String path = getFileBaseDir(pro);
 		System.out.println(path);
+		
 	}
 }
