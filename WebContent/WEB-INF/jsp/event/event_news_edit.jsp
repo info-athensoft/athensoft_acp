@@ -186,7 +186,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </div>
                                     </div>
                                     <div class="portlet-body">
-                                        <div class="tabbable-bordered">
+                                        <div class="tabbable-bordered" id="tabs_event">
                                             <ul class="nav nav-tabs">
                                                 <li class="active">
                                                     <a href="#tab_general" data-toggle="tab"> General </a>
@@ -206,7 +206,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     <a href="#tab_history" data-toggle="tab"> History </a>
                                                 </li>
                                             </ul>
-                                            <div class="tab-content">
+                                            <div class="tab-content" >
                                                 <div class="tab-pane active" id="tab_general">
                                                     <div class="form-body">
 													<div class="form-group">
@@ -384,8 +384,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <c:forEach items="${eventMediaList}" var="eventMedia">
 															<tr>
 															<td>
-																<a href="/eventmedia/${eventMedia.mediaURL}${eventMedia.mediaName}" class="fancybox-button" data-rel="fancybox-button">
-																<img class="img-responsive" src="/eventmedia/${eventMedia.mediaURL}${eventMedia.mediaName}" alt="">
+																<a href="${eventMedia.mediaURL}" class="fancybox-button" data-rel="fancybox-button">
+																<img class="img-responsive" src="${eventMedia.mediaURL}" alt="">
 																</a>
 															</td>
 															<td>
@@ -553,7 +553,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="${webapp_name}/assets/global/plugins/ie8.fix.min.js"></script> 
 <![endif]-->
 <!-- BEGIN CORE PLUGINS -->
+<!-- <script src="${webapp_name}/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script> -->
 <script src="${webapp_name}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="${webapp_name}/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <script src="${webapp_name}/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${webapp_name}/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
 <script src="${webapp_name}/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
