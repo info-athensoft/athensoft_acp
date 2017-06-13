@@ -38,7 +38,7 @@ public class FileUploadAcpController {
 	private static final Logger logger = Logger.getLogger(NewsAcpController.class);
 	
 //	public static final String FileDir = "D:\\Shared\\2017_athensoft_website\\fileupload";
-	public static final String FileDir = "C:\\temp\\fileupload";
+//	public static final String FileDir = "C:\\temp\\fileupload";
 	public static final int BUF_SIZE = 2 * 1024;
 	
 	private static final String RESP_SUCCESS = "{\"jsonrpc\" : \"2.0\", \"result\" : \"OK\", \"id\" : \"id\"}";
@@ -121,7 +121,8 @@ public class FileUploadAcpController {
 				    else {
 //				    	String fileDir = req.getSession().getServletContext().getRealPath("/")+FileDir;
 				    	
-				    	String fileDir = FileDir;
+//				    	String fileDir = FileDir;
+				    	String fileDir = getFileBaseDir(getLoadedProperties());	//modified by Athens on 2017-06-12
 						
 				    	File dstFile = new File(fileDir);
 						if (!dstFile.exists()){
@@ -225,7 +226,8 @@ public class FileUploadAcpController {
 				    else {
 //				    	String fileDir = req.getSession().getServletContext().getRealPath("/")+FileDir;
 				    	
-				    	String fileDir = FileDir+File.separator+eventUUID;
+				    	String fileBaseDir = getFileBaseDir(getLoadedProperties());	//modified by Athens on 2017-06-12
+				    	String fileDir = fileBaseDir+File.separator+eventUUID;
 //						
 				    	File dstFile = new File(fileDir);
 						if (!dstFile.exists()){
@@ -247,8 +249,9 @@ public class FileUploadAcpController {
 				        eventMedia.setEventUUID(eventUUID);
 				        eventMedia.setMediaName(this.name);
 				        eventMedia.setMediaLabel(this.name);
-				        String filePath = File.separator+eventUUID+File.separator;
-				        eventMedia.setMediaURL(filePath);
+				        String fileBaseUrl = getFileBaseUrl(getLoadedProperties());	//modified by Athens on 2017-06-12
+				        String fileUrl = fileBaseUrl+File.separator+eventUUID+File.separator+this.name;		//modified by Athens on 2017-06-12
+				        eventMedia.setMediaURL(fileUrl);
 				        eventMedia.setPostTimestamp(new Date());
 				        
 				        eventMediaService.creatEventMedia(eventMedia);
@@ -331,14 +334,21 @@ public class FileUploadAcpController {
 	private static String getFileBaseDir(Properties pro){
 		/* property: docBase of photo at server side */
 		String path = pro.getProperty("file.photo.docbase");		
-		System.out.println("path="+path);
+		System.out.println("image base path in file system="+path);
+		return path;
+	}
+	
+	private static String getFileBaseUrl(Properties pro){
+		/* property: docBase of photo at server side */
+		String path = pro.getProperty("file.photo.baseurl");		
+		System.out.println("image base url ="+path);
 		return path;
 	}
 	
 	private static Properties getLoadedProperties(){
 		/* get the docbase of uploading photos*/
-		InputStream is = FileUploadAcpController.class.getResourceAsStream("file-upload.properties");		
-		Properties pro = new Properties();
+		InputStream is = FileUploadAcpController.class.getResourceAsStream("file-upload-ecomm.properties");		
+		//Properties pro = new Properties();
 		try {
 			pro.load(is);
 			is.close();
@@ -352,6 +362,9 @@ public class FileUploadAcpController {
 		Properties pro = getLoadedProperties();
 		String path = getFileBaseDir(pro);
 		System.out.println(path);
+		
+		String url = getFileBaseUrl(pro);
+		System.out.println(url);
 		
 	}
 }
