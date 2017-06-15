@@ -95,7 +95,7 @@ var EventNewsEdit = function (option) {
     var handleReviews = function () {
     	
     	var eventUUID = $("#eventUUID").val();
-    	console.log("eventUUID="+eventUUID);
+//    	console.log("eventUUID="+eventUUID);
     	
         var grid = new Datatable();
 
@@ -428,7 +428,7 @@ function changeMediaName(object,mediaId,eventUUID) {
     $.ajax({
         type    :    "post",
         url        : "changeMediaName?itemJSONString="+JSON.stringify(mediaObject),
-        dataType:    "html",
+        dataType:    "json",
         timeout :     30000,
         
         success:function(msg){
@@ -460,7 +460,7 @@ function changeMediaLabel(object,mediaId,eventUUID) {
     $.ajax({
         type    :    "post",
         url        : "changeMediaLabel?itemJSONString="+JSON.stringify(mediaObject),
-        dataType:    "html",
+        dataType:    "json",
         timeout :     30000,
         
         success:function(msg){
@@ -493,7 +493,7 @@ function changeSortNumber(object,mediaId,eventUUID) {
         type    :    "post",
 //        url        : "changeSortNumber?mediaId="+mediaId+"&eventUUID="+eventUUID+"&sortNumber="+sortNumber,
         url        : "changeSortNumber?itemJSONString="+JSON.stringify(mediaObject),
-        dataType:    "html",
+        dataType:    "json",
         timeout :     30000,
         
         success:function(msg){
