@@ -1,4 +1,4 @@
-package com.athensoft.crm.customer.entity;
+package test.crm.customer;
 
 public class CustomerInfo {
 	Contact customerContact ;

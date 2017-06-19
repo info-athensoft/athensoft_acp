@@ -1,6 +1,6 @@
 package com.athensoft.crm.customer.entity;
 
-public class ShipAddress extends Address{
+public class ShipToAddress extends Address{
 	private long shippingToId;  // account_id
 
 	public long getShippingToId() {

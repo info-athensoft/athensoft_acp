@@ -1,6 +1,6 @@
 package com.athensoft.crm.customer.entity;
 
-public class BillAddress extends Address{
+public class BillToAddress extends Address{
 	private long billingToId;  // account_id
 
 	public long getBillingToId() {

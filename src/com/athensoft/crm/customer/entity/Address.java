@@ -11,8 +11,7 @@ public class Address {
 	private String cityCode;
 	private String provinceCode;
 	private String postalCode;
-	private String countryCode;
-	
+	private String countryCode;	
 	private int addressStatus;
 
 	public long getAddressId() {
