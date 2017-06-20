@@ -1,10 +1,25 @@
 package com.athensoft.crm.customer.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.athensoft.crm.customer.entity.BillToContact;
+import com.athensoft.crm.customer.service.BillToContactService;
 
 @Controller
 public class CustomerAcpController {
+	
+	private static final Logger logger = Logger.getLogger(CustomerAcpController.class);
+	
+	
+	
 	/**
 	 * go to the view of CRM dashboard
 	 * @return the target view name
@@ -20,7 +35,7 @@ public class CustomerAcpController {
 	 * @return the target view name 
 	 */
 	@RequestMapping(value="/crm/customerContactList")
-	public String gotoNewsList(){
+	public String gotoCustomerContactList(){
 		String viewName = "crm/customer_contact_list";
 		return viewName;
 	}
@@ -36,4 +51,6 @@ public class CustomerAcpController {
 		String viewName = "crm/shipto_contact_list";
 		return viewName;
 	}
+	
+	
 }

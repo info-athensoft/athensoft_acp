@@ -3,9 +3,10 @@ package com.athensoft.crm.customer.entity;
 public class Address {
 	private long addressId;
 	
-	private String streeNum;
-	private String streeName;
-	private int roomType;
+	private String streetNum;
+	private String streetType;
+	private String streetName;
+	private String unitType;
 	private String roomNum;
 	private String districtCode;
 	private String cityCode;
@@ -22,29 +23,7 @@ public class Address {
 		this.addressId = addressId;
 	}
 
-	public String getStreeNum() {
-		return streeNum;
-	}
-
-	public void setStreeNum(String streeNum) {
-		this.streeNum = streeNum;
-	}
-
-	public String getStreeName() {
-		return streeName;
-	}
-
-	public void setStreeName(String streeName) {
-		this.streeName = streeName;
-	}
-
-	public int getRoomType() {
-		return roomType;
-	}
-
-	public void setRoomType(int roomType) {
-		this.roomType = roomType;
-	}
+	
 
 	public String getRoomNum() {
 		return roomNum;
@@ -100,6 +79,38 @@ public class Address {
 
 	public void setAddressStatus(int addressStatus) {
 		this.addressStatus = addressStatus;
+	}
+
+	public String getStreetNum() {
+		return streetNum;
+	}
+
+	public void setStreetNum(String streetNum) {
+		this.streetNum = streetNum;
+	}
+
+	public String getStreetType() {
+		return streetType;
+	}
+
+	public void setStreetType(String streetType) {
+		this.streetType = streetType;
+	}
+
+	public String getStreetName() {
+		return streetName;
+	}
+
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+
+	public String getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
 	}
 	
 	

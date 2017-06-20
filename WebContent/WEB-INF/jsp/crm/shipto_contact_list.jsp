@@ -120,7 +120,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<i class="fa fa-angle-right"></i>
 							</li>
 							<li>
-								<a href="#">Customer contact</a>
+								<a href="#">Customer shipping contact</a>
 							</li>
 						</ul>
                         <div class="page-toolbar">
@@ -145,7 +145,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="portlet light">
                                 <div class="portlet-title">
                                     <div class="caption">
-                                        <i class="fa fa-shopping-cart"></i>Customer contact Listing <span class="caption-helper">listing customer contact, search, group action...</span></div>
+                                        <i class="fa fa-shopping-cart"></i>Customer shipping contact Listing <span class="caption-helper">listing customer shipping contact, search, group action...</span></div>
                                     <div class="actions">
                                         <a href="eventsNewsCreate" class="btn btn-circle btn-info">
                                             <i class="fa fa-plus"></i><span class="hidden-xs"> Create a customer </span>
@@ -180,7 +180,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             </select>
                                             <button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Submit</button>
                                         </div>
-                                        <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_eventNewsList">
+                                        <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_shiptoContactList">
                                             <thead>
                                                 <tr role="row" class="heading">
                                                     <th width="1%">
@@ -190,58 +190,34 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <span></span>
                                                         </label>
                                                     </th>
-                                                    <th width="8%">ID</th>
-													<th width="25%">Title</th>
-													<th width="8%">Author</th>
-													<th width="8%">Category</th>
-													<th width="15%">Date&nbsp;Post</th>
-													<th width="6%">Views</th>
-													<th width="8%">Status</th>
-													<th width="8%">Actions</th>
+                                                    <th width="7%">Customer ID</th>
+													<th width="7%">Contact ID</th>
+													<th width="7%">Contact No.</th>
+													<th width="7%">Ship to</th>
+													<th width="7%">Tel.</th>
+													<th width="7%">Cell</th>
+													<th width="7%">Fax</th>
+													<th width="7%">Email</th>
+													<th width="7%">Address</th>
+													<th width="7%">City</th>
+													<th width="7%">Province</th>
+													<th width="7%">Postal Code</th>
+													<th width="7%">Actions</th>
                                                 </tr>
                                                 <tr role="row" class="filter">
 													<td></td>
-													<td><input type="text" class="form-control form-filter input-sm" name="event_uuid" id="eventUUID"></td>
-													<td><input type="text" class="form-control form-filter input-sm" name="event_title" id="eventTitle"></td>
-													<td><input type="text" class="form-control form-filter input-sm" name="event_author" id="eventAuthor"></td>
-													<td>
-														<select class="form-control form-filter input-sm" name="event_class" id="eventClass">
-															<option value="0">Select...</option>
-															<option value="1">Default</option>
-															<option value="2">New</option>
-															<option value="3">Hot</option>
-														</select>
-													</td>
-													<td>
-														<div class="input-group date date-picker margin-bottom-5" data-date-format="yyyy-mm-dd">
-															<input type="text" class="form-control form-filter input-sm" readonly name="product_created_from" placeholder="From" id="postDatetimeFrom">
-															<span class="input-group-btn">
-															<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-														</div>
-														<div class="input-group date date-picker" data-date-format="yyyy-mm-dd">
-															<input type="text" class="form-control form-filter input-sm" readonly name="product_created_to" placeholder="To" id="postDatetimeTo">
-															<span class="input-group-btn">
-															<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
-															</span>
-														</div>
-													</td>
-													<td>
-														<div class="margin-bottom-5">
-															<input type="text" class="form-control form-filter input-sm" name="viewNum_from" placeholder="From" id="viewNumFrom">
-														</div>
-														<input type="text" class="form-control form-filter input-sm" name="viewNum_to" placeholder="To" id="viewNumTo"/>
-													</td>
-													<td>
-														<select class="form-control form-filter input-sm" name="event_status" id="eventStatus">
-															<option value="0">Select...</option>
-															<option value="1">Published</option>
-															<option value="2">Wait to post</option>
-															<option value="3">Deleted</option>
-															<option value="4">Out of date</option>
-															<option value="5">Suspended</option>
-														</select>
-													</td>
+													<td><input type="text" class="form-control form-filter input-sm" name="customer_id" id="customerID"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="contact_id" id="contactID"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="contact_no" id="contactNo"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="ship_to" id="shipTo"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="tel_num" id="telNum"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="cell_num" id="cellNum"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="fax_num" id="faxNum"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="email_num" id="emailNum"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="address" id="address"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="city" id="city"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="province" id="province"></td>
+													<td><input type="text" class="form-control form-filter input-sm" name="postal_code" id="postalCode"></td>
 													<td>
 														<div class="margin-bottom-5">
 														<button class="btn btn-sm yellow filter-submit1 margin-bottom" onclick="filterSearch();"><i class="fa fa-search"></i> Search</button>
@@ -297,9 +273,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="${webapp_name}/assets/global/scripts/app.js" type="text/javascript"></script>
 <!-- END THEME GLOBAL SCRIPTS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script type="text/javascript" src="${webapp_name}/assets/pages/scripts-local/crm/customer-contact.js"></script>
+<script type="text/javascript" src="${webapp_name}/assets/pages/scripts-local/crm/shipto-contact.js"></script>
 <script type="text/javascript" src="${webapp_name}/assets/pages/scripts-local/global-validate.js"></script>
-<script type="text/javascript" src="${webapp_name}/assets/pages/scripts-local/crm/cutomer-contact-list.js"></script>
+<script type="text/javascript" src="${webapp_name}/assets/pages/scripts-local/crm/shipto-contact-list.js"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- BEGIN THEME LAYOUT SCRIPTS -->
 <script src="${webapp_name}/assets/layouts/layout2/scripts/layout.min.js" type="text/javascript"></script>
@@ -311,7 +287,7 @@ License: You must have a valid license purchased only from themeforest(the above
  -->
 <!-- END THEME LAYOUT SCRIPTS -->
 <script>
-CustomerContactList.init();
+ShipToContactList.init();
 //$("#menu-myevents").addClass("selected");
 
 </script>
