@@ -330,6 +330,52 @@
 			</li>
 			
 			
+			<!-- adogo platform -->
+			<li>
+				<a href="javascript:;">
+				<i class="icon-calendar"></i>
+				<span class="title">Adogo</span>
+				<span class="arrow "></span>
+				<span id="menu-myevents"></span>
+				</a>
+				<ul class="sub-menu">
+					<li>
+						<a href="/acp/ad/dashboard">
+						<i class="icon-bar-chart"></i>
+						Dashboard</a>
+					</li>
+					<li>
+						<a href="#">
+						<i class="icon-bell"></i>
+						Ad Post<span class="arrow"></span></a>
+						<ul class="sub-menu">
+						<li>
+							<a href="/acp/ad/adList">
+							<i class="icon-eye"></i>
+							Ad List</a>
+						</li>
+						<li>
+							<a href="/acp/ad/adEdit">
+							<i class="icon-pencil"></i>
+							Ad Edit</a>
+						</li>
+						<li>
+							<a href="/acp/ad/adPostCreate">
+							<i class="icon-pencil"></i>
+							Ad Create</a>
+						</li>
+						<li>
+							<a href="/acp/ad/adDelete">
+							<i class="icon-key"></i>
+							Ad Remove - Admin</a>
+						</li>
+						</ul>
+					</li>
+					
+				</ul>
+			</li>
+			<!-- end adogo platform -->
+			
 			<!-- 
 			<li>
 				<a href="javascript:;">
