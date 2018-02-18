@@ -95,7 +95,7 @@ var EventNewsEdit = function (option) {
     var handleReviews = function () {
     	
     	var eventUUID = $("#eventUUID").val();
-    	console.log("option eventUUID="+eventUUID);
+//    	console.log("eventUUID="+eventUUID);
     	
         var grid = new Datatable();
 
@@ -309,14 +309,16 @@ function setCoverMedia(mediaId, eventUUID) {
         
         success:function(msg){
         	
-        	var t = $("#tabs_event").tabs({active:2});
+        	var t = $("#tabs_event");
+        	//alert("tab is "+t);
+        	t.tabs({"active":2});
         	
         	//$("#tabs_event").tabs({ active: 2 });
         	var mydata = msg.eventMediaList;
         	//alert(data);
         	
         	
-        	var str = '<table class="table table-bordered table-hover"><thead>'
+        	var str = '<table class="table table-bordered table-hover" id="event-media-table"><thead>'
 					+ '<tr role="row" class="heading">'
 					+ '<th width="8%">Image</th>'
 					+ '<th width="20%">Label</th>'
@@ -330,8 +332,8 @@ function setCoverMedia(mediaId, eventUUID) {
 				var i = index;
 				
 				str = str+ '<tr>'
-				+'<td><a href="/acp/assets/admin/pages/media/works/img1.jpg" class="fancybox-button" data-rel="fancybox-button">'
-				+	'<img class="img-responsive" src="/acp/assets/admin/pages/media/works/img1.jpg" alt=""></a></td>'
+				+'<td><a href="'+mydata[i].mediaURL+'" class="fancybox-button" data-rel="fancybox-button">'
+				+	'<img class="img-responsive" src="'+mydata[i].mediaURL+'" alt=""></a></td>'
 				+'<td><input type="text" class="form-control" name="mediaName" value="'+mydata[i].mediaName+'"></td>'
 				+'<td><input type="text" class="form-control" name="sortNumber" value="'+mydata[i].sortNumber+'"></td>'
 				+'<td><input type="text" class="form-control" name="postTimestamp" value="'+mydata[i].postTimestamp+'"></td>'
@@ -348,7 +350,9 @@ function setCoverMedia(mediaId, eventUUID) {
             alert("ERROR: Set Cover Media failed.");     
         },            
         complete: function(XMLHttpRequest, textStatus){
-        	
+        	location.reload();
+        	//var t = $("#tabs_event");
+        	//t.tabs({"active":2});
         }        
     });   
 }
@@ -424,7 +428,7 @@ function changeMediaName(object,mediaId,eventUUID) {
     $.ajax({
         type    :    "post",
         url        : "changeMediaName?itemJSONString="+JSON.stringify(mediaObject),
-        dataType:    "html",
+        dataType:    "json",
         timeout :     30000,
         
         success:function(msg){
@@ -456,7 +460,7 @@ function changeMediaLabel(object,mediaId,eventUUID) {
     $.ajax({
         type    :    "post",
         url        : "changeMediaLabel?itemJSONString="+JSON.stringify(mediaObject),
-        dataType:    "html",
+        dataType:    "json",
         timeout :     30000,
         
         success:function(msg){
@@ -489,7 +493,7 @@ function changeSortNumber(object,mediaId,eventUUID) {
         type    :    "post",
 //        url        : "changeSortNumber?mediaId="+mediaId+"&eventUUID="+eventUUID+"&sortNumber="+sortNumber,
         url        : "changeSortNumber?itemJSONString="+JSON.stringify(mediaObject),
-        dataType:    "html",
+        dataType:    "json",
         timeout :     30000,
         
         success:function(msg){

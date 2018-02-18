@@ -17,7 +17,9 @@
 	<context:component-scan base-package="com.athensoft.ecomm.invoice.controller"></context:component-scan>
 	<context:component-scan base-package="com.athensoft.ecomm.uaas.controller"></context:component-scan>
 	<context:component-scan base-package="com.athensoft.content.event.controller"></context:component-scan>
+	<context:component-scan base-package="com.athensoft.crm.customer.controller"></context:component-scan>
 	
+	<context:component-scan base-package="com.adogo.ad.controller"></context:component-scan>
 
 	<!-- View Resolver -->
 	<bean id="jspViewResolver"

@@ -135,8 +135,8 @@ public class NewsMediaAcpController {
 		return model;
 	}
 	
-	@RequestMapping(value="/events/changeMediaName",method=RequestMethod.POST)
-	public ModelAndView changeMediaName(@RequestParam String itemJSONString) {
+	@RequestMapping(value="/events/changeMediaName",method=RequestMethod.POST,produces="application/json")
+	public Map<String,Object> changeMediaName(@RequestParam String itemJSONString) {
 		
 		logger.info("entering /events/changeMediaName");
 		
@@ -144,7 +144,7 @@ public class NewsMediaAcpController {
 		ModelAndView mav = new ModelAndView();
 		
 		//set model
-//      Map<String, Object> model = mav.getModel();
+		Map<String, Object> model = mav.getModel();
         JSONObject ic_job= new JSONObject(itemJSONString);
    
 //      News news = new News();
@@ -162,15 +162,15 @@ public class NewsMediaAcpController {
 		
 		/* assemble model and view */
 //      model.put("news", news);
-        String viewName = "events/changeSortNumber";
-		mav.setViewName(viewName);		
+//        String viewName = "events/changeSortNumber";
+//		mav.setViewName(viewName);		
 		
 		logger.info("leaving /events/changeMediaName");
-		return mav;		
+		return model;		
 	}
 	
-	@RequestMapping(value="/events/changeMediaLabel",method=RequestMethod.POST)
-	public ModelAndView changeMediaLabel(@RequestParam String itemJSONString) {
+	@RequestMapping(value="/events/changeMediaLabel",method=RequestMethod.POST,produces="application/json")
+	public Map<String,Object> changeMediaLabel(@RequestParam String itemJSONString) {
 		
 		logger.info("entering /events/changeMediaLabel");
 		
@@ -178,7 +178,7 @@ public class NewsMediaAcpController {
 		ModelAndView mav = new ModelAndView();
 		
 		//set model
-//      Map<String, Object> model = mav.getModel();
+		Map<String, Object> model = mav.getModel();
         JSONObject ic_job= new JSONObject(itemJSONString);
    
 //      News news = new News();
@@ -196,15 +196,16 @@ public class NewsMediaAcpController {
 		
 		/* assemble model and view */
 //      model.put("news", news);
-        String viewName = "events/changeSortNumber";
-		mav.setViewName(viewName);		
+//        String viewName = "events/changeSortNumber";
+//		mav.setViewName(viewName);		
 		
 		logger.info("leaving /events/changeMediaLabel");
-		return mav;		
+		return model;		
 	}
+
 	
-	@RequestMapping(value="/events/changeSortNumber",method=RequestMethod.POST)
-	public ModelAndView changeSortNumber(@RequestParam String itemJSONString) {
+	@RequestMapping(value="/events/changeSortNumber",method=RequestMethod.POST,produces="application/json")
+	public Map<String,Object> changeSortNumber(@RequestParam String itemJSONString) {
 		
 		logger.info("entering /events/changeSortNumber");
 		
@@ -212,7 +213,40 @@ public class NewsMediaAcpController {
 		ModelAndView mav = new ModelAndView();
 		
 		//set model
-//      Map<String, Object> model = mav.getModel();
+		Map<String, Object> model = mav.getModel();
+        JSONObject ic_job= new JSONObject(itemJSONString);
+   
+//      News news = new News();
+//      news.setGlobalId(ic_job.getLong("globalId"));
+        String mediaId = Integer.toString(ic_job.getInt("mediaId"));
+        String eventUUID = ic_job.getString("eventUUID");
+        String sortNumber = ic_job.getString("sortNumber");
+                 
+//      logger.info("news = "+news);
+          
+		/* business logic*/
+
+        eventMediaService.changeSortNumber(mediaId, eventUUID, sortNumber);
+		
+		/* assemble model and view */
+//      model.put("news", news);
+//       String viewName = "events/changeSortNumber";
+//		mav.setViewName(viewName);		
+		
+		logger.info("leaving /events/changeSortNumber");
+		return model;		
+	}
+	
+
+//@RequestMapping(value="/events/changeSortNumber",method=RequestMethod.POST)
+	public ModelAndView changeSortNumberBak(@RequestParam String itemJSONString) {
+		
+		logger.info("entering /events/changeSortNumber");
+		
+		/* initial settings */
+		ModelAndView mav = new ModelAndView();
+		
+		//set model
         JSONObject ic_job= new JSONObject(itemJSONString);
    
 //      News news = new News();
@@ -234,6 +268,8 @@ public class NewsMediaAcpController {
 		
 		logger.info("leaving /events/changeSortNumber");
 		return mav;		
-	}
+	} 
+
+
 	
 }
