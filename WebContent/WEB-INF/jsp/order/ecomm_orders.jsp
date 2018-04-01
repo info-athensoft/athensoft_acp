@@ -189,7 +189,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				<!-- /.modal -->
 				<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
 				<!-- BEGIN STYLE CUSTOMIZER -->
-				<jsp:include page="${inc_dir}/page-stylecustomizer.jsp"/>
+				
 				<!-- END STYLE CUSTOMIZER -->
 				<!-- BEGIN PAGE HEADER-->
 				<h3 class="page-title">
