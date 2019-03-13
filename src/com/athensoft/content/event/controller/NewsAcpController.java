@@ -91,13 +91,18 @@ public class NewsAcpController {
 		//data - media
 		List<Map<String, Integer>> viewNumStats = new ArrayList<Map<String, Integer>>();
 		viewNumStats = newsService.getViewNumStats();
+		
+		//TODO: rebuild key,value pair to proper string style
 		//build visitors
 		StringBuilder sb = new StringBuilder();
 		for (Map<String, Integer> stat : viewNumStats) {
 			if (sb.length()>0) {
 				sb.append(",");
+				
 			}
 			sb.append(stat.entrySet().toString().replace('=', ','));
+			
+			logger.info(sb+"\n");
 		}		
 		String visitors = "[" + sb + "]";
 		logger.info("visitors: "+ visitors);
